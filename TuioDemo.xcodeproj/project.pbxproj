@@ -21,7 +21,6 @@
 		B20EE4830C340E1100026AC5 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B20EE4820C340E1100026AC5 /* GLUT.framework */; };
 		B2361FDC103B3DD600FB8627 /* OscReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2361FDB103B3DD600FB8627 /* OscReceiver.cpp */; };
 		B24A0BFC10D8478400406E36 /* TcpReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B24A0BFA10D8478400406E36 /* TcpReceiver.cpp */; };
-		B24A0FDE10D8E89600406E36 /* DevReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B24A0FDC10D8E89600406E36 /* DevReceiver.cpp */; };
 		B259ECD80FECED22008401C9 /* TuioDispatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B259ECD60FECED22008401C9 /* TuioDispatcher.cpp */; };
 		B260FAA4103B177C00D1B0AB /* UdpReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B260FAA2103B177C00D1B0AB /* UdpReceiver.cpp */; };
 		B277CA050F51B34C00D84853 /* TuioClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B277C9FC0F51B34C00D84853 /* TuioClient.cpp */; };
@@ -82,8 +81,6 @@
 		B2361FDB103B3DD600FB8627 /* OscReceiver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OscReceiver.cpp; path = TUIO/OscReceiver.cpp; sourceTree = SOURCE_ROOT; };
 		B24A0BFA10D8478400406E36 /* TcpReceiver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TcpReceiver.cpp; path = TUIO/TcpReceiver.cpp; sourceTree = SOURCE_ROOT; };
 		B24A0BFB10D8478400406E36 /* TcpReceiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TcpReceiver.h; path = TUIO/TcpReceiver.h; sourceTree = SOURCE_ROOT; };
-		B24A0FDC10D8E89600406E36 /* DevReceiver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DevReceiver.cpp; path = TUIO/DevReceiver.cpp; sourceTree = SOURCE_ROOT; };
-		B24A0FDD10D8E89600406E36 /* DevReceiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DevReceiver.h; path = TUIO/DevReceiver.h; sourceTree = SOURCE_ROOT; };
 		B259ECD50FECED14008401C9 /* TuioBlob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TuioBlob.h; path = TUIO/TuioBlob.h; sourceTree = SOURCE_ROOT; };
 		B259ECD60FECED22008401C9 /* TuioDispatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TuioDispatcher.cpp; path = TUIO/TuioDispatcher.cpp; sourceTree = SOURCE_ROOT; };
 		B259ECD70FECED22008401C9 /* TuioDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TuioDispatcher.h; path = TUIO/TuioDispatcher.h; sourceTree = SOURCE_ROOT; };
@@ -278,8 +275,6 @@
 				B260FAA2103B177C00D1B0AB /* UdpReceiver.cpp */,
 				B24A0BFA10D8478400406E36 /* TcpReceiver.cpp */,
 				B24A0BFB10D8478400406E36 /* TcpReceiver.h */,
-				B24A0FDC10D8E89600406E36 /* DevReceiver.cpp */,
-				B24A0FDD10D8E89600406E36 /* DevReceiver.h */,
 				B260FA9F103B173600D1B0AB /* OscReceiver.h */,
 				B2361FDB103B3DD600FB8627 /* OscReceiver.cpp */,
 			);
@@ -371,7 +366,6 @@
 				B2CBF03B1074AD0200B0460B /* TuioObject.cpp in Sources */,
 				B2CBF03C1074AD0200B0460B /* TuioPoint.cpp in Sources */,
 				B24A0BFC10D8478400406E36 /* TcpReceiver.cpp in Sources */,
-				B24A0FDE10D8E89600406E36 /* DevReceiver.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

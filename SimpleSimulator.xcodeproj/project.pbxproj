@@ -23,7 +23,6 @@
 		B24F88841032AF8E0092373A /* FlashSender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B24F88821032AF8E0092373A /* FlashSender.cpp */; };
 		B259ECF80FECED5D008401C9 /* TuioDispatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B259ECF60FECED5D008401C9 /* TuioDispatcher.cpp */; };
 		B259ECFB0FECED6B008401C9 /* TuioManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B259ECF90FECED6B008401C9 /* TuioManager.cpp */; };
-		B25AD7FA10D7DDB400FB9A1F /* DevSender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B25AD7F810D7DDB400FB9A1F /* DevSender.cpp */; };
 		B277CA460F51BCD900D84853 /* TuioServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B277CA420F51BCD900D84853 /* TuioServer.cpp */; };
 		B277CA470F51BCD900D84853 /* TuioTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B277CA440F51BCD900D84853 /* TuioTime.cpp */; };
 		B2A40EF60F23C8AD00B25A81 /* NetworkingUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2A40EF50F23C8AD00B25A81 /* NetworkingUtils.cpp */; };
@@ -87,8 +86,6 @@
 		B259ECF70FECED5D008401C9 /* TuioDispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TuioDispatcher.h; path = TUIO/TuioDispatcher.h; sourceTree = SOURCE_ROOT; };
 		B259ECF90FECED6B008401C9 /* TuioManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TuioManager.cpp; path = TUIO/TuioManager.cpp; sourceTree = SOURCE_ROOT; };
 		B259ECFA0FECED6B008401C9 /* TuioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TuioManager.h; path = TUIO/TuioManager.h; sourceTree = SOURCE_ROOT; };
-		B25AD7F810D7DDB400FB9A1F /* DevSender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = DevSender.cpp; path = TUIO/DevSender.cpp; sourceTree = SOURCE_ROOT; };
-		B25AD7F910D7DDB400FB9A1F /* DevSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DevSender.h; path = TUIO/DevSender.h; sourceTree = SOURCE_ROOT; };
 		B277CA3D0F51BCD900D84853 /* TuioContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TuioContainer.h; path = TUIO/TuioContainer.h; sourceTree = SOURCE_ROOT; };
 		B277CA3E0F51BCD900D84853 /* TuioCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TuioCursor.h; path = TUIO/TuioCursor.h; sourceTree = SOURCE_ROOT; };
 		B277CA3F0F51BCD900D84853 /* TuioListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TuioListener.h; path = TUIO/TuioListener.h; sourceTree = SOURCE_ROOT; };
@@ -273,8 +270,6 @@
 				B2B850881074BFAE00B921E3 /* TuioBlob.cpp */,
 				B24F88821032AF8E0092373A /* FlashSender.cpp */,
 				B24F88831032AF8E0092373A /* FlashSender.h */,
-				B25AD7F810D7DDB400FB9A1F /* DevSender.cpp */,
-				B25AD7F910D7DDB400FB9A1F /* DevSender.h */,
 				B24F886B1032AC2A0092373A /* TcpSender.cpp */,
 				B24F886C1032AC2A0092373A /* TcpSender.h */,
 				B24F879D103294930092373A /* UdpSender.cpp */,
@@ -375,7 +370,6 @@
 				B2B8508D1074BFD100B921E3 /* TuioCursor.cpp in Sources */,
 				B2B850901074BFF000B921E3 /* TuioObject.cpp in Sources */,
 				B2B850911074BFF000B921E3 /* TuioPoint.cpp in Sources */,
-				B25AD7FA10D7DDB400FB9A1F /* DevSender.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
