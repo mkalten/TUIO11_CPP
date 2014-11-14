@@ -133,7 +133,6 @@ void TuioContainer::update (float xp, float yp, float xs, float ys, float ma) {
 	motion_speed = (float)sqrt(x_speed*x_speed+y_speed*y_speed);
 	motion_accel = ma;
 	
-	path.pop_back();
 	TuioPoint p(currentTime,xpos,ypos);
 	path.push_back(p);
 	

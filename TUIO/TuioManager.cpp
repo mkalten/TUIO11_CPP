@@ -100,15 +100,16 @@ void TuioManager::updateExternalTuioObject(TuioObject *tobj) {
 
 void TuioManager::removeTuioObject(TuioObject *tobj) {
 	if (tobj==NULL) return;
-	objectList.remove(tobj);
-	delete tobj;
-	updateObject = true;
 
 	for (std::list<TuioListener*>::iterator listener=listenerList.begin(); listener != listenerList.end(); listener++)
 		(*listener)->removeTuioObject(tobj);
 	
 	if (verbose)
 		std::cout << "del obj " << tobj->getSymbolID() << " (" << tobj->getSessionID() << ")" << std::endl;
+    
+    objectList.remove(tobj);
+    delete tobj;
+    updateObject = true;
 }
 
 void TuioManager::removeExternalTuioObject(TuioObject *tobj) {

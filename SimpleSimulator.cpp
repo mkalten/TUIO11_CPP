@@ -159,7 +159,7 @@ void SimpleSimulator::mousePressed(float x, float y) {
 	//printf("pressed %f %f\n",x,y);
 
 	TuioCursor *match = NULL;
-	float distance  = 0.05f;
+	float distance  = 0.01f;
 	for (std::list<TuioCursor*>::iterator iter = stickyCursorList.begin(); iter!=stickyCursorList.end(); iter++) {
 		TuioCursor *tcur = (*iter);
 		float test = tcur->getDistance(x,y);
@@ -233,7 +233,7 @@ void SimpleSimulator::mouseReleased(float x, float y) {
 	//printf("released %f %f\n",x,y);
 
 	TuioCursor *cursor = NULL;
-	float distance  = 0.05f;
+	float distance  = 0.01f;
 	for (std::list<TuioCursor*>::iterator iter = stickyCursorList.begin(); iter!=stickyCursorList.end(); iter++) {
 		TuioCursor *tcur = (*iter);
 		float test = tcur->getDistance(x,y);
@@ -248,7 +248,7 @@ void SimpleSimulator::mouseReleased(float x, float y) {
 		return;
 	}
 
-	distance = 0.05f;
+	distance = 0.01f;
 	for (std::list<TuioCursor*>::iterator iter = activeCursorList.begin(); iter!=activeCursorList.end(); iter++) {
 		TuioCursor *tcur = (*iter);
 		float test = tcur->getDistance(x,y);
@@ -275,20 +275,22 @@ SimpleSimulator::SimpleSimulator(TuioServer *server)
 	, window_width	(640)
 	, window_height	(480)
 {
-
-	TuioTime::initSession();
-	frameTime = TuioTime::getSessionTime();
-
-	tuioServer = server;
-	tuioServer->setSourceName("SimpleSimulator");
-	tuioServer->enableObjectProfile(false);
-	tuioServer->enableBlobProfile(false);
-
 	if ( SDL_Init(SDL_INIT_VIDEO) < 0 ) {
 		std::cerr << "SDL could not be initialized: " <<  SDL_GetError() << std::endl;
 		SDL_Quit();
 		exit(1);
 	}
+
+    screen_width = SDL_GetVideoInfo()->current_w;
+    screen_height = SDL_GetVideoInfo()->current_h;
+    
+    TuioTime::initSession();
+    frameTime = TuioTime::getSessionTime();
+    
+    tuioServer = server;
+    tuioServer->setSourceName("SimpleSimulator");
+    tuioServer->enableObjectProfile(false);
+    tuioServer->enableBlobProfile(false);
 
 	initWindow();
 }
@@ -352,6 +354,8 @@ int main(int argc, char* argv[])
 	glutInit(&argc,argv);
 #endif
 
+    if ( (std::string(argv[1]).find("-NSDocumentRevisionsDebugMode")==0 ) || (std::string(argv[1]).find("-psn_")==0) ) argc = 1;
+    
 	TuioServer *server;
 	if( argc == 3 ) {
 		server = new TuioServer(argv[1],atoi(argv[2]));
