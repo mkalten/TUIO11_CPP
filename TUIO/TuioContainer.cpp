@@ -101,6 +101,7 @@ void TuioContainer::update (TuioTime ttime, float xp, float yp) {
 	
 	TuioPoint p(currentTime,xpos,ypos);
 	path.push_back(p);
+    if (path.size()>MAX_PATH_SIZE) path.pop_front();
 	
 	if (motion_accel>0) state = TUIO_ACCELERATING;
 	else if (motion_accel<0) state = TUIO_DECELERATING;
@@ -120,7 +121,8 @@ void TuioContainer::update (TuioTime ttime, float xp, float yp, float xs, float 
 	
 	TuioPoint p(currentTime,xpos,ypos);
 	path.push_back(p);
-	
+    if (path.size()>MAX_PATH_SIZE) path.pop_front();
+    
 	if (motion_accel>0) state = TUIO_ACCELERATING;
 	else if (motion_accel<0) state = TUIO_DECELERATING;
 	else state = TUIO_STOPPED;
@@ -135,6 +137,7 @@ void TuioContainer::update (float xp, float yp, float xs, float ys, float ma) {
 	
 	TuioPoint p(currentTime,xpos,ypos);
 	path.push_back(p);
+    if (path.size()>MAX_PATH_SIZE) path.pop_front();
 	
 	if (motion_accel>0) state = TUIO_ACCELERATING;
 	else if (motion_accel<0) state = TUIO_DECELERATING;
@@ -150,6 +153,7 @@ void TuioContainer::update (TuioContainer *tcon) {
 	
 	TuioPoint p(tcon->getTuioTime(),xpos,ypos);
 	path.push_back(p);
+    if (path.size()>MAX_PATH_SIZE) path.pop_front();
 	
 	if (motion_accel>0) state = TUIO_ACCELERATING;
 	else if (motion_accel<0) state = TUIO_DECELERATING;
