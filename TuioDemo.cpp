@@ -304,6 +304,8 @@ int main(int argc, char* argv[])
 	
 #ifndef __MACOSX__
 	glutInit(&argc,argv);
+#else
+    if ((argc>1) && ((std::string(argv[1]).find("-NSDocumentRevisionsDebugMode")==0 ) || (std::string(argv[1]).find("-psn_")==0))) argc = 1;
 #endif
 	
 	int port = 3333;

@@ -352,10 +352,10 @@ int main(int argc, char* argv[])
 
 #ifndef __MACOSX__
 	glutInit(&argc,argv);
+#else
+    if ((argc>1) && ((std::string(argv[1]).find("-NSDocumentRevisionsDebugMode")==0 ) || (std::string(argv[1]).find("-psn_")==0))) argc = 1;
 #endif
 
-    if ( (std::string(argv[1]).find("-NSDocumentRevisionsDebugMode")==0 ) || (std::string(argv[1]).find("-psn_")==0) ) argc = 1;
-    
 	TuioServer *server;
 	if( argc == 3 ) {
 		server = new TuioServer(argv[1],atoi(argv[2]));
