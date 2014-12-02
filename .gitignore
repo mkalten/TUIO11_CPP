@@ -5,8 +5,28 @@
 
 *.perspectivev3
 
+*.user
+
 project.xcworkspace
 
 *.xcuserdatad
 
 build
+
+doc
+
+*.o
+
+*.so
+
+*.a
+
+*.db
+
+*.dylib
+
+TuioDump
+
+TuioDemo
+
+SimpleSimulator
