@@ -1,6 +1,6 @@
 /*
  TUIO C++ Library
- Copyright (c) 2005-2014 Martin Kaltenbrunner <martin@tuio.org>
+ Copyright (c) 2005-2015 Martin Kaltenbrunner <martin@tuio.org>
  
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -43,7 +43,7 @@ namespace TUIO {
 	 * The TcpSender implements the TCP transport method for OSC
 	 *
 	 * @author Martin Kaltenbrunner
-	 * @version 1.1.5
+	 * @version 2.0.a0
 	 */ 
 	class LIBDECL TcpSender : public OscSender {
 				
@@ -90,6 +90,13 @@ namespace TUIO {
 		 */
 		bool isConnected ();
 
+		/**
+		 * This method is called whenever a new client connects
+		 *
+		 * @param tcp_client the socket handle of the new client
+		 */
+		virtual void newClient( int tcp_client );
+
 		int port_no;
 		
 #ifdef WIN32
@@ -100,7 +107,7 @@ namespace TUIO {
 		std::list<int> tcp_client_list;
 #endif
 		bool connected;
-	private:
+	protected:
 		char data_size[4];
 		char data_buffer[MAX_TCP_SIZE+4];
 		

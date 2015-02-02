@@ -28,6 +28,7 @@
 
 #include "FlashSender.h"
 #include "TcpSender.h"
+#include "WebSockSender.h"
 
 #include <SDL.h>
 #include <SDL_thread.h>

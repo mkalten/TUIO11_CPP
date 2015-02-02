@@ -370,6 +370,11 @@ int main(int argc, char* argv[])
 	} else tcp_sender = new TcpSender(3333);
 	server->addOscSender(tcp_sender);
 
+	
+	// add an additional TUIO/WS sender
+	OscSender *ws_sender = new WebSockSender(8080);
+	server->addOscSender(ws_sender);
+	
 	// add an additional TUIO/FLC sender
 	OscSender *flash_sender = new FlashSender();
 	server->addOscSender(flash_sender);
@@ -383,6 +388,7 @@ int main(int argc, char* argv[])
 	delete flash_sender;
 #endif
 	delete tcp_sender;
+	delete ws_sender;
 	return 0;
 }
 
