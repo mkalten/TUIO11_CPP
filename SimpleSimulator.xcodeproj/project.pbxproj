@@ -16,6 +16,7 @@
 		B20EE4460C340D5B00026AC5 /* OscTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B20EE42C0C340D5B00026AC5 /* OscTypes.cpp */; };
 		B20EE47F0C340E0300026AC5 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B20EE47E0C340E0300026AC5 /* OpenGL.framework */; };
 		B20EE4830C340E1100026AC5 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B20EE4820C340E1100026AC5 /* GLUT.framework */; };
+		B21244F81C909CDC00B43572 /* OneEuroFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B21244F61C909CDC00B43572 /* OneEuroFilter.cpp */; };
 		B218B50C0FECFE5400BDAC0D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B218B50A0FECFE5400BDAC0D /* InfoPlist.strings */; };
 		B22B018E0F51EC4C00AE753B /* SimpleSimulator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B22B018C0F51EC4C00AE753B /* SimpleSimulator.cpp */; };
 		B24F879E103294930092373A /* UdpSender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B24F879D103294930092373A /* UdpSender.cpp */; };
@@ -72,6 +73,8 @@
 		B20EE42D0C340D5B00026AC5 /* OscTypes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = OscTypes.h; path = oscpack/osc/OscTypes.h; sourceTree = SOURCE_ROOT; };
 		B20EE47E0C340E0300026AC5 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		B20EE4820C340E1100026AC5 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = /System/Library/Frameworks/GLUT.framework; sourceTree = "<absolute>"; };
+		B21244F61C909CDC00B43572 /* OneEuroFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OneEuroFilter.cpp; path = TUIO/OneEuroFilter.cpp; sourceTree = "<group>"; };
+		B21244F71C909CDC00B43572 /* OneEuroFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OneEuroFilter.h; path = TUIO/OneEuroFilter.h; sourceTree = "<group>"; };
 		B218B50B0FECFE5400BDAC0D /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = InfoPlist.strings; sourceTree = "<group>"; };
 		B22B018C0F51EC4C00AE753B /* SimpleSimulator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SimpleSimulator.cpp; sourceTree = SOURCE_ROOT; };
 		B22B018D0F51EC4C00AE753B /* SimpleSimulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleSimulator.h; sourceTree = SOURCE_ROOT; };
@@ -259,6 +262,8 @@
 		B277CA320F51BCB800D84853 /* TUIO */ = {
 			isa = PBXGroup;
 			children = (
+				B21244F61C909CDC00B43572 /* OneEuroFilter.cpp */,
+				B21244F71C909CDC00B43572 /* OneEuroFilter.h */,
 				B277CA450F51BCD900D84853 /* TuioTime.h */,
 				B277CA440F51BCD900D84853 /* TuioTime.cpp */,
 				B277CA410F51BCD900D84853 /* TuioPoint.h */,
@@ -319,7 +324,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastUpgradeCheck = 0720;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "SimpleSimulator" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -370,6 +375,7 @@
 				B259ECFB0FECED6B008401C9 /* TuioManager.cpp in Sources */,
 				B24F879E103294930092373A /* UdpSender.cpp in Sources */,
 				B24F886D1032AC2A0092373A /* TcpSender.cpp in Sources */,
+				B21244F81C909CDC00B43572 /* OneEuroFilter.cpp in Sources */,
 				B24F88841032AF8E0092373A /* FlashSender.cpp in Sources */,
 				B2B850891074BFAE00B921E3 /* TuioBlob.cpp in Sources */,
 				B2B8508C1074BFD100B921E3 /* TuioContainer.cpp in Sources */,
@@ -458,9 +464,9 @@
 					"$(HEADER_SEARCH_PATHS)",
 				);
 				INFOPLIST_FILE = SimpleSimulator.plist;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = SimpleSimulator;
-				SDKROOT = macosx10.10;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -485,10 +491,10 @@
 					"$(HEADER_SEARCH_PATHS)",
 				);
 				INFOPLIST_FILE = SimpleSimulator.plist;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_NAME = SimpleSimulator;
-				SDKROOT = macosx10.10;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};

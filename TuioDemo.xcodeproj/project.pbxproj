@@ -19,6 +19,7 @@
 		B20EE4460C340D5B00026AC5 /* OscTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B20EE42C0C340D5B00026AC5 /* OscTypes.cpp */; };
 		B20EE47F0C340E0300026AC5 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B20EE47E0C340E0300026AC5 /* OpenGL.framework */; };
 		B20EE4830C340E1100026AC5 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B20EE4820C340E1100026AC5 /* GLUT.framework */; };
+		B21244F51C909C2400B43572 /* OneEuroFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B21244F31C909C2400B43572 /* OneEuroFilter.cpp */; };
 		B2361FDC103B3DD600FB8627 /* OscReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2361FDB103B3DD600FB8627 /* OscReceiver.cpp */; };
 		B24A0BFC10D8478400406E36 /* TcpReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B24A0BFA10D8478400406E36 /* TcpReceiver.cpp */; };
 		B259ECD80FECED22008401C9 /* TuioDispatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B259ECD60FECED22008401C9 /* TuioDispatcher.cpp */; };
@@ -78,6 +79,8 @@
 		B20EE42D0C340D5B00026AC5 /* OscTypes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = OscTypes.h; path = oscpack/osc/OscTypes.h; sourceTree = SOURCE_ROOT; };
 		B20EE47E0C340E0300026AC5 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		B20EE4820C340E1100026AC5 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = /System/Library/Frameworks/GLUT.framework; sourceTree = "<absolute>"; };
+		B21244F31C909C2400B43572 /* OneEuroFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OneEuroFilter.cpp; path = TUIO/OneEuroFilter.cpp; sourceTree = "<group>"; };
+		B21244F41C909C2400B43572 /* OneEuroFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OneEuroFilter.h; path = TUIO/OneEuroFilter.h; sourceTree = "<group>"; };
 		B2361FDB103B3DD600FB8627 /* OscReceiver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OscReceiver.cpp; path = TUIO/OscReceiver.cpp; sourceTree = SOURCE_ROOT; };
 		B24A0BFA10D8478400406E36 /* TcpReceiver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TcpReceiver.cpp; path = TUIO/TcpReceiver.cpp; sourceTree = SOURCE_ROOT; };
 		B24A0BFB10D8478400406E36 /* TcpReceiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TcpReceiver.h; path = TUIO/TcpReceiver.h; sourceTree = SOURCE_ROOT; };
@@ -254,6 +257,8 @@
 		B277C9FB0F51B32800D84853 /* TUIO */ = {
 			isa = PBXGroup;
 			children = (
+				B21244F31C909C2400B43572 /* OneEuroFilter.cpp */,
+				B21244F41C909C2400B43572 /* OneEuroFilter.h */,
 				B277CA040F51B34C00D84853 /* TuioTime.h */,
 				B277CA030F51B34C00D84853 /* TuioTime.cpp */,
 				B277CA020F51B34C00D84853 /* TuioPoint.h */,
@@ -361,6 +366,7 @@
 				B260FAA4103B177C00D1B0AB /* UdpReceiver.cpp in Sources */,
 				B2361FDC103B3DD600FB8627 /* OscReceiver.cpp in Sources */,
 				B2CBF0361074ACE900B0460B /* TuioBlob.cpp in Sources */,
+				B21244F51C909C2400B43572 /* OneEuroFilter.cpp in Sources */,
 				B2CBF0371074ACE900B0460B /* TuioContainer.cpp in Sources */,
 				B2CBF0381074ACE900B0460B /* TuioCursor.cpp in Sources */,
 				B2CBF03B1074AD0200B0460B /* TuioObject.cpp in Sources */,
@@ -434,7 +440,7 @@
 					"$(HEADER_SEARCH_PATHS)",
 				);
 				INFOPLIST_FILE = TuioDemo.plist;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = TuioDemo;
 				SDKROOT = macosx;
 			};
@@ -443,7 +449,7 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				FRAMEWORK_SEARCH_PATHS = (
 					/Library/Frameworks,
 					"$(FRAMEWORK_SEARCH_PATHS)",
@@ -456,7 +462,7 @@
 					"$(HEADER_SEARCH_PATHS)",
 				);
 				INFOPLIST_FILE = TuioDemo.plist;
-				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_NAME = TuioDemo;
 				SDKROOT = macosx;
