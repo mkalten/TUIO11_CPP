@@ -18,7 +18,8 @@ SDL_LDFLAGS := $(shell sdl-config --libs)
 SDL_CFLAGS  := $(shell sdl-config --cflags)
 
 INCLUDES = -I./TUIO -I./oscpack
-CFLAGS  = -g -Wall -O3 -fPIC $(SDL_CFLAGS)
+#CFLAGS  = -g -Wall -O3 -fPIC $(SDL_CFLAGS)
+CFLAGS  = -w -O3 -fPIC $(SDL_CFLAGS)
 CXXFLAGS = $(CFLAGS) $(INCLUDES) -D$(ENDIANESS)
 SHARED_OPTIONS = -shared -Wl,-soname,$(TUIO_SHARED)
 
@@ -35,6 +36,13 @@ ifeq ($(PLATFORM), Darwin)
 	SDL_LDFLAGS =
 endif
 
+%.o: %.cpp
+	@echo [CXX] $@
+	@ $(CXX) $(CXXFLAGS) -o $@ -c $<
+%.o: %.m
+	@echo [CC] $@
+	@ $(CC) $(CFLAGS) -o $@ -c $<
+
 DEMO_SOURCES = TuioDemo.cpp $(OBJC_SOURCES)
 DEMO_OBJECTS = TuioDemo.o $(OBJC_OBJECTS)
 DUMP_SOURCES = TuioDump.cpp
@@ -42,7 +50,7 @@ DUMP_OBJECTS = TuioDump.o
 SIMULATOR_SOURCES = SimpleSimulator.cpp $(OBJC_SOURCES)
 SIMULATOR_OBJECTS = SimpleSimulator.o $(OBJC_OBJECTS)
 
-COMMON_TUIO_SOURCES = ./TUIO/TuioTime.cpp ./TUIO/TuioPoint.cpp ./TUIO/TuioContainer.cpp ./TUIO/TuioObject.cpp ./TUIO/TuioCursor.cpp ./TUIO/TuioBlob.cpp ./TUIO/TuioDispatcher.cpp ./TUIO/TuioManager.cpp 
+COMMON_TUIO_SOURCES = ./TUIO/TuioTime.cpp ./TUIO/TuioPoint.cpp ./TUIO/TuioContainer.cpp ./TUIO/TuioObject.cpp ./TUIO/TuioCursor.cpp ./TUIO/TuioBlob.cpp ./TUIO/TuioDispatcher.cpp ./TUIO/TuioManager.cpp  ./TUIO/OneEuroFilter.cpp
 SERVER_TUIO_SOURCES = ./TUIO/TuioServer.cpp ./TUIO/UdpSender.cpp ./TUIO/TcpSender.cpp ./TUIO/WebSockSender.cpp ./TUIO/FlashSender.cpp
 CLIENT_TUIO_SOURCES = ./TUIO/TuioClient.cpp ./TUIO/OscReceiver.cpp ./TUIO/UdpReceiver.cpp ./TUIO/TcpReceiver.cpp
 OSC_SOURCES = ./oscpack/osc/OscTypes.cpp ./oscpack/osc/OscOutboundPacketStream.cpp ./oscpack/osc/OscReceivedElements.cpp ./oscpack/osc/OscPrintReceivedElements.cpp ./oscpack/ip/posix/NetworkingUtils.cpp ./oscpack/ip/posix/UdpSocket.cpp
@@ -55,19 +63,24 @@ OSC_OBJECTS = $(OSC_SOURCES:.cpp=.o)
 all: dump demo simulator static shared
 
 static:	$(COMMON_TUIO_OBJECTS) $(CLIENT_TUIO_OBJECTS) $(SERVER_TUIO_OBJECTS) $(OSC_OBJECTS)
-	ar rcs $(TUIO_STATIC) $(COMMON_TUIO_OBJECTS) $(CLIENT_TUIO_OBJECTS) $(SERVER_TUIO_OBJECTS) $(OSC_OBJECTS)
+	@echo [LD] $(TUIO_STATIC)
+	@ ar rcs $(TUIO_STATIC) $(COMMON_TUIO_OBJECTS) $(CLIENT_TUIO_OBJECTS) $(SERVER_TUIO_OBJECTS) $(OSC_OBJECTS)
 
 shared:	$(COMMON_TUIO_OBJECTS) $(CLIENT_TUIO_OBJECTS) $(SERVER_TUIO_OBJECTS)  $(OSC_OBJECTS)
-	$(CXX) $+ -lpthread $(SHARED_OPTIONS) -o $(TUIO_SHARED)
-	
+	@echo [LD] $(TUIO_SHARED)
+	@ $(CXX) $+ -lpthread $(SHARED_OPTIONS) -o $(TUIO_SHARED)
+
 dump:	$(COMMON_TUIO_OBJECTS) $(CLIENT_TUIO_OBJECTS) $(OSC_OBJECTS) $(DUMP_OBJECTS)
-	$(CXX) $+ -lpthread -o $(TUIO_DUMP)
+	@echo [LD] $(TUIO_DUMP)
+	@ $(CXX) $+ -lpthread -o $(TUIO_DUMP)
 
 demo:	$(COMMON_TUIO_OBJECTS) $(CLIENT_TUIO_OBJECTS) $(OSC_OBJECTS) $(DEMO_OBJECTS)
-	$(CXX) $+ -lpthread -o $(TUIO_DEMO) $(SDL_LDFLAGS) $(LD_FLAGS)
+	@echo [LD] $(TUIO_DEMO)
+	@ $(CXX) $+ -lpthread -o $(TUIO_DEMO) $(SDL_LDFLAGS) $(LD_FLAGS)
 
 simulator:	$(COMMON_TUIO_OBJECTS) $(SERVER_TUIO_OBJECTS) $(OSC_OBJECTS) $(SIMULATOR_OBJECTS)
-	$(CXX) $+ -lpthread -o $(SIMPLE_SIMULATOR) $(SDL_LDFLAGS) $(LD_FLAGS)
+	@echo [LD] $(SIMPLE_SIMULATOR)
+	@ $(CXX) $+ -lpthread -o $(SIMPLE_SIMULATOR) $(SDL_LDFLAGS) $(LD_FLAGS)
 
 clean:
 	rm -f $(TUIO_DUMP) $(TUIO_DEMO) $(SIMPLE_SIMULATOR) $(TUIO_STATIC) $(TUIO_SHARED) 
