@@ -1,6 +1,6 @@
 /*
  TUIO C++ Library
- Copyright (c) 2009-2016 Martin Kaltenbrunner <martin@tuio.org>
+ Copyright (c) 2009-2015 Martin Kaltenbrunner <martin@tuio.org>
  WebSockSender (c) 2015 Florian Echtler <floe@butterbrot.org>
  
  This library is free software; you can redistribute it and/or
@@ -111,6 +111,7 @@ namespace TUIO {
 		 */
 		void newClient( int tcp_client );
 	
+		const char* tuio_type() { return "TUIO/WEB"; }
 	private:
 		
 		void sha1( uint8_t digest[SHA1_HASH_SIZE], const uint8_t* inbuf, size_t length );
