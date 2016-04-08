@@ -356,28 +356,37 @@ int main(int argc, char* argv[])
     if ((argc>1) && ((std::string(argv[1]).find("-NSDocumentRevisionsDebugMode")==0 ) || (std::string(argv[1]).find("-psn_")==0))) argc = 1;
 #endif
 
-	TuioServer *server;
+	TuioServer *server = NULL;
 	if( argc == 3 ) {
 		server = new TuioServer(argv[1],atoi(argv[2]));
 	} else server = new TuioServer(); // default is UDP port 3333 on localhost
 
 	// add an additional TUIO/TCP sender
-	OscSender *tcp_sender;
+	OscSender *tcp_sender = NULL;
 	if( argc == 2 ) {
-		tcp_sender = new TcpSender(atoi(argv[1]));
+		try { tcp_sender = new TcpSender(atoi(argv[1])); }
+		catch (std::exception e) { tcp_sender = NULL; }
 	} else if ( argc == 3 ) {
-		tcp_sender = new TcpSender(argv[1],atoi(argv[2]));
-	} else tcp_sender = new TcpSender(3333);
-	server->addOscSender(tcp_sender);
+		try { tcp_sender = new TcpSender(argv[1],atoi(argv[2])); }
+		catch (std::exception e) { tcp_sender = NULL; }
+	} else {
+		try { tcp_sender = new TcpSender(3333); }
+		catch (std::exception e) { tcp_sender = NULL; }
+	}
+	if (tcp_sender) server->addOscSender(tcp_sender);
 
 	
 	// add an additional TUIO/WS sender
-	OscSender *ws_sender = new WebSockSender(8080);
-	server->addOscSender(ws_sender);
+	OscSender *ws_sender = NULL;
+	try { ws_sender = new WebSockSender(8080); }
+	catch (std::exception e) { ws_sender = NULL; }
+	if (ws_sender) server->addOscSender(ws_sender);
 	
 	// add an additional TUIO/FLC sender
-	OscSender *flash_sender = new FlashSender();
-	server->addOscSender(flash_sender);
+	OscSender *flash_sender = NULL;
+	try { flash_sender = new FlashSender(); }
+	catch (std::exception e) { flash_sender = NULL; }
+	if (flash_sender) server->addOscSender(flash_sender);
 
 	SimpleSimulator *app = new SimpleSimulator(server);
 	app->run();
