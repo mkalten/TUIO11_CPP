@@ -30,6 +30,7 @@ UdpSender::UdpSender() {
 	} catch (std::exception &e) { 
 		std::cout << "could not create UDP socket" << std::endl;
 		socket = NULL;
+		throw std::exception();
 	}
 }
 
@@ -48,6 +49,7 @@ UdpSender::UdpSender(const char *host, int port) {
 	} catch (std::exception &e) { 
 		std::cout << "could not create UDP socket" << std::endl;
 		socket = NULL;
+		throw std::exception();
 	}
 }
 
@@ -64,11 +66,12 @@ UdpSender::UdpSender(const char *host, int port, int size) {
 	} catch (std::exception &e) { 
 		std::cout << "could not create UDP socket" << std::endl;
 		socket = NULL;
+		throw std::exception();
 	}
 }
 
 UdpSender::~UdpSender() {
-	delete socket;		
+	if (socket) delete socket;
 }
 
 bool UdpSender::isConnected() { 
