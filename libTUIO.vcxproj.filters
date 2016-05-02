@@ -92,6 +92,12 @@
     <ClCompile Include="TUIO\UdpSender.cpp">
       <Filter>Source Files\TUIO</Filter>
     </ClCompile>
+    <ClCompile Include="TUIO\OneEuroFilter.cpp">
+      <Filter>Source Files\TUIO</Filter>
+    </ClCompile>
+    <ClCompile Include="TUIO\WebSockSender.cpp">
+      <Filter>Source Files\TUIO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="oscpack\ip\NetworkingUtils.h">
@@ -176,6 +182,12 @@
       <Filter>Header Files\TUIO</Filter>
     </ClInclude>
     <ClInclude Include="TUIO\UdpSender.h">
+      <Filter>Header Files\TUIO</Filter>
+    </ClInclude>
+    <ClInclude Include="TUIO\OneEuroFilter.h">
+      <Filter>Header Files\TUIO</Filter>
+    </ClInclude>
+    <ClInclude Include="TUIO\WebSockSender.h">
       <Filter>Header Files\TUIO</Filter>
     </ClInclude>
   </ItemGroup>

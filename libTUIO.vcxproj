@@ -56,7 +56,8 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>.\TUIO;.\oscpack;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;LIB_EXPORT;ENDIANESS=OSC_HOST_LITTLE_ENDIAN;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;LIB_EXPORT;ENDIANESS=OSC_HOST_LITTLE_ENDIAN;_CRT_SECURE_NO_WARNINGS;_USE_MATH_DEFINES
+;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -79,7 +80,8 @@
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>.\TUIO;.\oscpack;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;LIB_EXPORT;OSC_HOST_LITTLE_ENDIAN;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;LIB_EXPORT;OSC_HOST_LITTLE_ENDIAN;_CRT_SECURE_NO_WARNINGS;_USE_MATH_DEFINES
+;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <PrecompiledHeader />
@@ -117,6 +119,7 @@
     <ClCompile Include="oscpack\osc\OscTypes.cpp" />
     <ClCompile Include="oscpack\ip\win32\UdpSocket.cpp" />
     <ClCompile Include="TUIO\FlashSender.cpp" />
+    <ClCompile Include="TUIO\OneEuroFilter.cpp" />
     <ClCompile Include="TUIO\OscReceiver.cpp" />
     <ClCompile Include="TUIO\OscSender.cpp" />
     <ClCompile Include="TUIO\TcpReceiver.cpp" />
@@ -133,6 +136,7 @@
     <ClCompile Include="TUIO\TuioTime.cpp" />
     <ClCompile Include="TUIO\UdpReceiver.cpp" />
     <ClCompile Include="TUIO\UdpSender.cpp" />
+    <ClCompile Include="TUIO\WebSockSender.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="oscpack\ip\NetworkingUtils.h" />
@@ -146,6 +150,7 @@
     <ClInclude Include="oscpack\ip\UdpSocket.h" />
     <ClInclude Include="TUIO\FlashSender.h" />
     <ClInclude Include="TUIO\LibExport.h" />
+    <ClInclude Include="TUIO\OneEuroFilter.h" />
     <ClInclude Include="TUIO\OscReceiver.h" />
     <ClInclude Include="TUIO\OscSender.h" />
     <ClInclude Include="TUIO\TcpReceiver.h" />
@@ -163,6 +168,7 @@
     <ClInclude Include="TUIO\TuioTime.h" />
     <ClInclude Include="TUIO\UdpReceiver.h" />
     <ClInclude Include="TUIO\UdpSender.h" />
+    <ClInclude Include="TUIO\WebSockSender.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
