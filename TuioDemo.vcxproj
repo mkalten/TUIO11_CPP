@@ -64,6 +64,7 @@
       <PrecompiledHeader />
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>glut32.lib;opengl32.lib;glu32.lib;sdl.lib;sdlmain.lib;msvcrtd.lib;libcpmtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -87,6 +88,7 @@
       <PrecompiledHeader />
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalDependencies>glut32.lib;opengl32.lib;glu32.lib;sdl.lib;sdlmain.lib;msvcrt.lib;libcpmt.lib;%(AdditionalDependencies)</AdditionalDependencies>
