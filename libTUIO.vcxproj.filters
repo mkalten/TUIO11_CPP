@@ -47,9 +47,6 @@
     <ClCompile Include="TUIO\OscReceiver.cpp">
       <Filter>Source Files\TUIO</Filter>
     </ClCompile>
-    <ClCompile Include="TUIO\OscSender.cpp">
-      <Filter>Source Files\TUIO</Filter>
-    </ClCompile>
     <ClCompile Include="TUIO\TcpReceiver.cpp">
       <Filter>Source Files\TUIO</Filter>
     </ClCompile>

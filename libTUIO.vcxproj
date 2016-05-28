@@ -123,7 +123,6 @@
     <ClCompile Include="TUIO\FlashSender.cpp" />
     <ClCompile Include="TUIO\OneEuroFilter.cpp" />
     <ClCompile Include="TUIO\OscReceiver.cpp" />
-    <ClCompile Include="TUIO\OscSender.cpp" />
     <ClCompile Include="TUIO\TcpReceiver.cpp" />
     <ClCompile Include="TUIO\TcpSender.cpp" />
     <ClCompile Include="TUIO\TuioBlob.cpp" />

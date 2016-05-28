@@ -107,6 +107,7 @@ void SimpleSimulator::processEvents()
     SDL_Event event;
 
     while( SDL_PollEvent( &event ) ) {
+		if (event.key.repeat) continue;
 
         switch( event.type ) {
 		case SDL_KEYDOWN:
