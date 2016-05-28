@@ -40,7 +40,7 @@ namespace TUIO {
 	 *
 	 * @author Martin Kaltenbrunner
 	 * @version 1.1.6
-	 */
+	 */ 
 	class LIBDECL TuioContainer: public TuioPoint {
 		
 		

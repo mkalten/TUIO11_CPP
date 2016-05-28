@@ -71,7 +71,7 @@ UdpSender::UdpSender(const char *host, int port, int size) {
 }
 
 UdpSender::~UdpSender() {
-	if (socket) delete socket;
+	delete socket;		
 }
 
 bool UdpSender::isConnected() { 

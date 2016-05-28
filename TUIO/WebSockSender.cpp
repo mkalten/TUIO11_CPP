@@ -1,6 +1,6 @@
 /*
  TUIO C++ Library
- Copyright (c) 2009-2015 Martin Kaltenbrunner <martin@tuio.org>
+ Copyright (c) 2009-2016 Martin Kaltenbrunner <martin@tuio.org>
  WebSockSender (c) 2015 Florian Echtler <floe@butterbrot.org>
  
  This library is free software; you can redistribute it and/or
@@ -42,10 +42,6 @@ WebSockSender::WebSockSender(int port)
 	local = true;
 	buffer_size = MAX_TCP_SIZE;
 	port_no = port;
-}
-
-WebSockSender::~WebSockSender()
-{
 }
 
 bool WebSockSender::sendOscPacket (osc::OutboundPacketStream *bundle) {

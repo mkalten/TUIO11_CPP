@@ -17,13 +17,6 @@
 */
 
 #include "TcpSender.h"
-
-#ifdef  WIN32
-#ifndef int32_t
-typedef DWORD int32_t;
-#endif
-#endif
-
 using namespace TUIO;
 
 #ifndef  WIN32
@@ -73,7 +66,12 @@ static DWORD WINAPI ServerThreadFunc( LPVOID obj )
 #endif
 		
 		tcp_client = accept(sender->tcp_socket, (struct sockaddr*)&client_addr, &len);
-		
+#ifdef WIN32
+		 //win32 workaround on exit
+		if (!client_addr.sin_addr.S_un.S_addr && !client_addr.sin_port) return 0;
+		if ((client_addr.sin_addr.S_un.S_addr==3435973836) && (client_addr.sin_port==52428)) return 0;
+#endif
+
 		if (tcp_client>0) { 
 			std::cout << sender->tuio_type() << " client connected from " << inet_ntoa(client_addr.sin_addr) << "@" << client_addr.sin_port << std::endl;
 			sender->tcp_client_list.push_back(tcp_client);
@@ -252,11 +250,14 @@ bool TcpSender::isConnected() {
 
 TcpSender::~TcpSender() {
 #ifdef WIN32
+
 	for (std::list<SOCKET>::iterator client = tcp_client_list.begin(); client!=tcp_client_list.end(); client++) {
 		closesocket((*client));
 	}
 	closesocket(tcp_socket);
+
 	if( server_thread ) CloseHandle( server_thread );
+
 #else
 		for (std::list<int>::iterator client = tcp_client_list.begin(); client!=tcp_client_list.end(); client++) {
 		close((*client));

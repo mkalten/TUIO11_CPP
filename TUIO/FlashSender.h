@@ -188,7 +188,7 @@ namespace TUIO {
 		/**
 		 * The destructor closes the connection. 
 		 */
-		~FlashSender();
+		virtual ~FlashSender();
 		
 		/**
 		 * This method delivers the provided OSC data
@@ -207,7 +207,7 @@ namespace TUIO {
 		bool isConnected ();
 		
 		const char* tuio_type() { return "TUIO/FLC"; }
-
+		
 	private:
 		TFLCSLocalConnection_t* lcConnection;
 	};

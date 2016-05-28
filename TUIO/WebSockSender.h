@@ -1,6 +1,6 @@
 /*
  TUIO C++ Library
- Copyright (c) 2009-2015 Martin Kaltenbrunner <martin@tuio.org>
+ Copyright (c) 2009-2016 Martin Kaltenbrunner <martin@tuio.org>
  WebSockSender (c) 2015 Florian Echtler <floe@butterbrot.org>
  
  This library is free software; you can redistribute it and/or
@@ -94,7 +94,7 @@ namespace TUIO {
 		/**
 		 * The destructor closes the socket. 
 		 */
-		~WebSockSender();
+		virtual ~WebSockSender() {}
 		
 		/**
 		 * This method delivers the provided OSC data
