@@ -84,7 +84,7 @@ void TuioDemo::refresh(TuioTime frameTime) {
 void TuioDemo::drawObjects() {
 	glClear(GL_COLOR_BUFFER_BIT);
 	char id[3];
-	
+
 	// draw the cursors
 	std::list<TuioCursor*> cursorList = tuioClient->getTuioCursors();
 	tuioClient->lockCursorList();
@@ -188,7 +188,7 @@ void TuioDemo::drawObjects() {
 	}
 	tuioClient->unlockBlobList();
 	
-	SDL_GL_SwapBuffers();
+	SDL_GL_SwapWindow(window);
 }
 
 void TuioDemo::drawString(char *str) {
@@ -202,9 +202,14 @@ void TuioDemo::drawString(char *str) {
 
 void TuioDemo::initWindow() {
 	
-	int videoFlags = SDL_OPENGL | SDL_DOUBLEBUF;
+	SDL_DisplayMode mode;
+	SDL_GetCurrentDisplayMode(0, &mode);
+	screen_width = mode.w;
+	screen_height= mode.h;
+	
+	int videoFlags = SDL_WINDOW_OPENGL;
 	if( fullscreen ) {
-		videoFlags |= SDL_FULLSCREEN;
+		videoFlags |= SDL_WINDOW_FULLSCREEN;
 		width = screen_width;
 		height = screen_height;
 	} else {
@@ -212,7 +217,8 @@ void TuioDemo::initWindow() {
 		height = window_height;
 	}
 	
-	window = SDL_SetVideoMode(width, height, 32, videoFlags);
+	SDL_CreateWindowAndRenderer(width, height, videoFlags, &window, &renderer);
+
 	if ( window == NULL ) {
 		std::cerr << "Could not open window: " << SDL_GetError() << std::endl;
 		SDL_Quit();
@@ -241,8 +247,31 @@ void TuioDemo::processEvents()
 					SDL_ShowCursor(true);
 					SDL_Quit();
 				} else if( event.key.keysym.sym == SDLK_F1 ){
-					fullscreen = !fullscreen;
-					initWindow();
+					if(fullscreen)
+					{
+						width = window_width;
+						height = window_height;
+						SDL_SetWindowFullscreen(window, SDL_FALSE);
+						SDL_ShowCursor(1);
+						fullscreen = false;
+					}
+					else
+					{
+						SDL_ShowCursor(0);
+						width = screen_width;
+						height = screen_height;
+						SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+						fullscreen = true;
+					}
+					
+					glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+					glViewport(0, 0, (GLint)width, (GLint)height);
+					glMatrixMode(GL_PROJECTION);
+					glLoadIdentity();
+					gluOrtho2D(0, (GLfloat)width, (GLfloat)height, 0);
+					glMatrixMode(GL_MODELVIEW);
+					glLoadIdentity();
+					
 				} else if( event.key.keysym.sym == SDLK_v ){
 					verbose = !verbose;	
 				} 
@@ -279,11 +308,9 @@ TuioDemo::TuioDemo(int port)
 		SDL_Quit();
 	}
 	
-	screen_width = SDL_GetVideoInfo()->current_w;
-	screen_height = SDL_GetVideoInfo()->current_h;
-	
-	SDL_WM_SetCaption("TuioDemo", NULL);
+
 	initWindow();
+	SDL_SetWindowTitle(window,"TuioDemo");
 }
 
 void TuioDemo::run() {
