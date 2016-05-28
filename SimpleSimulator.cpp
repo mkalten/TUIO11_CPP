@@ -339,6 +339,12 @@ void SimpleSimulator::initWindow() {
 		SDL_Quit();
 	}
 
+	SDL_GLContext context = SDL_GL_CreateContext(window);
+	if (!context) {
+		fprintf(stderr, "Couldn't create context: %s\n", SDL_GetError());
+		return;
+	}
+
 	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 	glViewport(0, 0, width, height);
 	glMatrixMode(GL_PROJECTION);

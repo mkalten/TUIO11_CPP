@@ -224,6 +224,12 @@ void TuioDemo::initWindow() {
 		SDL_Quit();
 	}
 	
+	SDL_GLContext context = SDL_GL_CreateContext(window);
+	if (!context) {
+		fprintf(stderr, "Couldn't create context: %s\n", SDL_GetError());
+		return;
+	}
+
 	SDL_ShowCursor(!fullscreen);
 	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
 	glViewport(0, 0, (GLint)width, (GLint)height);
