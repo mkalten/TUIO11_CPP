@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		002F3A2E09D0888800EBEB88 /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 002F3A2C09D0888800EBEB88 /* SDLMain.m */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		B20EE3CE0C340C4B00026AC5 /* TuioDemo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B20EE3C90C340C4B00026AC5 /* TuioDemo.cpp */; };
 		B20EE4310C340D5B00026AC5 /* IpEndpointName.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B20EE4140C340D5B00026AC5 /* IpEndpointName.cpp */; };
@@ -26,7 +25,7 @@
 		B260FAA4103B177C00D1B0AB /* UdpReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B260FAA2103B177C00D1B0AB /* UdpReceiver.cpp */; };
 		B277CA050F51B34C00D84853 /* TuioClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B277C9FC0F51B34C00D84853 /* TuioClient.cpp */; };
 		B277CA060F51B34C00D84853 /* TuioTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B277CA030F51B34C00D84853 /* TuioTime.cpp */; };
-		B2AF24CA19FFC0B4002C7BF8 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2AF24C919FFC0B4002C7BF8 /* SDL.framework */; };
+		B2B2FE151CF9BCE200CD8506 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2B2FE141CF9BCE200CD8506 /* SDL2.framework */; };
 		B2C2B89D109067D000262014 /* TUIO.icns in Resources */ = {isa = PBXBuildFile; fileRef = B2C2B89C109067D000262014 /* TUIO.icns */; };
 		B2CBF0361074ACE900B0460B /* TuioBlob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2CBF0331074ACE900B0460B /* TuioBlob.cpp */; };
 		B2CBF0371074ACE900B0460B /* TuioContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2CBF0341074ACE900B0460B /* TuioContainer.cpp */; };
@@ -49,7 +48,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		002F3A2C09D0888800EBEB88 /* SDLMain.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SDLMain.m; sourceTree = SOURCE_ROOT; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -99,7 +97,7 @@
 		B277CA020F51B34C00D84853 /* TuioPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TuioPoint.h; path = TUIO/TuioPoint.h; sourceTree = SOURCE_ROOT; };
 		B277CA030F51B34C00D84853 /* TuioTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TuioTime.cpp; path = TUIO/TuioTime.cpp; sourceTree = SOURCE_ROOT; };
 		B277CA040F51B34C00D84853 /* TuioTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TuioTime.h; path = TUIO/TuioTime.h; sourceTree = SOURCE_ROOT; };
-		B2AF24C919FFC0B4002C7BF8 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../../../../../../Library/Frameworks/SDL.framework; sourceTree = "<group>"; };
+		B2B2FE141CF9BCE200CD8506 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
 		B2C2B89C109067D000262014 /* TUIO.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = TUIO.icns; sourceTree = SOURCE_ROOT; };
 		B2CBF0331074ACE900B0460B /* TuioBlob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TuioBlob.cpp; path = TUIO/TuioBlob.cpp; sourceTree = SOURCE_ROOT; };
 		B2CBF0341074ACE900B0460B /* TuioContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TuioContainer.cpp; path = TUIO/TuioContainer.cpp; sourceTree = SOURCE_ROOT; };
@@ -113,10 +111,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B2AF24CA19FFC0B4002C7BF8 /* SDL.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				B20EE47F0C340E0300026AC5 /* OpenGL.framework in Frameworks */,
 				B20EE4830C340E1100026AC5 /* GLUT.framework in Frameworks */,
+				B2B2FE151CF9BCE200CD8506 /* SDL2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,7 +128,6 @@
 				B20EE4110C340D5B00026AC5 /* oscpack */,
 				B20EE3C90C340C4B00026AC5 /* TuioDemo.cpp */,
 				B20EE3CA0C340C4B00026AC5 /* TuioDemo.h */,
-				002F3A2C09D0888800EBEB88 /* SDLMain.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -138,7 +135,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B2AF24C919FFC0B4002C7BF8 /* SDL.framework */,
+				B2B2FE141CF9BCE200CD8506 /* SDL2.framework */,
 				B20EE4820C340E1100026AC5 /* GLUT.framework */,
 				B20EE47E0C340E0300026AC5 /* OpenGL.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
@@ -351,7 +348,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				002F3A2E09D0888800EBEB88 /* SDLMain.m in Sources */,
 				B20EE3CE0C340C4B00026AC5 /* TuioDemo.cpp in Sources */,
 				B20EE4310C340D5B00026AC5 /* IpEndpointName.cpp in Sources */,
 				B20EE4350C340D5B00026AC5 /* NetworkingUtils.cpp in Sources */,
@@ -390,8 +386,6 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
-					"$(HOME)/Library/Frameworks/SDL.framework/Headers",
-					/Library/Frameworks/SDL.framework/Headers,
 					"$(HEADER_SEARCH_PATHS)",
 					./oscpack,
 				);
@@ -411,8 +405,6 @@
 				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				HEADER_SEARCH_PATHS = (
-					"$(HOME)/Library/Frameworks/SDL.framework/Headers",
-					/Library/Frameworks/SDL.framework/Headers,
 					"$(HEADER_SEARCH_PATHS)",
 					./oscpack,
 				);
@@ -434,10 +426,7 @@
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					/Library/Frameworks/SDL.framework/Headers,
-					"$(HEADER_SEARCH_PATHS)",
-				);
+				HEADER_SEARCH_PATHS = "$(HEADER_SEARCH_PATHS)";
 				INFOPLIST_FILE = TuioDemo.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
@@ -456,10 +445,7 @@
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = (
-					/Library/Frameworks/SDL.framework/Headers,
-					"$(HEADER_SEARCH_PATHS)",
-				);
+				HEADER_SEARCH_PATHS = "$(HEADER_SEARCH_PATHS)";
 				INFOPLIST_FILE = TuioDemo.plist;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
