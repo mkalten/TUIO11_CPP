@@ -14,8 +14,8 @@ SIMPLE_SIMULATOR = SimpleSimulator
 TUIO_STATIC  = libTUIO.a
 TUIO_SHARED  = libTUIO.so
 
-SDL_LDFLAGS := $(shell sdl-config --libs)
-SDL_CFLAGS  := $(shell sdl-config --cflags)
+SDL_LDFLAGS := $(shell sdl2-config --libs)
+SDL_CFLAGS  := $(shell sdl2-config --cflags)
 
 INCLUDES = -I./TUIO -I./oscpack
 #CFLAGS  = -g -Wall -O3 -fPIC $(SDL_CFLAGS)
