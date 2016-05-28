@@ -30,14 +30,13 @@
 #include "TcpSender.h"
 #include "WebSockSender.h"
 
-#include <SDL.h>
-#include <SDL_thread.h>
-
 #ifdef __APPLE__
+#include <SDL2/SDL.h>
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
 #include <GLUT/glut.h>
 #else
+#include "SDL.h"
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
@@ -63,7 +62,8 @@ private:
 	void processEvents();
 	void initWindow();
 
-	SDL_Surface *window;
+	SDL_Window *window;
+	SDL_Renderer *renderer;
 	bool verbose, fullupdate, periodic, fullscreen, running, help;
 	
 	int width, height;

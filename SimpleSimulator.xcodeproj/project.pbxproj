@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		002F39FA09D0881F00EBEB88 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002F39F909D0881F00EBEB88 /* SDL.framework */; };
-		002F3A0009D0884600EBEB88 /* SDL.framework in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 002F39F909D0881F00EBEB88 /* SDL.framework */; };
-		002F3A2E09D0888800EBEB88 /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 002F3A2C09D0888800EBEB88 /* SDLMain.m */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		B20EE4360C340D5B00026AC5 /* UdpSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B20EE41A0C340D5B00026AC5 /* UdpSocket.cpp */; };
 		B20EE43F0C340D5B00026AC5 /* OscOutboundPacketStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B20EE4250C340D5B00026AC5 /* OscOutboundPacketStream.cpp */; };
@@ -28,6 +25,7 @@
 		B277CA460F51BCD900D84853 /* TuioServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B277CA420F51BCD900D84853 /* TuioServer.cpp */; };
 		B277CA470F51BCD900D84853 /* TuioTime.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B277CA440F51BCD900D84853 /* TuioTime.cpp */; };
 		B2A40EF60F23C8AD00B25A81 /* NetworkingUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2A40EF50F23C8AD00B25A81 /* NetworkingUtils.cpp */; };
+		B2B2FE171CF9CB5C00CD8506 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2B2FE161CF9CB5C00CD8506 /* SDL2.framework */; };
 		B2B850891074BFAE00B921E3 /* TuioBlob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2B850881074BFAE00B921E3 /* TuioBlob.cpp */; };
 		B2B8508C1074BFD100B921E3 /* TuioContainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2B8508A1074BFD100B921E3 /* TuioContainer.cpp */; };
 		B2B8508D1074BFD100B921E3 /* TuioCursor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B2B8508B1074BFD100B921E3 /* TuioCursor.cpp */; };
@@ -43,7 +41,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				002F3A0009D0884600EBEB88 /* SDL.framework in Copy Frameworks into .app bundle */,
 			);
 			name = "Copy Frameworks into .app bundle";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -51,8 +48,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		002F39F909D0881F00EBEB88 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = /Library/Frameworks/SDL.framework; sourceTree = "<absolute>"; };
-		002F3A2C09D0888800EBEB88 /* SDLMain.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SDLMain.m; sourceTree = SOURCE_ROOT; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -102,6 +97,7 @@
 		B277CA440F51BCD900D84853 /* TuioTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TuioTime.cpp; path = TUIO/TuioTime.cpp; sourceTree = SOURCE_ROOT; };
 		B277CA450F51BCD900D84853 /* TuioTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TuioTime.h; path = TUIO/TuioTime.h; sourceTree = SOURCE_ROOT; };
 		B2A40EF50F23C8AD00B25A81 /* NetworkingUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = NetworkingUtils.cpp; path = oscpack/ip/posix/NetworkingUtils.cpp; sourceTree = SOURCE_ROOT; };
+		B2B2FE161CF9CB5C00CD8506 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = /Library/Frameworks/SDL2.framework; sourceTree = "<absolute>"; };
 		B2B850881074BFAE00B921E3 /* TuioBlob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TuioBlob.cpp; path = TUIO/TuioBlob.cpp; sourceTree = SOURCE_ROOT; };
 		B2B8508A1074BFD100B921E3 /* TuioContainer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TuioContainer.cpp; path = TUIO/TuioContainer.cpp; sourceTree = SOURCE_ROOT; };
 		B2B8508B1074BFD100B921E3 /* TuioCursor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TuioCursor.cpp; path = TUIO/TuioCursor.cpp; sourceTree = SOURCE_ROOT; };
@@ -115,10 +111,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				002F39FA09D0881F00EBEB88 /* SDL.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				B20EE47F0C340E0300026AC5 /* OpenGL.framework in Frameworks */,
 				B20EE4830C340E1100026AC5 /* GLUT.framework in Frameworks */,
+				B2B2FE171CF9CB5C00CD8506 /* SDL2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,7 +128,6 @@
 				B22B018D0F51EC4C00AE753B /* SimpleSimulator.h */,
 				B277CA320F51BCB800D84853 /* TUIO */,
 				B20EE4110C340D5B00026AC5 /* oscpack */,
-				002F3A2C09D0888800EBEB88 /* SDLMain.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -140,9 +135,9 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B2B2FE161CF9CB5C00CD8506 /* SDL2.framework */,
 				B20EE4820C340E1100026AC5 /* GLUT.framework */,
 				B20EE47E0C340E0300026AC5 /* OpenGL.framework */,
-				002F39F909D0881F00EBEB88 /* SDL.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -362,7 +357,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				002F3A2E09D0888800EBEB88 /* SDLMain.m in Sources */,
 				B20EE4360C340D5B00026AC5 /* UdpSocket.cpp in Sources */,
 				B20EE43F0C340D5B00026AC5 /* OscOutboundPacketStream.cpp in Sources */,
 				B20EE4460C340D5B00026AC5 /* OscTypes.cpp in Sources */,
@@ -404,6 +398,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -425,6 +423,10 @@
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = "";
 				HEADER_SEARCH_PATHS = (
