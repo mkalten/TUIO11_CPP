@@ -245,11 +245,11 @@ void TuioDemo::processEvents()
     SDL_Event event;
 	
     while( SDL_PollEvent( &event ) ) {
-		if (event.key.repeat) continue;
 
         switch( event.type ) {
 			case SDL_KEYDOWN:
-				if( event.key.keysym.sym == SDLK_ESCAPE ){
+				if (event.key.repeat) continue;
+				else if( event.key.keysym.sym == SDLK_ESCAPE ){
 					running = false;
 					SDL_ShowCursor(true);
 					SDL_Quit();

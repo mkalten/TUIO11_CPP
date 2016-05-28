@@ -107,11 +107,11 @@ void SimpleSimulator::processEvents()
     SDL_Event event;
 
     while( SDL_PollEvent( &event ) ) {
-		if (event.key.repeat) continue;
-
+		
         switch( event.type ) {
 		case SDL_KEYDOWN:
-			if( event.key.keysym.sym == SDLK_ESCAPE ){
+				if (event.key.repeat) continue;
+				else if( event.key.keysym.sym == SDLK_ESCAPE ){
 				running = false;
 				SDL_Quit();
 			} else if( event.key.keysym.sym == SDLK_F1 ){
@@ -403,11 +403,11 @@ int main(int argc, char* argv[])
 	if (tcp_sender) server->addOscSender(tcp_sender);
 
 	
-	// add an additional TUIO/WS sender
-	OscSender *ws_sender = NULL;
-	try { ws_sender = new WebSockSender(8080); }
-	catch (std::exception e) { ws_sender = NULL; }
-	if (ws_sender) server->addOscSender(ws_sender);
+	// add an additional TUIO/WEB sender
+	OscSender *web_sender = NULL;
+	try { web_sender = new WebSockSender(8080); }
+	catch (std::exception e) { web_sender = NULL; }
+	if (web_sender) server->addOscSender(web_sender);
 	
 	// add an additional TUIO/FLC sender
 	OscSender *flash_sender = NULL;
