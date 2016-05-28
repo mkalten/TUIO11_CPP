@@ -29,10 +29,8 @@ ifeq ($(PLATFORM), Darwin)
 	CFLAGS += -mmacosx-version-min=10.6 -arch i386 -arch x86_64
 	CXXFLAGS += -mmacosx-version-min=10.6 -arch i386 -arch x86_64
 	TUIO_SHARED  = libTUIO.dylib
-	LD_FLAGS =  -framework OpenGL -framework GLUT -framework SDL -framework Cocoa
+	LD_FLAGS =  -framework OpenGL -framework GLUT -framework SDL2 -framework Cocoa
  	SHARED_OPTIONS = -dynamiclib -Wl,-dylib_install_name,$(TUIO_SHARED)
-	OBJC_SOURCES = SDLMain.m
-	OBJC_OBJECTS = SDLMain.o
 	SDL_LDFLAGS =
 endif
 
@@ -43,12 +41,12 @@ endif
 	@echo [CC] $@
 	@ $(CC) $(CFLAGS) -o $@ -c $<
 
-DEMO_SOURCES = TuioDemo.cpp $(OBJC_SOURCES)
-DEMO_OBJECTS = TuioDemo.o $(OBJC_OBJECTS)
+DEMO_SOURCES = TuioDemo.cpp
+DEMO_OBJECTS = TuioDemo.o
 DUMP_SOURCES = TuioDump.cpp
 DUMP_OBJECTS = TuioDump.o
-SIMULATOR_SOURCES = SimpleSimulator.cpp $(OBJC_SOURCES)
-SIMULATOR_OBJECTS = SimpleSimulator.o $(OBJC_OBJECTS)
+SIMULATOR_SOURCES = SimpleSimulator.cpp
+SIMULATOR_OBJECTS = SimpleSimulator.o
 
 COMMON_TUIO_SOURCES = ./TUIO/TuioTime.cpp ./TUIO/TuioPoint.cpp ./TUIO/TuioContainer.cpp ./TUIO/TuioObject.cpp ./TUIO/TuioCursor.cpp ./TUIO/TuioBlob.cpp ./TUIO/TuioDispatcher.cpp ./TUIO/TuioManager.cpp  ./TUIO/OneEuroFilter.cpp
 SERVER_TUIO_SOURCES = ./TUIO/TuioServer.cpp ./TUIO/UdpSender.cpp ./TUIO/TcpSender.cpp ./TUIO/WebSockSender.cpp ./TUIO/FlashSender.cpp
