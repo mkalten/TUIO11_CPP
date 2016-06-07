@@ -26,7 +26,7 @@ void TuioDemo::addTuioObject(TuioObject *tobj) {
 
 void TuioDemo::updateTuioObject(TuioObject *tobj) {
 	
-	if (verbose) 	
+	if (verbose)
 		std::cout << "set obj " << tobj->getSymbolID() << " (" << tobj->getSessionID() << "/"<<  tobj->getTuioSourceID() << ") "<< tobj->getX() << " " << tobj->getY() << " " << tobj->getAngle() 
 		<< " " << tobj->getMotionSpeed() << " " << tobj->getRotationSpeed() << " " << tobj->getMotionAccel() << " " << tobj->getRotationAccel() << std::endl;
 }
@@ -39,13 +39,13 @@ void TuioDemo::removeTuioObject(TuioObject *tobj) {
 
 void TuioDemo::addTuioCursor(TuioCursor *tcur) {
 	
-	if (verbose) 
+	if (verbose)
 		std::cout << "add cur " << tcur->getCursorID() << " (" <<  tcur->getSessionID() << "/"<<  tcur->getTuioSourceID() << ") " << tcur->getX() << " " << tcur->getY() << std::endl;
 }
 
 void TuioDemo::updateTuioCursor(TuioCursor *tcur) {
 	
-	if (verbose) 	
+	if (verbose)
 		std::cout << "set cur " << tcur->getCursorID() << " (" <<  tcur->getSessionID() << "/"<<  tcur->getTuioSourceID() << ") " << tcur->getX() << " " << tcur->getY() 
 		<< " " << tcur->getMotionSpeed() << " " << tcur->getMotionAccel() << " " << std::endl;
 }
@@ -104,7 +104,7 @@ void TuioDemo::drawObjects() {
 			} glEnd();
 			
 			// draw the finger tip
-			glColor3f(0.75, 0.75, 0.75);
+			glColor3f(0.25, 0.0, 0.25);
 			glPushMatrix();
 			glTranslatef(last_point.getScreenX(width), last_point.getScreenY(height), 0.0);
 			glBegin(GL_TRIANGLE_FAN);
@@ -132,7 +132,7 @@ void TuioDemo::drawObjects() {
 		float ypos  = tuioObject->getScreenY(height);
 		float angle = tuioObject->getAngleDegrees();
 		
-		glColor3f(0.0, 0.0, 0.0);
+		glColor3f(0.25, 0.0, 0.0);
 		glPushMatrix();
 		glTranslatef(xpos, ypos, 0.0);
 		glRotatef(angle, 0.0, 0.0, 1.0);
@@ -231,9 +231,9 @@ void TuioDemo::initWindow() {
 	}
 
 	SDL_ShowCursor(!fullscreen);
-	glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+	glClearColor(0.0f, 0.0f, 0.25f, 0.0f);
 	glViewport(0, 0, (GLint)width, (GLint)height);
-	glMatrixMode(GL_PROJECTION);	
+	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluOrtho2D(0, (GLfloat)width, (GLfloat)height, 0);
 	glMatrixMode(GL_MODELVIEW);
@@ -280,8 +280,8 @@ void TuioDemo::processEvents()
 					glLoadIdentity();
 					
 				} else if( event.key.keysym.sym == SDLK_v ){
-					verbose = !verbose;	
-				} 
+					verbose = !verbose;
+				}
 				
 				break;
 			case SDL_QUIT:
@@ -292,7 +292,7 @@ void TuioDemo::processEvents()
     }
 }
 
-TuioDemo::TuioDemo(int port) 
+TuioDemo::TuioDemo(int port)
 : verbose (false)
 , fullscreen(false)
 , screen_width (1024)
@@ -326,7 +326,7 @@ void TuioDemo::run() {
 		drawObjects();
 		processEvents();
 		SDL_Delay(10);
-	} 
+	}
 }
 
 int main(int argc, char* argv[])
@@ -351,5 +351,3 @@ int main(int argc, char* argv[])
 	
 	return 0;
 }
-
-
