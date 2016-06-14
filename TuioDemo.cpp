@@ -104,7 +104,7 @@ void TuioDemo::drawObjects() {
 			} glEnd();
 			
 			// draw the finger tip
-			glColor3f(0.25, 0.0, 0.25);
+			glColor3f(0.75, 0.0, 0.75);
 			glPushMatrix();
 			glTranslatef(last_point.getScreenX(width), last_point.getScreenY(height), 0.0);
 			glBegin(GL_TRIANGLE_FAN);
@@ -113,7 +113,7 @@ void TuioDemo::drawObjects() {
 			} glEnd();
 			glPopMatrix();
 			
-			glColor3f(0.0, 0.0, 0.0);
+			glColor3f(1.0, 1.0, 1.0);
 			glRasterPos2f(tuioCursor->getScreenX(width),tuioCursor->getScreenY(height));
 			sprintf(id,"%d",tuioCursor->getCursorID());
 			drawString(id);
@@ -231,7 +231,7 @@ void TuioDemo::initWindow() {
 	}
 
 	SDL_ShowCursor(!fullscreen);
-	glClearColor(0.0f, 0.0f, 0.25f, 0.0f);
+	glClearColor(0.0, 0.0, 0.25, 0.0);
 	glViewport(0, 0, (GLint)width, (GLint)height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -271,7 +271,7 @@ void TuioDemo::processEvents()
 						fullscreen = true;
 					}
 					
-					glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+					glClearColor(0.0, 0.0, 0.25, 0.0);
 					glViewport(0, 0, (GLint)width, (GLint)height);
 					glMatrixMode(GL_PROJECTION);
 					glLoadIdentity();
