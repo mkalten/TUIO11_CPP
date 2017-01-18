@@ -19,11 +19,8 @@
 
 #include "WebSockSender.h"
 
-#ifdef  WIN32
-#if not 
-	defined int32_t
+#if  defined(WIN32) && !defined(_STDINT)
 	typedef DWORD int32_t;
-#endif
 #endif
 
 using namespace TUIO;
