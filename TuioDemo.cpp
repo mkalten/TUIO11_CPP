@@ -308,7 +308,10 @@ TuioDemo::TuioDemo(const char *host, int port, bool udp, bool verb, bool full)
 	fullscreen = full;
 	
 	if (udp) osc_receiver = new UdpReceiver(port);
-	else osc_receiver = new TcpReceiver(host, port);
+	else {
+		if (strcmp(host,"incoming")==0) osc_receiver = new TcpReceiver(port);
+		else osc_receiver = new TcpReceiver(host, port);
+	}
 	
 	tuioClient = new TuioClient(osc_receiver);
 	tuioClient->addTuioListener(this);
@@ -343,6 +346,7 @@ static void show_help() {
 	std::cout << "        -p [port] for alternative port number" << std::endl;
 	std::cout << "        -t for TUIO/TCP (default is TUIO/UDP)" << std::endl;
 	std::cout << "        -a [address] for remote TUIO/TCP server" << std::endl;
+	std::cout << "           use 'incoming' for TUIO/TCP socket" << std::endl;
 	std::cout << "        -v verbose output" << std::endl;
 	std::cout << "        -h show this help" << std::endl;
 }

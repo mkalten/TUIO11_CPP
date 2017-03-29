@@ -83,7 +83,8 @@ static void show_help() {
 	std::cout << "Usage: TuioDump -p [port] -t -a [address]" << std::endl;
 	std::cout << "        -p [port] for alternative port number" << std::endl;
 	std::cout << "        -t for TUIO/TCP (dedault is TUIO/UDP)" << std::endl;
-	std::cout << "        -a for remote TUIO/TCP server" << std::endl;
+	std::cout << "        -a [address] for remote TUIO/TCP server" << std::endl;
+	std::cout << "           use 'incoming' for TUIO/TCP socket" << std::endl;
 	std::cout << "        -h show this help" << std::endl;
 }
 
@@ -117,8 +118,10 @@ int main(int argc, char* argv[])
 	
 	OscReceiver *osc_receiver;
 	if (_udp) osc_receiver = new UdpReceiver(_port);
-	else osc_receiver = new TcpReceiver(_address.c_str(), _port);
-	
+	else {
+		if (_address=="incoming") osc_receiver = new TcpReceiver(_port);
+		else osc_receiver = new TcpReceiver(_address.c_str(), _port);
+	}
 	TuioDump dump;
 	TuioClient client(osc_receiver);
 	client.addTuioListener(&dump);
