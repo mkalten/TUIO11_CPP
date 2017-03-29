@@ -19,15 +19,13 @@ CXXFLAGS = $(CFLAGS) $(INCLUDES) -D$(ENDIANESS)
 SHARED_OPTIONS = -shared -Wl,-soname,$(TUIO_SHARED)
 
 ifeq ($(PLATFORM), Darwin)
-	CC = gcc
-	CXX = g++ -stdlib=libstdc++
-	CFLAGS += -mmacosx-version-min=10.6 -arch=i386  -arch x86_64
-	CXXFLAGS += -mmacosx-version-min=10.6 -arch=i386 -arch x86_64
-#	CXX = g++ -stdlib=libc++
-#	CFLAGS += -mmacosx-version-min=10.9 -arch x86_64
-#	CXXFLAGS += -mmacosx-version-min=10.9 -arch x86_64
-	TUIO_SHARED  = libTUIO.dylib
-	LD_FLAGS =  -framework OpenGL -framework GLUT -framework SDL2 -framework Cocoa
+#	CXX = g++ -stdlib=libstdc++
+#	TARGET = -mmacosx-version-min=10.6 -arch=i386 -arch x86_64
+	TARGET = -mmacosx-version-min=10.9
+	CFLAGS += $(TARGET)
+	CXXFLAGS += $(TARGET)
+	TUIO_SHARED = libTUIO.dylib
+	LD_FLAGS = -framework OpenGL -framework GLUT -framework SDL2 -framework Cocoa
  	SHARED_OPTIONS = -dynamiclib -Wl,-dylib_install_name,$(TUIO_SHARED)
 	SDL_LDFLAGS =
 endif
@@ -35,9 +33,6 @@ endif
 %.o: %.cpp
 	@echo [CXX] $@
 	@ $(CXX) $(CXXFLAGS) -o $@ -c $<
-%.o: %.m
-	@echo [CC] $@
-	@ $(CC) $(CFLAGS) -o $@ -c $<
 
 DEMO_SOURCES = TuioDemo.cpp
 DEMO_OBJECTS = TuioDemo.o
