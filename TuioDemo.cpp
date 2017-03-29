@@ -1,6 +1,6 @@
 /*
  TUIO C++ GUI Demo
- Copyright (c) 2005-2016 Martin Kaltenbrunner <martin@tuio.org>
+ Copyright (c) 2005-2017 Martin Kaltenbrunner <martin@tuio.org>
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -18,6 +18,12 @@
  */
 
 #include "TuioDemo.h"
+
+static bool _verbose = false;
+static bool _fullscreen = false;
+static std::string _address("localhost");
+static bool _udp = true;
+static int _port = 3333;
 
 void TuioDemo::addTuioObject(TuioObject *tobj) {
 	if (verbose)
@@ -292,16 +298,18 @@ void TuioDemo::processEvents()
     }
 }
 
-TuioDemo::TuioDemo(int port)
-: verbose (false)
-, fullscreen(false)
-, screen_width (1024)
+TuioDemo::TuioDemo(const char *host, int port, bool udp, bool verb, bool full)
+: screen_width (1024)
 , screen_height (768)
 , window_width (640)
 , window_height (480)
-{
-	osc_receiver = new UdpReceiver(port);
-//	osc_receiver = new TcpReceiver("127.0.0.1",3333);
+{	
+	verbose = verb;
+	fullscreen = full;
+	
+	if (udp) osc_receiver = new UdpReceiver(port);
+	else osc_receiver = new TcpReceiver(host, port);
+	
 	tuioClient = new TuioClient(osc_receiver);
 	tuioClient->addTuioListener(this);
 	tuioClient->connect();
@@ -329,23 +337,79 @@ void TuioDemo::run() {
 	}
 }
 
+
+static void show_help() {
+	std::cout << "Usage: TuioDemo -p [port] -t -a [address]" << std::endl;
+	std::cout << "        -p [port] for alternative port number" << std::endl;
+	std::cout << "        -t for TUIO/TCP (default is TUIO/UDP)" << std::endl;
+	std::cout << "        -a [address] for remote TUIO/TCP server" << std::endl;
+	std::cout << "        -v verbose output" << std::endl;
+	std::cout << "        -h show this help" << std::endl;
+}
+
+static void init(int argc, char** argv) {
+	char c;
+	
+	while ((c = getopt(argc, argv, "t:p:a:fvh")) != -1) {
+		switch (c) {
+			case 't':
+				_udp = false;
+				break;
+			case 'a':
+				_address = std::string(optarg);
+				break;
+			case 'p':
+				_port = atoi(optarg);
+				break;
+			case 'v':
+				_verbose = true;
+				break;
+			case 'f':
+				_fullscreen = true;
+				break;
+			case 'h':
+				show_help();
+				exit(0);
+			default:
+				show_help();
+				exit(1);
+		}
+	}
+}
+
+#ifdef __APPLE__
+static void removeArg(int index, int *argc, char **argv) {
+	--*argc;
+	for (; index < *argc; ++index)
+		argv[index] = argv[index + 1];
+}
+
+static void removeXcodeArgs(int *argc, char **argv) {
+	for (int i = 1; i < *argc; )
+	{
+		if (strcmp(argv[i], "-NSDocumentRevisionsDebugMode") == 0 ||
+			strcmp(argv[i], "-ApplePersistenceIgnoreState" ) == 0)
+		{
+			removeArg(i, argc, argv);
+			removeArg(i, argc, argv);
+		} else
+			++i;
+	}
+}
+#endif
+
 int main(int argc, char* argv[])
 {
-	if( argc >= 2 && strcmp( argv[1], "-h" ) == 0 ){
-		std::cout << "usage: TuioDemo [port]\n";
-		return 0;
-	}
-	
-#ifndef __MACOSX__
-	glutInit(&argc,argv);
+
+#ifdef __APPLE__
+	// Xcode sometimes adds additional arguments.
+	removeXcodeArgs(&argc, argv);
 #else
-    if ((argc>1) && ((std::string(argv[1]).find("-NSDocumentRevisionsDebugMode")==0 ) || (std::string(argv[1]).find("-psn_")==0))) argc = 1;
+	glutInit(&argc,argv);
 #endif
-	
-	int port = 3333;
-	if( argc >= 2 ) port = atoi( argv[1] );
-	
-	TuioDemo *app = new TuioDemo(port);
+
+	init(argc, argv);
+	TuioDemo *app = new TuioDemo(_address.c_str(), _port, _udp, _verbose, _fullscreen);
 	app->run();
 	delete app;
 	

@@ -44,7 +44,7 @@ using namespace TUIO;
 class TuioDemo : public TuioListener { 
 	
 public:
-	TuioDemo(int port);
+	TuioDemo(const char *host, int port, bool udp, bool verbose, bool fullscreen);
 	~TuioDemo() {
 		tuioClient->disconnect();
 		delete tuioClient;

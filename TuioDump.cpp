@@ -2,7 +2,7 @@
 	TUIO C++ Example - part of the reacTIVision project
 	http://reactivision.sourceforge.net/
 
-	Copyright (c) 2005-2016 Martin Kaltenbrunner <martin@tuio.org>
+	Copyright (c) 2005-2017 Martin Kaltenbrunner <martin@tuio.org>
 
 	Permission is hereby granted, free of charge, to any person obtaining
 	a copy of this software and associated documentation files
@@ -29,7 +29,12 @@
 */
 
 #include "TuioDump.h"
-		
+
+static std::string _address("localhost");
+static bool _udp = true;
+static int _port = 3333;
+
+
 void TuioDump::addTuioObject(TuioObject *tobj) {
 	std::cout << "add obj " << tobj->getSymbolID() << " (" << tobj->getSessionID() << "/"<<  tobj->getTuioSourceID() << ") "<< tobj->getX() << " " << tobj->getY() << " " << tobj->getAngle() << std::endl;
 }
@@ -73,28 +78,53 @@ void  TuioDump::refresh(TuioTime frameTime) {
 	//std::cout << "refresh " << frameTime.getTotalMilliseconds() << std::endl;
 }
 
+
+static void show_help() {
+	std::cout << "Usage: TuioDump -p [port] -t -a [address]" << std::endl;
+	std::cout << "        -p [port] for alternative port number" << std::endl;
+	std::cout << "        -t for TUIO/TCP (dedault is TUIO/UDP)" << std::endl;
+	std::cout << "        -a for remote TUIO/TCP server" << std::endl;
+	std::cout << "        -h show this help" << std::endl;
+}
+
+static void init(int argc, char** argv) {
+	char c;
+	
+	while ((c = getopt(argc, argv, "p:a:th")) != -1) {
+		switch (c) {
+			case 't':
+				_udp = false;
+				break;
+			case 'a':
+				_address = std::string(optarg);
+				break;
+			case 'p':
+				_port = atoi(optarg);
+				break;
+			case 'h':
+				show_help();
+				exit(0);
+			default:
+				show_help();
+				exit(1);
+		}
+	}
+}
+
 int main(int argc, char* argv[])
 {
-	if( argc >= 2 && strcmp( argv[1], "-h" ) == 0 ){
-        	std::cout << "usage: TuioDump [port]\n";
-        	return 0;
-	}
-
-	int port = 3333;
-	if( argc == 2 ) port = atoi( argv[1] );
-	else if( argc == 3 ) port = atoi( argv[2] );
-
+	init(argc, argv);
+	
+	OscReceiver *osc_receiver;
+	if (_udp) osc_receiver = new UdpReceiver(_port);
+	else osc_receiver = new TcpReceiver(_address.c_str(), _port);
+	
 	TuioDump dump;
-	OscReceiver *receiver;
-	receiver = new UdpReceiver(port);
-	//if (argc<3) receiver = new TcpReceiver(port);
-	//else if (argc==3) receiver = new TcpReceiver(argv[1], port);
-	// receiver = new DevReceiver(0);
-	TuioClient client(receiver);
+	TuioClient client(osc_receiver);
 	client.addTuioListener(&dump);
 	client.connect(true);
 
-	delete receiver;
+	delete osc_receiver;
 	return 0;
 }
 

@@ -47,7 +47,7 @@ static void* ClientThreadFunc( void* obj )
 	int client = sender->tcp_client_list.back();
 #endif
 
-	int bytes = 1;
+	int32_t bytes = 1;
 	while (bytes) {
 		bytes = recv(client, data_buffer, sizeof(data_buffer),0);
 
