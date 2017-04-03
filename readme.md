@@ -1,6 +1,6 @@
 # TUIO C++ Reference Implementation and Demo Applications
 
-Copyright (c) 2005-2016 [Martin Kaltenbrunner](http://modin.yuri.at/). 
+Copyright (c) 2005-2017 [Martin Kaltenbrunner](http://modin.yuri.at/). 
 This software is part of 
 [reacTIVision](http://reactivision.sourceforge.net/), an open source 
 fiducial tracking and multi-touch framework based on computer vision. 
@@ -128,7 +128,7 @@ This package includes project files for Visual Studio and XCode as well
 as a simple Linux Makefile for building the example applications. The 
 Win32 project already include the necessary libraries, to build the GUI 
 example on Linux make sure you have the SDL2, OpenGL and GLUT libraries 
-and headers installed on your system, the latest version 2.0.4 is 
+and headers installed on your system, the latest version 2.0.5 is 
 recommended. On Mac OS X you need to install the SDL2 Framework to 
 /Library/Frameworks.
 
