@@ -9,9 +9,9 @@ if(MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W0")
 endif()
 
-set(WITH_TUIO_DUMP OFF CACHE BOOL "With the tuio dump console")
-set(WITH_TUIO_DEMO OFF CACHE BOOL "With the tuio demo windows (not working yet)")
-set(WITH_TUIO_SIMULATOR OFF CACHE BOOL "With the tuio simple simulator (not working yet)")
+set(TUIO_WITH_DUMP OFF CACHE BOOL "With the tuio dump console")
+set(TUIO_WITH_DEMO OFF CACHE BOOL "With the tuio demo windows (not working yet)")
+set(TUIO_WITH_SIMULATOR OFF CACHE BOOL "With the tuio simple simulator (not working yet)")
 
 file(GLOB TUIO_SOURCES TUIO/*.cpp)
 file(GLOB TUIO_HEADERS TUIO/*.h)
