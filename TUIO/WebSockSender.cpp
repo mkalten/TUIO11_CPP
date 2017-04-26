@@ -19,7 +19,7 @@
 
 #include "WebSockSender.h"
 
-#if defined (WIN32) && !defined (_STDINT)
+#if  defined(WIN32) && !defined(_STDINT)
 	typedef DWORD int32_t;
 #endif
 
