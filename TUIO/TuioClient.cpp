@@ -92,7 +92,7 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 
 				// add a new source
 				if (iter==sourceList.end()) {
-					source_id = sourceList.size();
+					source_id = (int)sourceList.size();
 					sourceList[source_str] = source_id;
 				} else {
 				// use the found source_id
@@ -255,7 +255,7 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 				
 				// add a new source
 				if (iter==sourceList.end()) {
-					source_id = sourceList.size();
+					source_id = (int)sourceList.size();
 					sourceList[source_str] = source_id;
 					maxCursorID[source_id] = -1;
 				} else {
@@ -484,7 +484,7 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 				
 				// add a new source
 				if (iter==sourceList.end()) {
-					source_id = sourceList.size();
+					source_id = (int)sourceList.size();
 					sourceList[source_str] = source_id;
 					maxBlobID[source_id]   = -1;
 				} else {
