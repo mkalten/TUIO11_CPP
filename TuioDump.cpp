@@ -91,6 +91,7 @@ static void show_help() {
 static void init(int argc, char** argv) {
 	char c;
 	
+#ifndef WIN32
 	while ((c = getopt(argc, argv, "p:a:th")) != -1) {
 		switch (c) {
 			case 't':
@@ -110,6 +111,7 @@ static void init(int argc, char** argv) {
 				exit(1);
 		}
 	}
+#endif
 }
 
 int main(int argc, char* argv[])
