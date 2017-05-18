@@ -54,25 +54,25 @@ messages.
 
 A TuioListener needs to implement the following methods:
 
-*   **addTuioObject(TuioObject *tobj)** this is called when an object 
+*   **addTuioObject(TuioObject \*tobj)** this is called when an object 
 becomes visible
-*   **removeTuioObject(TuioObject *tobj)** an object was removed from 
+*   **removeTuioObject(TuioObject \*tobj)** an object was removed from 
 the surface
-*   **updateTuioObject(TuioObject *tobj)** an object was moved on the 
+*   **updateTuioObject(TuioObject \*tobj)** an object was moved on the 
 table surface
 
-*   **addTuioCursor(TuioCursor *tcur)** this is called when a new cursor 
+*   **addTuioCursor(TuioCursor \*tcur)** this is called when a new cursor 
 is detected
-*   **removeTuioCursor(TuioCursor *tcur)** a cursor was removed from the 
+*   **removeTuioCursor(TuioCursor \*tcur)** a cursor was removed from the 
 surface
-*   **updateTuioCursor(TuioCursor *tcur)** a cursor was moving on the 
+*   **updateTuioCursor(TuioCursor \*tcur)** a cursor was moving on the 
 table surface
 
-*   **addTuioBlob(TuioBlob *tblb)** this is called when a new blob is 
+*   **addTuioBlob(TuioBlob \*tblb)** this is called when a new blob is 
 detected
-*   **removeTuioBlob(TuioBlob *tblb)** a blob was removed from the 
+*   **removeTuioBlob(TuioBlob \*tblb)** a blob was removed from the 
 surface
-*   **updateTuioBlob(TuioBlob *tblb)** a cursor was moving on the table 
+*   **updateTuioBlob(TuioBlob \*tblb)** a cursor was moving on the table 
 surface
 
 *   **refresh(TuioTime bundleTime)** this method is called after each 
