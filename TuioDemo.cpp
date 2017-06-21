@@ -89,7 +89,7 @@ void TuioDemo::refresh(TuioTime frameTime) {
 
 void TuioDemo::drawObjects() {
 	glClear(GL_COLOR_BUFFER_BIT);
-	char id[3];
+	char id[16];
 
 	// draw the cursors
 	std::list<TuioCursor*> cursorList = tuioClient->getTuioCursors();
@@ -132,7 +132,7 @@ void TuioDemo::drawObjects() {
 	tuioClient->lockObjectList();
 	for (std::list<TuioObject*>::iterator iter = objectList.begin(); iter!=objectList.end(); iter++) {
 		TuioObject *tuioObject = (*iter);
-		int pos_size = height/25.0f;
+		int pos_size = height/20.0f;
 		int neg_size = -1*pos_size;
 		float xpos  = tuioObject->getScreenX(width);
 		float ypos  = tuioObject->getScreenY(height);
