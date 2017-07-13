@@ -35,6 +35,10 @@ typedef int socklen_t;
 #include <unistd.h>
 #endif
 
+#if defined (WIN32) && !defined (_STDINT)
+        typedef DWORD int32_t;
+#endif
+
 namespace TUIO {
 	
 	/**
