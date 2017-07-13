@@ -26,7 +26,7 @@ int tcp_connect(int socket, const struct sockaddr *address, socklen_t address_le
 	return connect(socket, address, address_len);
 }
 
-#if defined (WIN32) && !defined (int32_t)
+#if defined (WIN32) && not defined (int32_t)
 typedef	DWORD int32_t;
 #endif
 
