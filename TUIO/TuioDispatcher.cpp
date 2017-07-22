@@ -174,18 +174,6 @@ std::list<TuioBlob*> TuioDispatcher::getTuioBlobs() {
 	return listBuffer;
 }
 
-int TuioDispatcher::getTuioObjectCount() {
-	return objectList.size();
-}
-
-int TuioDispatcher::getTuioCursorCount() {
-	return cursorList.size();
-}
-
-int TuioDispatcher::getTuioBlobCount() {
-	return blobList.size();
-}
-
 std::list<TuioObject> TuioDispatcher::copyTuioObjects() {
 	lockObjectList();
 	std::list<TuioObject> listBuffer;
