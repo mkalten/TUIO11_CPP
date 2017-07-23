@@ -25,6 +25,7 @@
 #ifdef WIN32
 #include <winsock.h>
 #include <io.h>
+#include <stdint.h>
 typedef int socklen_t;
 #else
 #include <sys/types.h>
@@ -33,10 +34,6 @@ typedef int socklen_t;
 #include <netdb.h>
 #include <arpa/inet.h>
 #include <unistd.h>
-#endif
-
-#if defined (WIN32) && !defined (_STDINT)
-        typedef DWORD int32_t;
 #endif
 
 namespace TUIO {
