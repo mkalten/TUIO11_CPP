@@ -181,11 +181,11 @@
     <ClInclude Include="..\TUIO\UdpSender.h">
       <Filter>Header Files\TUIO</Filter>
     </ClInclude>
-    <ClInclude Include="..\oscpack\ip\UdpSocket.h">
-      <Filter>Header Files\TUIO</Filter>
-    </ClInclude>
     <ClInclude Include="..\TUIO\WebSockSender.h">
       <Filter>Header Files\TUIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\oscpack\ip\UdpSocket.h">
+      <Filter>Header Files\oscpack</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
