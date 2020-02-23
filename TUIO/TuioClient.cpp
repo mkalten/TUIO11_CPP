@@ -18,6 +18,7 @@
 
 #include "TuioClient.h"
 #include "UdpReceiver.h"
+#include "osc/OscHostEndianness.h"
 
 using namespace TUIO;
 using namespace osc;
@@ -498,6 +499,43 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 				float xpos, ypos, angle, width, height, area, xspeed, yspeed, rspeed, maccel, raccel;				
 				args >> s_id >> xpos >> ypos >> angle >> width >> height >> area >> xspeed >> yspeed >> rspeed >> maccel >> raccel;
 				
+				std::vector<TuioBlob::Point> geometry;
+
+				if (!args.Eos()) 
+				{
+					osc::Blob blob;
+					args >> blob;
+
+					const float* dataBegin = reinterpret_cast<const float*> (blob.data);
+					const float* dataEnd = dataBegin + blob.size / sizeof(float);
+
+					for (const float* it = dataBegin; it != dataEnd; it += 2)
+					{
+						TuioBlob::Point point((*it), *(it + 1));
+
+#ifdef  OSC_HOST_LITTLE_ENDIAN
+
+						// swap coordinates to big-endian representation
+						std::vector<float*> coordinates;
+
+						coordinates.push_back(&point.x);
+						coordinates.push_back(&point.y);
+
+						for (int coord = 0; coord != coordinates.size(); ++coord)
+						{
+							for (int byte = 0; byte != sizeof(float) / 2; ++byte)
+							{
+								std::swap(*(reinterpret_cast<char*> (coordinates[coord]) + byte),
+									*(reinterpret_cast<char*> (coordinates[coord]) + (sizeof(float) - 1) - byte));
+							}
+						}
+
+#endif //  OSC_HOST_LITTLE_ENDIAN
+
+						geometry.push_back(point);
+					}
+				}
+
 				lockBlobList();
 				std::list<TuioBlob*>::iterator tblb;
 				for (tblb=blobList.begin(); tblb!= blobList.end(); tblb++)
@@ -506,12 +544,14 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 				if (tblb==blobList.end()) {
 					
 					TuioBlob *addBlob = new TuioBlob((long)s_id,-1,xpos,ypos,angle,width,height,area);
+					addBlob->updateGeometry(addBlob->getTuioTime(), geometry);
 					frameBlobs.push_back(addBlob);
 					
-				} else if ( ((*tblb)->getX()!=xpos) || ((*tblb)->getY()!=ypos) || ((*tblb)->getAngle()!=angle) || ((*tblb)->getWidth()!=width) || ((*tblb)->getHeight()!=height) || ((*tblb)->getArea()!=area) || ((*tblb)->getXSpeed()!=xspeed) || ((*tblb)->getYSpeed()!=yspeed) || ((*tblb)->getMotionAccel()!=maccel) ) {
+				} else if ( ((*tblb)->getX()!=xpos) || ((*tblb)->getY()!=ypos) || ((*tblb)->getAngle()!=angle) || ((*tblb)->getWidth()!=width) || ((*tblb)->getHeight()!=height) || ((*tblb)->getArea()!=area) || ((*tblb)->getXSpeed()!=xspeed) || ((*tblb)->getYSpeed()!=yspeed) || ((*tblb)->getMotionAccel()!=maccel) || ((*tblb)->getGeometry()!=geometry) ) {
 					
 					TuioBlob *updateBlob = new TuioBlob((long)s_id,(*tblb)->getBlobID(),xpos,ypos,angle,width,height,area);
 					updateBlob->update(xpos,ypos,angle,width,height,area,xspeed,yspeed,rspeed,maccel,raccel);
+					updateBlob->updateGeometry(updateBlob->getTuioTime(), geometry);
 					frameBlobs.push_back(updateBlob);
 				}
 				unlockBlobList();
@@ -640,6 +680,7 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 								} else maxBlobID[source_id] = b_id;									
 								
 								frameBlob = new TuioBlob(currentTime,tblb->getSessionID(),b_id,tblb->getX(),tblb->getY(),tblb->getAngle(),tblb->getWidth(),tblb->getHeight(),tblb->getArea());
+								frameBlob->updateGeometry(currentTime, tblb->getGeometry());
 								if (source_name) frameBlob->setTuioSource(source_id,source_name,source_addr);
 								blobList.push_back(frameBlob);
 								
@@ -671,6 +712,8 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 								else
 									frameBlob->update(currentTime,tblb->getX(),tblb->getY(),tblb->getAngle(),tblb->getWidth(),tblb->getHeight(),tblb->getArea(),tblb->getXSpeed(),tblb->getYSpeed(),tblb->getRotationSpeed(),tblb->getMotionAccel(),tblb->getRotationAccel());
 								
+								frameBlob->updateGeometry(currentTime, tblb->getGeometry());
+
 								delete tblb;
 								unlockBlobList();
 								

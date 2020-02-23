@@ -256,7 +256,7 @@ void TuioManager::removeExternalTuioCursor(TuioCursor *tcur) {
 		(*listener)->removeTuioCursor(tcur);
 }
 
-TuioBlob* TuioManager::addTuioBlob(float x, float y, float a, float w, float h, float f) {
+TuioBlob* TuioManager::addTuioBlob(float x, float y, float a, float w, float h, float f, const std::vector<TuioBlob::Point>& g) {
 	sessionID++;
 	
 	int blobID = (int)blobList.size();
@@ -274,6 +274,8 @@ TuioBlob* TuioManager::addTuioBlob(float x, float y, float a, float w, float h, 
 	} else maxBlobID = blobID;	
 	
 	TuioBlob *tblb = new TuioBlob(currentFrameTime, sessionID, blobID, x, y, a, w, h, f);
+	tblb->updateGeometry(currentFrameTime, g);
+
 	blobList.push_back(tblb);
 	updateBlob = true;
 	
@@ -316,10 +318,12 @@ void TuioManager::addExternalTuioBlob(TuioBlob *tblb) {
 		std::cout << "add blb " << tblb->getBlobID() << " (" <<  tblb->getSessionID() << ") " << tblb->getX() << " " << tblb->getY()  << " " << tblb->getAngle() << " " << tblb->getWidth()  << " " << tblb->getHeight() << " " << tblb->getArea() << std::endl;
 }
 
-void TuioManager::updateTuioBlob(TuioBlob *tblb,float x, float y, float a, float w, float h, float f) {
+void TuioManager::updateTuioBlob(TuioBlob *tblb,float x, float y, float a, float w, float h, float f, const std::vector<TuioBlob::Point>& g) {
 	if (tblb==NULL) return;
 	if (tblb->getTuioTime()==currentFrameTime) return;
 	tblb->update(currentFrameTime,x,y,a,w,h,f);
+	tblb->updateGeometry(currentFrameTime, g);
+
 	updateBlob = true;
 	
 	if (tblb->isMoving()) {	

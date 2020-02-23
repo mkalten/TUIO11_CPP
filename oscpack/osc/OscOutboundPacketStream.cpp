@@ -299,6 +299,42 @@ const char *OutboundPacketStream::Data() const
 }
 
 
+void OutboundPacketStream::Realloc( char* buffer, std::size_t capacity )
+{
+	if (capacity < Size()) 
+	{
+		Clear();
+
+		data_ = buffer;
+		end_ = buffer + capacity;
+
+		typeTagsCurrent_ = end_;
+		messageCursor_ = data_;
+		argumentCurrent_ = data_;
+	}
+	else
+	{
+		if (!IsMessageInProgress())
+		{
+			std::memcpy(buffer, data_, messageCursor_ - data_);
+		}
+		else
+		{
+			std::memcpy(buffer, data_, argumentCurrent_ - data_);
+			std::memcpy(buffer + capacity - (end_ - typeTagsCurrent_), typeTagsCurrent_, end_ - typeTagsCurrent_);
+		}
+
+		typeTagsCurrent_ = buffer + capacity - (end_ - typeTagsCurrent_);
+		messageCursor_ = buffer + (messageCursor_ - data_);
+		argumentCurrent_ = buffer + (argumentCurrent_ - data_);
+		elementSizePtr_ = reinterpret_cast<uint32*>(buffer + (reinterpret_cast<char*>(elementSizePtr_) - data_));
+
+		data_ = buffer;
+		end_ = buffer + capacity;
+	}
+}
+
+
 bool OutboundPacketStream::IsReady() const
 {
     return (!IsMessageInProgress() && !IsBundleInProgress());

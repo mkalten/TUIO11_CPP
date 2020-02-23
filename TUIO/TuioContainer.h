@@ -30,6 +30,7 @@
 #define TUIO_ROTATING 4
 #define TUIO_STOPPED 5
 #define TUIO_REMOVED 6
+#define TUIO_GEOMETRYCHANGED 7
 
 #define MAX_PATH_SIZE 128
 

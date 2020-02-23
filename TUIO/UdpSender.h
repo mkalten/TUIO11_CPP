@@ -83,6 +83,11 @@ namespace TUIO {
 		 * @return true if the connection is alive
 		 */
 		 bool isConnected ();
+
+		 /**
+		  * This method sets the maximum bundle size in bytes
+		  */
+		 void setBufferSize(unsigned int size);
 		
 		 const char* tuio_type() { return "TUIO/UDP"; }
 		

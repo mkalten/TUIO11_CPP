@@ -20,6 +20,7 @@
 #define INCLUDED_TUIOBLOB_H
 
 #include "TuioContainer.h"
+#include <vector>
 
 namespace TUIO {
 	
@@ -31,6 +32,30 @@ namespace TUIO {
 	 */ 
 	class LIBDECL TuioBlob: public TuioContainer {
 		
+	public:
+		/**
+		 * The Point class represents point of the geometry (contour) of TuioBlob.
+		 * 
+		 * This is an EXTENSION, not included in TUIO 1.1 specification.
+		 */
+		struct Point
+		{
+			float x;
+			float y;
+
+			Point() :
+				x(0.0), y(0.0)
+			{}
+
+			Point(float _x, float _y) :
+				x(_x), y(_y)
+			{}
+
+			bool operator ==(const Point& _rhs) const {
+				return x == _rhs.x && y == _rhs.y;
+			}
+		};
+
 	protected:
 		/**
 		 * The individual blob ID number that is assigned to each TuioBlob.
@@ -60,7 +85,11 @@ namespace TUIO {
 		 * The rotation acceleration value.
 		 */ 
 		float rotation_accel;
-		
+		/**
+		 * the geometry (contour) of this blob.
+		 */
+		std::vector<Point> geometry;
+
 		float angleThreshold;
 		OneEuroFilter *angleFilter;
 		float sizeThreshold;
@@ -250,6 +279,22 @@ namespace TUIO {
 		 * @return	the rotation acceleration of this TuioBlob
 		 */
 		float getRotationAccel() const;
+
+		/**
+		 * Returns the geometry of this TuioBlob.
+		 * This is an EXTENSION, not included in TUIO 1.1 specification.
+		 * @return	the geometry of this TuioBlob
+		 */
+		const std::vector<Point>& getGeometry() const;
+
+		/**
+		 * Takes a TuioTime argument and assigns it along with the provided geometry.
+		 * This is an EXTENSION, not included in TUIO 1.1 specification.
+		 * 
+		 * @param	ttime	the TuioTime to assign
+		 * @param	g	the geometry to assign
+		 */
+		void updateGeometry(const TuioTime& ttime, const std::vector<Point>& g);
 
 		/**
 		 * Returns true of this TuioBlob is moving.
