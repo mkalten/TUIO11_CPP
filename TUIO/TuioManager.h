@@ -27,7 +27,10 @@
 
 #define OBJ_MESSAGE_SIZE 108	// setMessage + fseqMessage size
 #define CUR_MESSAGE_SIZE 88
-#define BLB_MESSAGE_SIZE 116
+
+#define BLB_SET_MESSAGE_SIZE 84
+#define BLB_FSEQ_MESSAGE_SIZE 32
+#define BLB_MESSAGE_SIZE (BLB_SET_MESSAGE_SIZE + BLB_FSEQ_MESSAGE_SIZE)
 
 namespace TUIO {
 	/**
@@ -187,9 +190,11 @@ namespace TUIO {
 		 * @param	width	the width to assign
 		 * @param	height	the height to assign
 		 * @param	area	the area to assign
+		 * @param	g	the geometry to assign (this is an EXTENSION, not included in TUIO 1.1 specification)
 		 * @return	reference to the created TuioBlob
 		 */
-		TuioBlob* addTuioBlob(float xp, float yp, float angle, float width, float height, float area);
+		TuioBlob* addTuioBlob(float xp, float yp, float angle, float width, float height, float area,
+			const std::vector<TuioBlob::Point>& g = std::vector<TuioBlob::Point>());
 		
 		/**
 		 * Updates the referenced TuioBlob based on the given arguments.
@@ -201,8 +206,10 @@ namespace TUIO {
 		 * @param	width	the width to assign
 		 * @param	height	the height to assign
 		 * @param	area	the area to assign
+		 * @param	g	the geometry to assign (this is an EXTENSION, not included in TUIO 1.1 specification)
 		 */
-		void updateTuioBlob(TuioBlob *tblb, float xp, float yp, float angle, float width, float height, float area);
+		void updateTuioBlob(TuioBlob *tblb, float xp, float yp, float angle, float width, float height, float area, 
+			const std::vector<TuioBlob::Point>& g = std::vector<TuioBlob::Point>());
 		
 		/**
 		 * Removes the referenced TuioBlob from the TuioServer's internal list of TuioBlobs

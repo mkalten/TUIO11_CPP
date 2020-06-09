@@ -87,6 +87,11 @@ public:
 
     const char *Data() const;
 
+	// sets new memory buffer as internal buffer.
+	// if new memory buffer capacity < current size then stream is cleared,
+	// else current buffer content persists (is copied to new memory buffer).
+	void Realloc( char* buffer, std::size_t capacity );
+
     // indicates that all messages have been closed with a matching EndMessage
     // and all bundles have been closed with a matching EndBundle
     bool IsReady() const;

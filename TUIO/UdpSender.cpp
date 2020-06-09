@@ -79,6 +79,11 @@ bool UdpSender::isConnected() {
 	return true;
 }
 
+void UdpSender::setBufferSize(unsigned int size)
+{
+	buffer_size = size;
+}
+
 bool UdpSender::sendOscPacket (osc::OutboundPacketStream *bundle) {
 	if (socket==NULL) return false; 
 	if ( bundle->Size() > buffer_size ) return false;

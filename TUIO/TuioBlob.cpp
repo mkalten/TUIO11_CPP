@@ -194,8 +194,25 @@ float TuioBlob::getRotationAccel() const{
 	return rotation_accel;
 }
 
+const std::vector<TuioBlob::Point>& TuioBlob::getGeometry() const
+{
+	return geometry;
+}
+
+void TuioBlob::updateGeometry(const TuioTime& ttime, const std::vector<TuioBlob::Point>& g)
+{
+	currentTime = ttime;
+
+	if (geometry != g)
+	{
+		geometry = g;
+
+		if (state == TUIO_STOPPED) state = TUIO_GEOMETRYCHANGED;
+	}
+}
+
 bool TuioBlob::isMoving() const{ 
-	if ((state==TUIO_ACCELERATING) || (state==TUIO_DECELERATING) || (state==TUIO_ROTATING)) return true;
+	if ((state==TUIO_ACCELERATING) || (state==TUIO_DECELERATING) || (state==TUIO_ROTATING) || (state==TUIO_GEOMETRYCHANGED)) return true;
 	else return false;
 }
 

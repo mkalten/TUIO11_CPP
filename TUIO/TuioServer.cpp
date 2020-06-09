@@ -18,6 +18,9 @@
 
 #include "TuioServer.h"
 #include "UdpSender.h"
+#include "osc/OscHostEndianness.h"
+
+#include <map>
 
 using namespace TUIO;
 using namespace osc;
@@ -260,7 +263,52 @@ void TuioServer::commitFrame() {
 				startBlobBundle();
 			}
 			TuioBlob *tblb = (*tuioBlob);
-			if ((full_update) || (tblb->getTuioTime()==currentFrameTime)) addBlobMessage(tblb);		
+			if ((full_update) || (tblb->getTuioTime()==currentFrameTime))
+			{
+				if (!tblb->getGeometry().empty())
+				{
+					const std::size_t geometryMessageRequired = BLB_SET_MESSAGE_SIZE + 4 +
+						(*tuioBlob)->getGeometry().size() * sizeof(TuioBlob::Point) + BLB_FSEQ_MESSAGE_SIZE;
+
+					if (oscPacket->Capacity() - oscPacket->Size() < geometryMessageRequired)
+					{
+						char* largerBuffer = new char[oscPacket->Size() + geometryMessageRequired];
+
+						const std::size_t defaultCapacity = oscPacket->Capacity();
+
+						oscPacket->Realloc(largerBuffer, oscPacket->Size() + geometryMessageRequired);
+
+						std::map<int, unsigned int> defaultSendersBufferSize;
+
+						for (unsigned int i = 0; i < senderList.size(); i++)
+						{
+							if (senderList[i]->getBufferSize() < oscPacket->Size() + geometryMessageRequired)
+							{
+								defaultSendersBufferSize[i] = senderList[i]->getBufferSize();
+								senderList[i]->setBufferSize(oscPacket->Size() + geometryMessageRequired);
+							}
+						}
+
+						addBlobMessage(tblb);
+						sendBlobBundle(currentFrame);
+
+						oscPacket->Realloc(oscBuffer, defaultCapacity);
+
+						for (std::map<int, unsigned int>::iterator it = defaultSendersBufferSize.begin(); it != defaultSendersBufferSize.end(); ++it)
+						{
+							senderList[it->first]->setBufferSize(it->second);
+						}
+
+						startBlobBundle();
+
+						delete largerBuffer;
+
+						continue;
+					}
+				}
+
+				addBlobMessage(tblb);
+			}
 		}
 		blobUpdateTime = TuioTime(currentFrameTime);
 		sendBlobBundle(currentFrame);
@@ -277,6 +325,48 @@ void TuioServer::commitFrame() {
 						sendBlobBundle(currentFrame);
 						startBlobBundle();
 					}
+					if (!(*tuioBlob)->getGeometry().empty())
+					{
+						const std::size_t geometryMessageRequired = BLB_SET_MESSAGE_SIZE + 4 +
+							(*tuioBlob)->getGeometry().size() * sizeof(TuioBlob::Point) + BLB_FSEQ_MESSAGE_SIZE;
+
+						if (oscPacket->Capacity() - oscPacket->Size() < geometryMessageRequired)
+						{
+							char* largerBuffer = new char[oscPacket->Size() + geometryMessageRequired];
+
+							const std::size_t defaultCapacity = oscPacket->Capacity();
+
+							oscPacket->Realloc(largerBuffer, oscPacket->Size() + geometryMessageRequired);
+							addBlobMessage(*tuioBlob);
+
+							std::map<int, unsigned int> defaultSendersBufferSize;
+
+							for (unsigned int i = 0; i < senderList.size(); i++)
+							{
+								if (senderList[i]->getBufferSize() < oscPacket->Size() + geometryMessageRequired)
+								{
+									defaultSendersBufferSize[i] = senderList[i]->getBufferSize();
+									senderList[i]->setBufferSize(oscPacket->Size() + geometryMessageRequired);
+								}
+							}
+
+							sendBlobBundle(currentFrame);
+
+							oscPacket->Realloc(oscBuffer, defaultCapacity);
+
+							for (std::map<int, unsigned int>::iterator it = defaultSendersBufferSize.begin(); it != defaultSendersBufferSize.end(); ++it)
+							{
+								senderList[it->first]->setBufferSize(it->second);
+							}
+
+							startBlobBundle();
+
+							delete largerBuffer;
+
+							continue;
+						}
+					}
+
 					addBlobMessage(*tuioBlob);
 				}
 			}
@@ -412,6 +502,25 @@ void TuioServer::startBlobBundle() {
 	(*oscPacket) << osc::EndMessage;	
 }
 
+class TuioBlobPointTransformer
+{
+public:
+	TuioBlobPointTransformer(bool _invert_x, bool _invert_y) :
+		m_invert_x(_invert_x),
+		m_invert_y(_invert_y)
+	{}
+
+	void operator() (TuioBlob::Point& _point) const
+	{
+		_point.x = m_invert_x ? 1 - _point.x : _point.x;
+		_point.y = m_invert_y ? 1 - _point.y : _point.y;
+	}
+
+private:
+	const bool m_invert_x;
+	const bool m_invert_y;
+};
+
 void TuioServer::addBlobMessage(TuioBlob *tblb) {
 	
 	//if (tblb->getTuioState()==TUIO_ADDED) return;
@@ -438,6 +547,37 @@ void TuioServer::addBlobMessage(TuioBlob *tblb) {
 	(*oscPacket) << osc::BeginMessage( "/tuio/2Dblb") << "set";
 	(*oscPacket) << (int32)(tblb->getSessionID()) << xpos << ypos << angle << tblb->getWidth() << tblb->getHeight() << tblb->getArea();
 	(*oscPacket) << xvel << yvel  << rvel << tblb->getMotionAccel()  << tblb->getRotationAccel();	
+
+	if (!tblb->getGeometry().empty())
+	{
+		std::vector<TuioBlob::Point> geometry = tblb->getGeometry();
+		std::for_each(geometry.begin(), geometry.end(), TuioBlobPointTransformer(invert_x, invert_y));
+
+#ifdef OSC_HOST_LITTLE_ENDIAN
+
+		// swap coordinates to big-endian representation
+		for (int point = 0; point != geometry.size(); ++point)
+		{
+			std::vector<float*> coordinates;
+
+			coordinates.push_back(&geometry[point].x);
+			coordinates.push_back(&geometry[point].y);
+
+			for (int coord = 0; coord != coordinates.size(); ++coord)
+			{
+				for (int byte = 0; byte != sizeof(float) / 2; ++byte)
+				{
+					std::swap(*(reinterpret_cast<char*> (coordinates[coord]) + byte),
+						*(reinterpret_cast<char*> (coordinates[coord]) + (sizeof(float) - 1) - byte));
+				}
+			}
+		}
+
+#endif // OSC_HOST_LITTLE_ENDIAN
+
+		(*oscPacket) << osc::Blob(&geometry[0], geometry.size() * sizeof(TuioBlob::Point));
+	}
+
 	(*oscPacket) << osc::EndMessage;
 }
 
@@ -621,6 +761,85 @@ void TuioServer::sendFullMessages() {
 		(*fullPacket) << osc::BeginMessage( "/tuio/2Dblb") << "set";
 		(*fullPacket) << (int32)((*tuioBlob)->getSessionID()) << xpos << ypos  << angle << (*tuioBlob)->getWidth() << (*tuioBlob)->getHeight() << (*tuioBlob)->getArea();
 		(*fullPacket) << xvel << yvel << rvel << (*tuioBlob)->getMotionAccel() << (*tuioBlob)->getRotationAccel();	
+
+		if (!(*tuioBlob)->getGeometry().empty())
+		{
+			std::vector<TuioBlob::Point> geometry = (*tuioBlob)->getGeometry();
+			std::for_each(geometry.begin(), geometry.end(), TuioBlobPointTransformer(invert_x, invert_y));
+
+#ifdef OSC_HOST_LITTLE_ENDIAN
+
+			// swap coordinates to big-endian representation
+			for (int point = 0; point != geometry.size(); ++point)
+			{
+				std::vector<float*> coordinates;
+
+				coordinates.push_back(&geometry[point].x);
+				coordinates.push_back(&geometry[point].y);
+
+				for (int coord = 0; coord != coordinates.size(); ++coord)
+				{
+					for (int byte = 0; byte != sizeof(float) / 2; ++byte)
+					{
+						std::swap(*(reinterpret_cast<char*> (coordinates[coord]) + byte),
+							*(reinterpret_cast<char*> (coordinates[coord]) + (sizeof(float) - 1) - byte));
+					}
+				}
+			}
+
+#endif // OSC_HOST_LITTLE_ENDIAN
+
+			const std::size_t geometryMessageRequired = 4 + geometry.size() * sizeof(TuioBlob::Point) + BLB_FSEQ_MESSAGE_SIZE;
+
+			if (fullPacket->Capacity() - fullPacket->Size() < geometryMessageRequired)
+			{
+				char* largerBuffer = new char[fullPacket->Size() + geometryMessageRequired];
+
+				const std::size_t defaultCapacity = oscPacket->Capacity();
+
+				fullPacket->Realloc(largerBuffer, fullPacket->Size() + geometryMessageRequired);
+
+				std::map<int, unsigned int> defaultSendersBufferSize;
+
+				for (unsigned int i = 0; i < senderList.size(); i++)
+				{
+					if (senderList[i]->getBufferSize() < fullPacket->Size() + geometryMessageRequired)
+					{
+						defaultSendersBufferSize[i] = senderList[i]->getBufferSize();
+						senderList[i]->setBufferSize(fullPacket->Size() + geometryMessageRequired);
+					}
+				}
+
+				(*fullPacket) << osc::Blob(&(geometry[0]), geometry.size() * sizeof(TuioBlob::Point)) << osc::EndMessage;
+
+				(*fullPacket) << osc::BeginMessage("/tuio/2Dblb") << "fseq" << -1 << osc::EndMessage;
+				(*fullPacket) << osc::EndBundle;
+				deliverOscPacket(fullPacket);
+
+				fullPacket->Realloc(fullBuffer, defaultCapacity);
+
+				for (std::map<int, unsigned int>::iterator it = defaultSendersBufferSize.begin(); it != defaultSendersBufferSize.end(); ++it)
+				{
+					senderList[it->first]->setBufferSize(it->second);
+				}
+
+				// prepare the new blob packet
+				fullPacket->Clear();
+				(*fullPacket) << osc::BeginBundleImmediate;
+				if (source_name) (*fullPacket) << osc::BeginMessage("/tuio/2Dblb") << "source" << source_name << osc::EndMessage;
+				// add the blob alive message
+				(*fullPacket) << osc::BeginMessage("/tuio/2Dblb") << "alive";
+				for (std::list<TuioBlob*>::iterator tuioBlob = blobList.begin(); tuioBlob != blobList.end(); tuioBlob++)
+					(*fullPacket) << (int32)((*tuioBlob)->getSessionID());
+
+				delete largerBuffer;
+			}
+			else
+			{
+				(*fullPacket) << osc::Blob(&(geometry[0]), geometry.size() * sizeof(TuioBlob::Point));
+			}
+		}
+
 		(*fullPacket) << osc::EndMessage;
 		
 	}

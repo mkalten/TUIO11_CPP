@@ -63,11 +63,39 @@ void TuioDump::removeTuioCursor(TuioCursor *tcur) {
 
 void TuioDump::addTuioBlob(TuioBlob *tblb) {
 	std::cout << "add blb " << tblb->getBlobID() << " (" << tblb->getSessionID() << "/"<<  tblb->getTuioSourceID() << ") "<< tblb->getX() << " " << tblb->getY() << " " << tblb->getAngle() << " " << tblb->getWidth() << " " << tblb->getHeight() << " " << tblb->getArea() << std::endl;
+	
+	// the geometry is an EXTENSION, not included in TUIO 1.1 specification
+
+	if (!tblb->getGeometry().empty())
+	{
+		const std::vector<TuioBlob::Point>& geometry = tblb->getGeometry();
+
+		std::cout << "(";
+		for (int i = 0; i < geometry.size(); ++i)
+		{
+			std::cout << "(" << geometry[i].x << ", " << geometry[i].y << ")" << (i != geometry.size() - 1 ? ", " : "");
+		}
+		std::cout << ")" << std::endl;
+	}
 }
 
 void TuioDump::updateTuioBlob(TuioBlob *tblb) {
 	std::cout << "set blb " << tblb->getBlobID() << " (" << tblb->getSessionID() << "/"<<  tblb->getTuioSourceID() << ") "<< tblb->getX() << " " << tblb->getY() << " " << tblb->getAngle() << " "<< tblb->getWidth() << " " << tblb->getHeight() << " " << tblb->getArea() 
 	<< " " << tblb->getMotionSpeed() << " " << tblb->getRotationSpeed() << " " << tblb->getMotionAccel() << " " << tblb->getRotationAccel() << std::endl;
+	
+	// the geometry is an EXTENSION, not included in TUIO 1.1 specification
+
+	if (!tblb->getGeometry().empty())
+	{
+		const std::vector<TuioBlob::Point>& geometry = tblb->getGeometry();
+
+		std::cout << "(";
+		for (int i = 0; i < geometry.size(); ++i)
+		{
+			std::cout << "(" << geometry[i].x << ", " << geometry[i].y << ")" << (i != geometry.size() - 1 ? ", " : "");
+		}
+		std::cout << ")" << std::endl;
+	}
 }
 
 void TuioDump::removeTuioBlob(TuioBlob *tblb) {
