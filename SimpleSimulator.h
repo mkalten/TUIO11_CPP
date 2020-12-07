@@ -24,6 +24,7 @@
 #include "TuioCursor.h"
 #include "osc/OscTypes.h"
 #include <list>
+#include <map>
 #include <math.h>
 
 #include "FlashSender.h"
@@ -54,7 +55,7 @@ public:
 	TuioServer *tuioServer;
 	std::list<TuioCursor*> stickyCursorList;
 	std::list<TuioCursor*> jointCursorList;
-	std::list<TuioCursor*> activeCursorList;
+    std::map<long long int, TuioCursor*> activeCursorMap; 
 	
 private:
 	void drawFrame();
@@ -65,16 +66,16 @@ private:
 	SDL_Window *window;
 	SDL_Renderer *renderer;
 	bool verbose, fullupdate, periodic, fullscreen, running, help;
+	const static long long int MOUSE_FINGER_ID = 0x93BB922B64699C8C;
 	
 	int width, height;
 	int screen_width, screen_height;
 	int window_width, window_height;
 	TuioTime frameTime;
 	
-	void mousePressed(float x, float y);
-	void mouseReleased(float x, float y);
-	void mouseDragged(float x, float y);
-	//int s_id;
+	void mousePressed(float x, float y, long long int activeId);
+	void mouseReleased(float x, float y, long long int activeId);
+	void mouseDragged(float x, float y, long long int activeId);
 };
 
 #endif /* INCLUDED_SimpleSimulator_H */
