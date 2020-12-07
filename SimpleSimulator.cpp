@@ -159,13 +159,28 @@ void SimpleSimulator::processEvents()
 			break;
 
 		case SDL_MOUSEMOTION:
-			if (event.button.button == SDL_BUTTON_LEFT) mouseDragged((float)event.button.x/width, (float)event.button.y/height);
+			if (event.button.button == SDL_BUTTON_LEFT && event.motion.which != SDL_TOUCH_MOUSEID){
+				mouseDragged((float)event.button.x/width, (float)event.button.y/height);
+			}
 			break;
 		case SDL_MOUSEBUTTONDOWN:
-			if (event.button.button == SDL_BUTTON_LEFT) mousePressed((float)event.button.x/width, (float)event.button.y/height);
+			if (event.button.button == SDL_BUTTON_LEFT && event.button.which != SDL_TOUCH_MOUSEID){
+				mousePressed((float)event.button.x/width, (float)event.button.y/height);
+			}
 			break;
 		case SDL_MOUSEBUTTONUP:
-			if (event.button.button == SDL_BUTTON_LEFT) mouseReleased((float)event.button.x/width, (float)event.button.y/height);
+			if (event.button.button == SDL_BUTTON_LEFT && event.button.which != SDL_TOUCH_MOUSEID){
+				mouseReleased((float)event.button.x/width, (float)event.button.y/height);
+			}
+			break;
+		case SDL_FINGERMOTION:
+			mouseDragged((float)event.tfinger.x, (float)event.tfinger.y);
+			break;
+		case SDL_FINGERDOWN:
+			mousePressed((float)event.tfinger.x, (float)event.tfinger.y);
+			break;
+		case SDL_FINGERUP:
+			mouseReleased((float)event.tfinger.x, (float)event.tfinger.y);
 			break;
 		case SDL_QUIT:
 			running = false;
