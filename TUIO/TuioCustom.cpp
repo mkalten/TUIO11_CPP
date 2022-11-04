@@ -16,23 +16,15 @@
  License along with this library.
 */
 
-#include "TuioCursor.h"
+#include "TuioCustom.h"
 
 using namespace TUIO;
 
-TuioCursor::TuioCursor (TuioTime ttime, long si, int ci, float xp, float yp):TuioContainer(ttime,si,xp,yp,0) {
-	cursor_id = ci;
+
+TuioCustom::TuioCustom() {
+
 }
 
-TuioCursor::TuioCursor (long si, int ci, float xp, float yp):TuioContainer(si,xp,yp,0) {
-	cursor_id = ci;
+TuioCustom::TuioCustom(TuioCustom *tblb) {
+
 }
-
-TuioCursor::TuioCursor (TuioCursor *tcur):TuioContainer(tcur) {
-	cursor_id = tcur->getCursorID();
-}
-
-int TuioCursor::getCursorID() const{
-	return cursor_id;
-};
-

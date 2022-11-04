@@ -95,6 +95,27 @@
     <ClCompile Include="..\TUIO\WebSockSender.cpp">
       <Filter>Source Files\TUIO</Filter>
     </ClCompile>
+    <ClCompile Include="..\TUIO\TuioBlob3D.cpp">
+      <Filter>Source Files\TUIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TUIO\TuioBlob25D.cpp">
+      <Filter>Source Files\TUIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TUIO\TuioCursor3D.cpp">
+      <Filter>Source Files\TUIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TUIO\TuioCursor25D.cpp">
+      <Filter>Source Files\TUIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TUIO\TuioObject3D.cpp">
+      <Filter>Source Files\TUIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TUIO\TuioObject25D.cpp">
+      <Filter>Source Files\TUIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TUIO\TuioCustom.cpp">
+      <Filter>Source Files\TUIO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\TUIO\FlashSender.h">
@@ -186,6 +207,27 @@
     </ClInclude>
     <ClInclude Include="..\oscpack\ip\UdpSocket.h">
       <Filter>Header Files\oscpack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TUIO\TuioObject3D.h">
+      <Filter>Header Files\TUIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TUIO\TuioObject25D.h">
+      <Filter>Header Files\TUIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TUIO\TuioBlob3D.h">
+      <Filter>Header Files\TUIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TUIO\TuioBLob25D.h">
+      <Filter>Header Files\TUIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TUIO\TuioCursor3D.h">
+      <Filter>Header Files\TUIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TUIO\TuioCursor25D.h">
+      <Filter>Header Files\TUIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\TUIO\TuioCustom.h">
+      <Filter>Header Files\TUIO</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

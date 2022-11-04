@@ -22,31 +22,32 @@
     <ProjectGuid>{E1C28E7D-466C-4D0A-AEB1-CFFD0F6F5645}</ProjectGuid>
     <RootNamespace>libTUIO</RootNamespace>
     <Keyword>ManagedCProj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v110_xp</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <CLRSupport>false</CLRSupport>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v110_xp</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <CLRSupport>false</CLRSupport>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v110_xp</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <CLRSupport>false</CLRSupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v110_xp</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <CLRSupport>false</CLRSupport>
   </PropertyGroup>
@@ -222,6 +223,13 @@
     <ClCompile Include="..\TUIO\UdpReceiver.cpp" />
     <ClCompile Include="..\TUIO\UdpSender.cpp" />
     <ClCompile Include="..\TUIO\WebSockSender.cpp" />
+    <ClCompile Include="..\TUIO\TuioBlob25D.cpp" />
+    <ClCompile Include="..\TUIO\TuioBlob3D.cpp" />
+    <ClCompile Include="..\TUIO\TuioCursor25D.cpp" />
+    <ClCompile Include="..\TUIO\TuioCursor3D.cpp" />
+    <ClCompile Include="..\TUIO\TuioObject25D.cpp" />
+    <ClCompile Include="..\TUIO\TuioObject3D.cpp" />
+    <ClCompile Include="..\TUIO\TuioCustom.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\oscpack\ip\NetworkingUtils.h" />
@@ -254,6 +262,13 @@
     <ClInclude Include="..\TUIO\UdpReceiver.h" />
     <ClInclude Include="..\TUIO\UdpSender.h" />
     <ClInclude Include="..\TUIO\WebSockSender.h" />
+    <ClInclude Include="..\TUIO\TuioBLob25D.h" />
+    <ClInclude Include="..\TUIO\TuioBlob3D.h" />
+    <ClInclude Include="..\TUIO\TuioCursor25D.h" />
+    <ClInclude Include="..\TUIO\TuioCursor3D.h" />
+    <ClInclude Include="..\TUIO\TuioObject25D.h" />
+    <ClInclude Include="..\TUIO\TuioObject3D.h" />
+    <ClInclude Include="..\TUIO\TuioCustom.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

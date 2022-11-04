@@ -1,17 +1,17 @@
 /*
  TUIO C++ Library
- Copyright (c) 2005-2017 Martin Kaltenbrunner <martin@tuio.org>
- 
+ Copyright (c) 2022 Nicolas Bremard <nicolas.bremard@laposte.net>
+
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
  License as published by the Free Software Foundation; either
  version 3.0 of the License, or (at your option) any later version.
- 
+
  This library is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  Lesser General Public License for more details.
- 
+
  You should have received a copy of the GNU Lesser General Public
  License along with this library.
 */
@@ -20,7 +20,7 @@
 
 using namespace TUIO;
 
-TuioBlob::TuioBlob (TuioTime ttime, long si, int bi, float xp, float yp, float a, float w, float h, float f):TuioContainer(ttime, si, xp, yp) {
+TuioBlob::TuioBlob (TuioTime ttime, long si, int bi, float xp, float yp, float a, float w, float h, float f):TuioContainer(ttime, si, xp, yp,0) {
 	blob_id = bi;
 	angle = a;
 	width = w;
@@ -36,7 +36,7 @@ TuioBlob::TuioBlob (TuioTime ttime, long si, int bi, float xp, float yp, float a
 	sizeThreshold = 0.0f;
 }
 
-TuioBlob::TuioBlob (long si, int bi, float xp, float yp, float a, float  w, float h, float f):TuioContainer(si, xp, yp) {
+TuioBlob::TuioBlob (long si, int bi, float xp, float yp, float a, float  w, float h, float f):TuioContainer(si, xp, yp, 0) {
 	blob_id = bi;
 	angle = a;
 	width = w;
@@ -77,30 +77,36 @@ void TuioBlob::setBlobID(int bi) {
 }
 
 void TuioBlob::update (TuioTime ttime, float xp, float yp, float a, float w, float h, float f, float xs, float ys, float rs, float ma, float ra) {
-	TuioContainer::update(ttime,xp,yp,xs,ys,ma);
+	TuioContainer::update(ttime,xp,yp,0,xs,ys,0,ma);
 	angle = a;
+	float dw = width - w;
+	float dh = height - h;
 	width = w;
 	height = h;
 	area = f;
 	rotation_speed = rs;
 	rotation_accel = ra;
 	if ((rotation_accel!=0) && (state==TUIO_STOPPED)) state = TUIO_ROTATING;
+	if (dw != 0 || dh != 0) state = TUIO_RESIZED;
 }
 
 void TuioBlob::update (float xp, float yp, float a, float w, float h, float f, float xs, float ys, float rs, float ma, float ra) {
-	TuioContainer::update(xp,yp,xs,ys,ma);
+	TuioContainer::update(xp,yp,0,xs,ys,0,ma);
 	angle = a;
+	float dw = width - w;
+	float dh = height - h;
 	width = w;
 	height = h;
 	area = f;
 	rotation_speed = rs;
 	rotation_accel = ra;
 	if ((rotation_accel!=0) && (state==TUIO_STOPPED)) state = TUIO_ROTATING;
+	if (dw != 0 || dh != 0) state = TUIO_RESIZED;
 }
 
 void TuioBlob::update (TuioTime ttime, float xp, float yp, float a, float w, float h, float f) {
 	TuioPoint lastPoint = path.back();
-	TuioContainer::update(ttime,xp,yp);
+	TuioContainer::update(ttime,xp,yp,0);
 	
 	TuioTime diffTime = currentTime - lastPoint.getTuioTime();
 	float dt = diffTime.getTotalMilliseconds()/1000.0f;
@@ -134,7 +140,10 @@ void TuioBlob::update (TuioTime ttime, float xp, float yp, float a, float w, flo
 		width = w;
 		height = h;
 	}
-	
+
+	if (dw != 0 || dh != 0) state = TUIO_RESIZED;
+
+	angle = a;
 	area = f;
 	
 	rotation_speed = (float)da/dt;
@@ -155,7 +164,7 @@ void TuioBlob::update (TuioBlob *tblb) {
 	area = tblb->getArea();
 	rotation_speed = tblb->getRotationSpeed();
 	rotation_accel = tblb->getRotationAccel();
-	if ((rotation_accel!=0) && (state==TUIO_STOPPED)) state = TUIO_ROTATING;
+	state = tblb->getTuioState();;
 }
 
 float TuioBlob::getWidth() const{ 
@@ -195,7 +204,7 @@ float TuioBlob::getRotationAccel() const{
 }
 
 bool TuioBlob::isMoving() const{ 
-	if ((state==TUIO_ACCELERATING) || (state==TUIO_DECELERATING) || (state==TUIO_ROTATING)) return true;
+	if ((state==TUIO_ACCELERATING) || (state==TUIO_DECELERATING) || (state == TUIO_ROTATING) || (state == TUIO_RESIZED)) return true;
 	else return false;
 }
 

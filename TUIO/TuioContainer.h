@@ -1,17 +1,17 @@
 /*
  TUIO C++ Library
- Copyright (c) 2005-2017 Martin Kaltenbrunner <martin@tuio.org>
- 
+ Copyright (c) 2022 Nicolas Bremard <nicolas.bremard@laposte.net>
+
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
  License as published by the Free Software Foundation; either
  version 3.0 of the License, or (at your option) any later version.
- 
+
  This library is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  Lesser General Public License for more details.
- 
+
  You should have received a copy of the GNU Lesser General Public
  License along with this library.
 */
@@ -30,16 +30,17 @@
 #define TUIO_ROTATING 4
 #define TUIO_STOPPED 5
 #define TUIO_REMOVED 6
+#define TUIO_RESIZED 7
 
 #define MAX_PATH_SIZE 128
 
 namespace TUIO {
 	
 	/**
-	 * The abstract TuioContainer class defines common attributes that apply to both subclasses {@link TuioObject} and {@link TuioCursor}.
+	 * The abstract TuioContainer class defines common attributes that apply to subclasses {@link TuioBlob}, {@link TuioObject} and {@link TuioCursor}.
 	 *
-	 * @author Martin Kaltenbrunner
-	 * @version 1.1.6
+	 * @author Nicolas Bremard
+	 * @version 1.1.7
 	 */ 
 	class LIBDECL TuioContainer: public TuioPoint {
 		
@@ -62,6 +63,10 @@ namespace TUIO {
 		 */ 
 		float y_speed;
 		/**
+		 * The Z-axis velocity value.
+		 */
+		float z_speed;
+		/**
 		 * The motion speed value.
 		 */ 
 		float motion_speed;
@@ -71,6 +76,7 @@ namespace TUIO {
 		float motion_accel;
 		float x_accel;
 		float y_accel;
+		float z_accel;
 		/**
 		 * A List of TuioPoints containing all the previous positions of the TUIO component.
 		 */ 
@@ -103,18 +109,20 @@ namespace TUIO {
 		 * @param	si	the Session ID to assign
 		 * @param	xp	the X coordinate to assign
 		 * @param	yp	the Y coordinate to assign
+		 * @param	zp	the Z coordinate to assign
 		 */
-		TuioContainer (TuioTime ttime, long si, float xp, float yp);
+		TuioContainer (TuioTime ttime, long si, float xp, float yp, float zp);
 
 		/**
-		 * This constructor takes the provided Session ID, X and Y coordinate 
+		 * This constructor takes the provided Session ID, X, Y and Z coordinate 
 		 * and assigs these values to the newly created TuioContainer.
 		 *
 		 * @param	si	the Session ID to assign
 		 * @param	xp	the X coordinate to assign
 		 * @param	yp	the Y coordinate to assign
+		 * @param	zp	the Z coordinate to assign
 		 */
-		TuioContainer (long si, float xp, float yp);
+		TuioContainer (long si, float xp, float yp, float zp);
 		
 		/**
 		 * This constructor takes the atttibutes of the provided TuioContainer 
@@ -161,8 +169,9 @@ namespace TUIO {
 		 * @param	ttime	the TuioTime to assign
 		 * @param	xp	the X coordinate to assign
 		 * @param	yp	the Y coordinate to assign
+		 * @param	zp	the Z coordinate to assign
 		 */
-		virtual void update (TuioTime ttime, float xp, float yp);
+		virtual void update (TuioTime ttime, float xp, float yp, float zp);
 		
 		/**
 		 * This method is used to calculate the speed and acceleration values of
@@ -178,11 +187,13 @@ namespace TUIO {
 		 * @param	ttime	the TuioTime to assign
 		 * @param	xp	the X coordinate to assign
 		 * @param	yp	the Y coordinate to assign
+		 * @param	zp	the Z coordinate to assign
 		 * @param	xs	the X velocity to assign
 		 * @param	ys	the Y velocity to assign
+		 * @param	zs	the Z velocity to assign
 		 * @param	ma	the acceleration to assign
 		 */
-		virtual void update (TuioTime ttime, float xp, float yp, float xs, float ys, float ma);
+		virtual void update (TuioTime ttime, float xp, float yp, float zp, float xs, float ys, float zs, float ma);
 		
 		/**
 		 * Assigns the provided X and Y coordinate, X and Y velocity and acceleration
@@ -190,11 +201,13 @@ namespace TUIO {
 		 *
 		 * @param	xp	the X coordinate to assign
 		 * @param	yp	the Y coordinate to assign
+		 * @param	zp	the Z coordinate to assign
 		 * @param	xs	the X velocity to assign
 		 * @param	ys	the Y velocity to assign
+		 * @param	zs	the Z velocity to assign
 		 * @param	ma	the acceleration to assign
 		 */
-		virtual void update (float xp, float yp, float xs, float ys, float ma);
+		virtual void update (float xp, float yp, float zp, float xs, float ys, float zs, float ma);
 		
 		/**
 		 * Takes the atttibutes of the provided TuioContainer 
@@ -236,6 +249,12 @@ namespace TUIO {
 		 * @return	the Y velocity of this TuioContainer
 		 */
 		virtual float getYSpeed() const;
+
+		/**
+		 * Returns the Z velocity of this TuioContainer.
+		 * @return	the Z velocity of this TuioContainer
+		 */
+		virtual float getZSpeed() const;
 		
 		/**
 		 * Returns the position of this TuioContainer.
