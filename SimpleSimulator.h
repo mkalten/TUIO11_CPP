@@ -52,14 +52,14 @@ public:
 	
 	void run();
 	TuioServer *tuioServer;
-	int mode = 0; // 0: 2Dcur; 1: 2Dobj; 2: 2Dblb; 3: 25Dcur; 4: 25Dobj; 5: 25Dblb; 6: 3Dcur; 7: 3Dobj; 8: 3Dblb
-	int control = 0;// 0: z; 1: roll/angle; 2: pitch; 3: yaw; 4: width; 5: height; 6: depth
+	int mode; // 0: 2Dcur; 1: 2Dobj; 2: 2Dblb; 3: 25Dcur; 4: 25Dobj; 5: 25Dblb; 6: 3Dcur; 7: 3Dobj; 8: 3Dblb
+	int control;// 0: z; 1: roll/angle; 2: pitch; 3: yaw; 4: width; 5: height; 6: depth
 
 	std::list<TuioCursor*> stickyCursorList;
 	std::list<TuioCursor*> jointCursorList;
 	std::list<TuioCursor*> activeCursorList;
 
-	int objectID = 0;
+	int objectID;
 	std::list<TuioObject*> stickyObjectList;
 	std::list<TuioObject*> jointObjectList;
 	std::list<TuioObject*> activeObjectList;
@@ -73,7 +73,7 @@ public:
 	std::list<TuioCursor25D*> jointCursor25DList;
 	std::list<TuioCursor25D*> activeCursor25DList;
 
-	int object25DID = 0;
+	int object25DID;
 	std::list<TuioObject25D*> stickyObject25DList;
 	std::list<TuioObject25D*> jointObject25DList;
 	std::list<TuioObject25D*> activeObject25DList;
@@ -88,7 +88,7 @@ public:
 	std::list<TuioCursor3D*> jointCursor3DList;
 	std::list<TuioCursor3D*> activeCursor3DList;
 
-	int object3DID = 0;
+	int object3DID;
 	std::list<TuioObject3D*> stickyObject3DList;
 	std::list<TuioObject3D*> jointObject3DList;
 	std::list<TuioObject3D*> activeObject3DList;

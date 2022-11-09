@@ -1800,6 +1800,11 @@ SimpleSimulator::SimpleSimulator(TuioServer *server)
 	, screen_height(768)
 	, window_width(640)
 	, window_height(480)
+	, mode(0)
+	, control(0)
+	, objectID(0)
+	, object25DID(0)
+	, object3DID(0)
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		std::cerr << "SDL could not be initialized: " << SDL_GetError() << std::endl;

@@ -69,7 +69,7 @@ namespace TUIO {
 		 */
 		void removeAllTuioListeners();
 		
-#pragma region 2D
+#pragma region region2D
 		/**
 		 * Returns a List of all currently active TuioObjects
 		 *
@@ -188,7 +188,7 @@ namespace TUIO {
 		void unlockBlobList();
 #pragma endregion 
 
-#pragma region 2.5D
+#pragma region region25D
 		/**
 		 * Returns a List of all currently active TuioObjects25D
 		 *
@@ -308,7 +308,7 @@ namespace TUIO {
 #pragma endregion 
 
 
-#pragma region 3D
+#pragma region region3D
 		/**
 		 * Returns a List of all currently active TuioObjects3D
 		 *

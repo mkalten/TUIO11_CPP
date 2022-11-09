@@ -60,7 +60,8 @@ namespace TUIO {
 		 */
 		virtual ~TuioListener(){};
 		
-#pragma region 2D
+
+#pragma region region2D
 
 		/**
 		 * This callback method is invoked by the TuioClient when a new TuioObject is added to the session.   
@@ -125,9 +126,9 @@ namespace TUIO {
 		 */
 		virtual void removeTuioBlob(TuioBlob *tblb){}
 
-#pragma endregion 2D
+#pragma endregion region2D
 
-#pragma region 2.5D
+#pragma region region25D
 			   
 		/**
 		 * This callback method is invoked by the TuioClient when a new TuioObject25D is added to the session.
@@ -191,9 +192,9 @@ namespace TUIO {
 		 * @param  tblb  the TuioBlob25D reference associated to the removeTuioBlob25D event
 		 */
 		virtual void removeTuioBlob25D(TuioBlob25D *tblb) {}
-#pragma endregion 2.5D
+#pragma endregion region25D
 
-#pragma region 3D
+#pragma region region3D
 
 		/**
 		 * This callback method is invoked by the TuioClient when a new TuioObject3D is added to the session.
@@ -257,7 +258,7 @@ namespace TUIO {
 		 * @param  tblb  the TuioBlob3D reference associated to the removeTuioBlob3D event
 		 */
 		virtual void removeTuioBlob3D(TuioBlob3D *tblb) {}
-#pragma endregion 3D
+#pragma endregion region3D
 
 		/**
 		 * This callback method is invoked by the TuioClient when a new TuioObject is added to the session.
