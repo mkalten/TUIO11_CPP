@@ -34,6 +34,26 @@ Pressing the CTRL key while clicking, will create "joint" cursors.
 Hitting the V key will print the generated TUIO events to the console.  
 Hitting the R key will reset the SimpleSimulator.
 
+You can switch to other TUIO types by hitting number :
+0 : TuioCursor;
+1 : TuioObject;
+2 : TuioBlob;
+3 : TuioCursor25D;
+4 : TuioObject25D;
+5 : TuioBlob25D;
+6 : TuioCursor3D;
+7 : TuioObject3D;
+8 : TuioBlob3D.
+
+As the SimpleSimulatro demo is a 2D application, is it diffcult to test rotations, z, width ... You can modify them by scrolling in different control mode. Each control mode change a different parameter. You can switch control mode by hitting number on the NumPad :
+0 : Z;
+1 : Roll;
+2 : Pitch;
+3 : Yaw;
+4 : Width;
+5 : Height;
+6 : Depth;
+
 Keep in mind to make your graphics scalable for the varying screen and 
 window resolutions. A reasonable TUIO application will run in fullscreen 
 mode, although the windowed mode might be useful for debugging purposes 
@@ -75,6 +95,48 @@ surface
 *   **updateTuioBlob(TuioBlob \*tblb)** a cursor was moving on the table 
 surface
 
+*   **addTuioObject25D(TuioObject25D \*tobj)** this is called when a 25Dobject 
+becomes visible
+*   **removeTuioObject25D(TuioObject25D \*tobj)** a 25Dobject was removed from 
+the surface
+*   **updateTuioObject25D(TuioObject25D \*tobj)** a 25Dobject was moved on the 
+table surface
+
+*   **addTuioCursor25D(TuioCursor25D \*tcur)** this is called when a new 25Dcursor 
+is detected
+*   **removeTuioCursor25D(TuioCursor25D \*tcur)** a 25Dcursor was removed from the 
+surface
+*   **updateTuioCursor25D(TuioCursor25D \*tcur)** a 25Dcursor was moving on the 
+table surface
+
+*   **addTuioBlob25D(TuioBlob25D \*tblb)** this is called when a new 25Dblob is 
+detected
+*   **removeTuioBlob25D(TuioBlob25D \*tblb)** a 25Dblob was removed from the 
+surface
+*   **updateTuioBlob25D(TuioBlob25D \*tblb)** a 25Dcursor was moving on the table 
+surface
+
+*   **addTuioObject3D(TuioObject3D \*tobj)** this is called when a 3Dobject 
+becomes visible
+*   **removeTuioObject3D(TuioObject3D \*tobj)** a 3Dobject was removed from 
+the surface
+*   **updateTuioObject3D(TuioObject3D \*tobj)** a 3Dobject was moved on the 
+table surface
+
+*   **addTuioCursor3D(TuioCursor3D \*tcur)** this is called when a new 3Dcursor 
+is detected
+*   **removeTuioCursor3D(TuioCursor3D \*tcur)** a 3Dcursor was removed from the 
+surface
+*   **updateTuioCursor3D(TuioCursor3D \*tcur)** a 3Dcursor was moving on the 
+table surface
+
+*   **addTuioBlob3D(TuioBlob3D \*tblb)** this is called when a new 3Dblob is 
+detected
+*   **removeTuioBlob3D(TuioBlob3D \*tblb)** a 3Dblob was removed from the 
+surface
+*   **updateTuioBlob3D(TuioBlob3D \*tblb)** a 3Dblob was moving on the table 
+surface
+
 *   **refresh(TuioTime bundleTime)** this method is called after each 
 bundle, use it to repaint your screen for example
 
@@ -92,20 +154,18 @@ ID that corresponds to its attached fiducial marker number. The finger
 ID of the cursor object is always a number in the range of all currently 
 detected cursor blobs.
 
-The **TuioObject**, **TuioCursor** and **TuioBlob** references are 
+The **TuioObject**, **TuioCursor**, **TuioBlob**,**TuioObject25D**, **TuioCursor25D**, **TuioBlob25D**,**TuioObject3D**, **TuioCursor3D** and **TuioBlob3D** references are 
 updated automatically by the TuioClient and are always referencing the 
-same instance over the object lifetime. All the TuioObject, TuioCursor 
-and TuioBlob attributes are encapsulated and can be accessed with 
+same instance over the object lifetime. All the TuioObject, TuioCursor, TuioBlob, TuioObject25D, TuioCursor25D, TuioBlob25D, TuioObject3D, TuioCursor3D and TuioBlob3D attributes are encapsulated and can be accessed with 
 methods such as **getX()**, **getY()** and **getAngle()** and so on. 
-TuioObject, TuioCursor and TuioBlob also have some additional 
+TuioObject, TuioCursor, TuioBlob, TuioObject25D, TuioCursor25D, TuioBlob25D, TuioObject3D, TuioCursor3D and TuioBlob3D also have some additional 
 convenience methods for the calculation of distances and angles between 
 objects. The **getPath()** method returns a Vector of TuioPoint 
 representing the movement path of the object.
 
 Alternatively the TuioClient class contains some methods for the polling 
 of the current object and cursor state. There are methods which return 
-either a list or individual object and cursor objects. The TuioObject, 
-TuioCursor and TuioBlob classes have been added as a container which 
+either a list or individual object and cursor objects. The TuioObject, TuioCursor, TuioBlob, TuioObject25D, TuioCursor25D, TuioBlob25D, TuioObject3D, TuioCursor3D and TuioBlob3D classes have been added as a container which 
 also can be usedby external classes.
 
 *   **getTuioObjects()** returns a Vector<TuioObject*> of all currently 
@@ -121,6 +181,37 @@ on its presence
 on its presence
 *   **getTuioBlob(long s_id)** returns a TuioBlob* or NULL depending on 
 its presence
+
+
+*   **getTuioObjects25D()** returns a Vector<TuioObject25D*> of all currently 
+present TuioObjects25D
+*   **getTuioCursors25D()** returns a Vector<TuioCursor25D*> of all currently 
+present TuioCursors25D
+*   **getTuioBlobs25D()** returns a Vector<TuioBlob25D*> of all currently 
+present TuioCursors25D
+
+*   **getTuioObject25D(long s_id)** returns a TuioObject25D* or NULL depending 
+on its presence
+*   **getTuioCursor25D(long s_id)** returns a TuioCursor25D* or NULL depending 
+on its presence
+*   **getTuioBlob25D(long s_id)** returns a TuioBlob25D* or NULL depending on 
+its presence
+
+
+*   **getTuioObjects3D()** returns a Vector<TuioObject3D*> of all currently 
+present TuioObjects3D
+*   **getTuioCursors3D()** returns a Vector<TuioCursor3D*> of all currently 
+present TuioCursors3D
+*   **getTuioBlobs3D()** returns a Vector<TuioBlob3D*> of all currently 
+present TuioCursors3D
+
+*   **getTuioObject3D(long s_id)** returns a TuioObject* or NULL depending 
+on its presence
+*   **getTuioCursor3D(long s_id)** returns a TuioCursor* or NULL depending 
+on its presence
+*   **getTuioBlob3D(long s_id)** returns a TuioBlob* or NULL depending on 
+its presence
+
 
 ## Building the Examples:
 

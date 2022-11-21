@@ -1,17 +1,18 @@
 /*
  TUIO C++ Library
  Copyright (c) 2005-2017 Martin Kaltenbrunner <martin@tuio.org>
- 
+ Modified by Bremard Nicolas <nicolas@bremard.fr> on 11/2022
+
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
  License as published by the Free Software Foundation; either
  version 3.0 of the License, or (at your option) any later version.
- 
+
  This library is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  Lesser General Public License for more details.
- 
+
  You should have received a copy of the GNU Lesser General Public
  License along with this library.
 */
@@ -19,7 +20,7 @@
 #include "TuioContainer.h"
 using namespace TUIO;
 
-TuioContainer::TuioContainer (TuioTime ttime, long si, float xp, float yp):TuioPoint(ttime, xp,yp)
+TuioContainer::TuioContainer (TuioTime ttime, long si, float xp, float yp, float zp):TuioPoint(ttime, xp,yp,zp)
 ,state(TUIO_ADDED)
 ,source_id(0)
 ,source_name("undefined")
@@ -28,16 +29,18 @@ TuioContainer::TuioContainer (TuioTime ttime, long si, float xp, float yp):TuioP
 	session_id = si;
 	x_speed = 0.0f;
 	y_speed = 0.0f;
+	z_speed = 0.0f;
 	motion_speed = 0.0f;
 	motion_accel = 0.0f;
 	x_accel = 0.0f;
 	y_accel = 0.0f;
-	TuioPoint p(currentTime,xpos,ypos);
+	z_accel = 0.0f;
+	TuioPoint p(currentTime,xpos,ypos,zpos);
 	path.push_back(p);
 	lastPoint = &path.back();
 }
 
-TuioContainer::TuioContainer (long si, float xp, float yp):TuioPoint(xp,yp)
+TuioContainer::TuioContainer (long si, float xp, float yp, float zp):TuioPoint(xp,yp,zp)
 ,state(TUIO_ADDED)
 ,source_id(0)
 ,source_name("undefined")
@@ -46,11 +49,13 @@ TuioContainer::TuioContainer (long si, float xp, float yp):TuioPoint(xp,yp)
 	session_id = si;
 	x_speed = 0.0f;
 	y_speed = 0.0f;
+	z_speed = 0.0f;
 	motion_speed = 0.0f;
 	motion_accel = 0.0f;
 	x_accel = 0.0f;
 	y_accel = 0.0f;
-	TuioPoint p(currentTime,xpos,ypos);
+	z_accel = 0.0f;
+	TuioPoint p(currentTime,xpos,ypos,zpos);
 	path.push_back(p);
 	lastPoint = &path.back();
 }
@@ -64,12 +69,14 @@ TuioContainer::TuioContainer (TuioContainer *tcon):TuioPoint(tcon)
 	session_id = tcon->getSessionID();
 	x_speed = 0.0f;
 	y_speed = 0.0f;
+	z_speed = 0.0f;
 	motion_speed = 0.0f;
 	motion_accel = 0.0f;
 	x_accel = 0.0f;
 	y_accel = 0.0f;
+	z_accel = 0.0f;
 	
-	TuioPoint p(currentTime,xpos,ypos);
+	TuioPoint p(currentTime,xpos,ypos,zpos);
 	path.push_back(p);
 	lastPoint = &path.back();
 }
@@ -92,27 +99,31 @@ int TuioContainer::getTuioSourceID() const{
 	return source_id;
 }
 
-void TuioContainer::update (TuioTime ttime, float xp, float yp) {
+void TuioContainer::update (TuioTime ttime, float xp, float yp, float zp) {
 	lastPoint = &path.back();
-	TuioPoint::update(ttime,xp, yp);
+	TuioPoint::update(ttime,xp, yp, zp);
 
 	TuioTime diffTime = currentTime - lastPoint->getTuioTime();
 	float dt = diffTime.getTotalMilliseconds()/1000.0f;
 	float dx = xpos - lastPoint->getX();
 	float dy = ypos - lastPoint->getY();
-	float dist = sqrt(dx*dx+dy*dy);
+	float dz = zpos - lastPoint->getZ();
+	float dist = sqrt(dx*dx+dy*dy+dz*dz);
 	float last_motion_speed = motion_speed;
 	float last_x_speed = x_speed;
 	float last_y_speed = y_speed;
+	float last_z_speed = z_speed;
 
 	x_speed = dx/dt;
 	y_speed = dy/dt;
+	z_speed = dz / dt;
 	motion_speed = dist/dt;
 	motion_accel = (motion_speed - last_motion_speed)/dt;
 	x_accel = (x_speed - last_x_speed)/dt;
 	y_accel = (y_speed - last_y_speed)/dt;
+	z_accel = (z_speed - last_z_speed) / dt;
 
-	TuioPoint p(currentTime,xpos,ypos);
+	TuioPoint p(currentTime,xpos,ypos,zpos);
 	path.push_back(p);
     if (path.size()>MAX_PATH_SIZE) path.pop_front();
 
@@ -122,21 +133,23 @@ void TuioContainer::update (TuioTime ttime, float xp, float yp) {
 }
 
 void TuioContainer::stop(TuioTime ttime) {
-	if ( state==TUIO_IDLE )update(ttime,xpos,ypos);
+	if ( state==TUIO_IDLE )update(ttime,xpos,ypos,zpos);
 	else state=TUIO_IDLE;
 }
 
-void TuioContainer::update (TuioTime ttime, float xp, float yp, float xs, float ys, float ma) {
-	TuioPoint::update(ttime,xp, yp);
+void TuioContainer::update (TuioTime ttime, float xp, float yp, float zp, float xs, float ys, float zs, float ma) {
+	TuioPoint::update(ttime,xp, yp, zs);
 	x_speed = xs;
 	y_speed = ys;
-	motion_speed = (float)sqrt(x_speed*x_speed+y_speed*y_speed);
+	z_speed = zs;
+	motion_speed = (float)sqrt(x_speed*x_speed+y_speed*y_speed+z_speed*z_speed);
 	motion_accel = ma;
 	x_accel = ma;
 	y_accel = ma;
+	z_accel = ma;
 
 	lastPoint = &path.back();
-	TuioPoint p(currentTime,xpos,ypos);
+	TuioPoint p(currentTime,xpos,ypos,zpos);
 	path.push_back(p);
     if (path.size()>MAX_PATH_SIZE) path.pop_front();
 
@@ -145,17 +158,19 @@ void TuioContainer::update (TuioTime ttime, float xp, float yp, float xs, float 
 	else state = TUIO_STOPPED;
 }
 
-void TuioContainer::update (float xp, float yp, float xs, float ys, float ma) {
-	TuioPoint::update(xp,yp);
+void TuioContainer::update (float xp, float yp, float zp, float xs, float ys, float zs, float ma) {
+	TuioPoint::update(xp,yp,zp);
 	x_speed = xs;
 	y_speed = ys;
-	motion_speed = (float)sqrt(x_speed*x_speed+y_speed*y_speed);
+	z_speed = zs;
+	motion_speed = (float)sqrt(x_speed*x_speed+y_speed*y_speed+z_speed*z_speed);
 	motion_accel = ma;
 	x_accel = ma;
 	y_accel = ma;
+	z_accel = ma;
 
 	lastPoint = &path.back();
-	TuioPoint p(currentTime,xpos,ypos);
+	TuioPoint p(currentTime,xpos,ypos,zpos);
 	path.push_back(p);
     if (path.size()>MAX_PATH_SIZE) path.pop_front();
 
@@ -168,13 +183,15 @@ void TuioContainer::update (TuioContainer *tcon) {
 	TuioPoint::update(tcon);
 	x_speed = tcon->getXSpeed();
 	y_speed =  tcon->getYSpeed();
+	z_speed = tcon->getZSpeed();
 	motion_speed =  tcon->getMotionSpeed();
 	motion_accel = tcon->getMotionAccel();
 	x_accel = motion_accel;
 	y_accel = motion_accel;
+	z_accel = motion_accel;
 
 	lastPoint = &path.back();
-	TuioPoint p(tcon->getTuioTime(),xpos,ypos);
+	TuioPoint p(tcon->getTuioTime(),xpos,ypos,zpos);
 	path.push_back(p);
     if (path.size()>MAX_PATH_SIZE) path.pop_front();
 
@@ -204,8 +221,12 @@ float TuioContainer::getYSpeed() const{
 	return y_speed;
 }
 
+float TuioContainer::getZSpeed() const {
+	return z_speed;
+}
+
 TuioPoint TuioContainer::getPosition() const{
-	TuioPoint p(xpos,ypos);
+	TuioPoint p(xpos,ypos,zpos);
 	return p;
 }
 
@@ -259,9 +280,11 @@ TuioPoint TuioContainer::predictPosition() {
 	
 	float tx = x_speed * dt;
 	float ty = y_speed * dt;
+	float tz = z_speed * dt;
 	
 	float nx = xpos+tx-tx*x_accel*dt;
 	float ny = ypos+ty-ty*y_accel*dt;
+	float nz = zpos + tz - tz * z_accel*dt;
 	
 	//if (xposFilter && yposFilter) {
 	//	nx = xposFilter->filter(nx,dt);
@@ -270,7 +293,7 @@ TuioPoint TuioContainer::predictPosition() {
 	//}
 	
 	//std::cout << nx << " " << ny << std::endl;
-	return TuioPoint(nx,ny);
+	return TuioPoint(nx,ny,nz);
 
 	
 }

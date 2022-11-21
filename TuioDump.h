@@ -2,6 +2,7 @@
 	TUIO C++ Example - part of the reacTIVision project
 	http://reactivision.sourceforge.net/
 	Copyright (c) 2005-2016 Martin Kaltenbrunner <martin@tuio.org>
+	Modified by Bremard Nicolas <nicolas@bremard.fr> on 11/2022
 
 	Permission is hereby granted, free of charge, to any person obtaining
 	a copy of this software and associated documentation files
@@ -52,6 +53,31 @@ class TuioDump : public TuioListener {
 		void addTuioBlob(TuioBlob *tblb);
 		void updateTuioBlob(TuioBlob *tblb);
 		void removeTuioBlob(TuioBlob *tblb);
+
+		void addTuioObject25D(TuioObject25D *tobj);
+		void updateTuioObject25D(TuioObject25D *tobj);
+		void removeTuioObject25D(TuioObject25D *tobj);
+
+		void addTuioCursor25D(TuioCursor25D *tcur);
+		void updateTuioCursor25D(TuioCursor25D *tcur);
+		void removeTuioCursor25D(TuioCursor25D *tcur);
+
+		void addTuioBlob25D(TuioBlob25D *tblb);
+		void updateTuioBlob25D(TuioBlob25D *tblb);
+		void removeTuioBlob25D(TuioBlob25D *tblb);
+
+
+		void addTuioObject3D(TuioObject3D *tobj);
+		void updateTuioObject3D(TuioObject3D *tobj);
+		void removeTuioObject3D(TuioObject3D *tobj);
+
+		void addTuioCursor3D(TuioCursor3D *tcur);
+		void updateTuioCursor3D(TuioCursor3D *tcur);
+		void removeTuioCursor3D(TuioCursor3D *tcur);
+
+		void addTuioBlob3D(TuioBlob3D *tblb);
+		void updateTuioBlob3D(TuioBlob3D *tblb);
+		void removeTuioBlob3D(TuioBlob3D *tblb);
 
 		void refresh(TuioTime frameTime);
 };

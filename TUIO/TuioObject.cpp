@@ -1,17 +1,18 @@
 /*
  TUIO C++ Library
  Copyright (c) 2005-2017 Martin Kaltenbrunner <martin@tuio.org>
- 
+ Modified by Bremard Nicolas <nicolas@bremard.fr> on 11/2022
+
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
  License as published by the Free Software Foundation; either
  version 3.0 of the License, or (at your option) any later version.
- 
+
  This library is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  Lesser General Public License for more details.
- 
+
  You should have received a copy of the GNU Lesser General Public
  License along with this library.
 */
@@ -21,7 +22,7 @@
 
 using namespace TUIO;
 
-TuioObject::TuioObject (TuioTime ttime, long si, int sym, float xp, float yp, float a):TuioContainer(ttime, si, xp, yp) {
+TuioObject::TuioObject (TuioTime ttime, long si, int sym, float xp, float yp, float a):TuioContainer(ttime, si, xp, yp, 0) {
 	symbol_id = sym;
 	angle = a;
 	rotation_speed = 0.0f;
@@ -31,7 +32,7 @@ TuioObject::TuioObject (TuioTime ttime, long si, int sym, float xp, float yp, fl
 	angleThreshold = 0.0f;
 }
 
-TuioObject::TuioObject (long si, int sym, float xp, float yp, float a):TuioContainer(si, xp, yp) {
+TuioObject::TuioObject (long si, int sym, float xp, float yp, float a):TuioContainer(si, xp, yp, 0) {
 	symbol_id = sym;
 	angle = a;
 	rotation_speed = 0.0f;
@@ -52,7 +53,7 @@ TuioObject::TuioObject (TuioObject *tobj):TuioContainer(tobj) {
 }
 
 void TuioObject::update (TuioTime ttime, float xp, float yp, float a, float xs, float ys, float rs, float ma, float ra) {
-	TuioContainer::update(ttime,xp,yp,xs,ys,ma);
+	TuioContainer::update(ttime,xp,yp,0,xs,ys,0,ma);
 	angle = a;
 	rotation_speed = rs;
 	rotation_accel = ra;
@@ -61,7 +62,7 @@ void TuioObject::update (TuioTime ttime, float xp, float yp, float a, float xs, 
 
 
 void TuioObject::update (float xp, float yp, float a, float xs, float ys, float rs, float ma, float ra) {
-	TuioContainer::update(xp,yp,xs,ys,ma);
+	TuioContainer::update(xp,yp,0,xs,ys,0,ma);
 	angle = a;
 	rotation_speed = rs;
 	rotation_accel = ra;
@@ -70,7 +71,7 @@ void TuioObject::update (float xp, float yp, float a, float xs, float ys, float 
 
 void TuioObject::update (TuioTime ttime, float xp, float yp, float a) {
 	TuioPoint lastPoint = path.back();
-	TuioContainer::update(ttime,xp,yp);
+	TuioContainer::update(ttime,xp,yp,0);
 	
 	TuioTime diffTime = currentTime - lastPoint.getTuioTime();
 	float dt = diffTime.getTotalMilliseconds()/1000.0f;

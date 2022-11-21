@@ -32,3 +32,6 @@ TuioDump
 TuioDemo
 
 SimpleSimulator
+windows/Release
+windows/Debug
+windows/.vs

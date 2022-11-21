@@ -1,17 +1,18 @@
 /*
  TUIO C++ Library
  Copyright (c) 2005-2017 Martin Kaltenbrunner <martin@tuio.org>
- 
+ Modified by Bremard Nicolas <nicolas@bremard.fr> on 11/2022
+
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
  License as published by the Free Software Foundation; either
  version 3.0 of the License, or (at your option) any later version.
- 
+
  This library is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
  Lesser General Public License for more details.
- 
+
  You should have received a copy of the GNU Lesser General Public
  License along with this library.
 */
@@ -66,7 +67,7 @@ namespace TUIO {
 	 * </code></p>
 	 *
 	 * @author Martin Kaltenbrunner
-	 * @version 1.1.6
+	 * @version 1.1.7
 	 */
 	class LIBDECL TuioServer : public TuioManager {
 
@@ -194,6 +195,22 @@ namespace TUIO {
 		bool hasCursorProfile() { return cursorProfileEnabled; };
 		bool hasBlobProfile() { return blobProfileEnabled; };
 
+		void enableObject25DProfile(bool flag) { object25DProfileEnabled = flag; };
+		void enableCursor25DProfile(bool flag) { cursor25DProfileEnabled = flag; };
+		void enableBlob25DProfile(bool flag) { blob25DProfileEnabled = flag; };
+
+		bool hasObject25DProfile() { return object25DProfileEnabled; };
+		bool hasCursor25DProfile() { return cursor25DProfileEnabled; };
+		bool hasBlob25DProfile() { return blob25DProfileEnabled; };
+
+		void enableObject3DProfile(bool flag) { object3DProfileEnabled = flag; };
+		void enableCursor3DProfile(bool flag) { cursor3DProfileEnabled = flag; };
+		void enableBlob3DProfile(bool flag) { blob3DProfileEnabled = flag; };
+
+		bool hasObject3DProfile() { return object3DProfileEnabled; };
+		bool hasCursor3DProfile() { return cursor3DProfileEnabled; };
+		bool hasBlob3DProfile() { return blob3DProfileEnabled; };
+
 	private:
 
 		void initialize(OscSender *oscsend);
@@ -221,10 +238,46 @@ namespace TUIO {
 		void sendBlobBundle(long fseq);
 		void sendEmptyBlobBundle();
 
+		void startObject25DBundle();
+		void addObject25DMessage(TuioObject25D *tobj);
+		void sendObject25DBundle(long fseq);
+		void sendEmptyObject25DBundle();
+
+		void startCursor25DBundle();
+		void addCursor25DMessage(TuioCursor25D *tcur);
+		void sendCursor25DBundle(long fseq);
+		void sendEmptyCursor25DBundle();
+
+		void startBlob25DBundle();
+		void addBlob25DMessage(TuioBlob25D *tblb);
+		void sendBlob25DBundle(long fseq);
+		void sendEmptyBlob25DBundle();
+
+
+		void startObject3DBundle();
+		void addObject3DMessage(TuioObject3D *tobj);
+		void sendObject3DBundle(long fseq);
+		void sendEmptyObject3DBundle();
+
+		void startCursor3DBundle();
+		void addCursor3DMessage(TuioCursor3D *tcur);
+		void sendCursor3DBundle(long fseq);
+		void sendEmptyCursor3DBundle();
+
+		void startBlob3DBundle();
+		void addBlob3DMessage(TuioBlob3D *tblb);
+		void sendBlob3DBundle(long fseq);
+		void sendEmptyBlob3DBundle();
+
+
 		int update_interval;
 		bool full_update, periodic_update;
 		TuioTime objectUpdateTime, cursorUpdateTime, blobUpdateTime ;
 		bool objectProfileEnabled, cursorProfileEnabled, blobProfileEnabled;
+		TuioTime object25DUpdateTime, cursor25DUpdateTime, blob25DUpdateTime;
+		bool object25DProfileEnabled, cursor25DProfileEnabled, blob25DProfileEnabled;
+		TuioTime object3DUpdateTime, cursor3DUpdateTime, blob3DUpdateTime;
+		bool object3DProfileEnabled, cursor3DProfileEnabled, blob3DProfileEnabled;
 		char *source_name;
 	};
 }

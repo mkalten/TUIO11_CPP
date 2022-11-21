@@ -1,8 +1,8 @@
 /*
 	TUIO C++ Example - part of the reacTIVision project
 	http://reactivision.sourceforge.net/
-
 	Copyright (c) 2005-2017 Martin Kaltenbrunner <martin@tuio.org>
+	Modified by Bremard Nicolas <nicolas@bremard.fr> on 11/2022
 
 	Permission is hereby granted, free of charge, to any person obtaining
 	a copy of this software and associated documentation files
@@ -11,14 +11,11 @@
 	publish, distribute, sublicense, and/or sell copies of the Software,
 	and to permit persons to whom the Software is furnished to do so,
 	subject to the following conditions:
-
 	The above copyright notice and this permission notice shall be
 	included in all copies or substantial portions of the Software.
-
 	Any person wishing to distribute modifications to the Software is
 	requested to send the modifications to the original developer so that
 	they can be incorporated into the canonical version.
-
 	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 	EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 	MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
@@ -41,7 +38,7 @@ void TuioDump::addTuioObject(TuioObject *tobj) {
 
 void TuioDump::updateTuioObject(TuioObject *tobj) {
 	std::cout << "set obj " << tobj->getSymbolID() << " (" << tobj->getSessionID() << "/"<<  tobj->getTuioSourceID() << ") "<< tobj->getX() << " " << tobj->getY() << " " << tobj->getAngle() 
-				<< " " << tobj->getMotionSpeed() << " " << tobj->getRotationSpeed() << " " << tobj->getMotionAccel() << " " << tobj->getRotationAccel() << std::endl;
+		<< " " << tobj->getXSpeed() << " " << tobj->getYSpeed() << " " << tobj->getRotationSpeed() << " " << tobj->getMotionAccel() << " " << tobj->getRotationAccel() << std::endl;
 }
 
 void TuioDump::removeTuioObject(TuioObject *tobj) {
@@ -74,6 +71,94 @@ void TuioDump::removeTuioBlob(TuioBlob *tblb) {
 	std::cout << "del blb " << tblb->getBlobID() << " (" << tblb->getSessionID() << "/"<<  tblb->getTuioSourceID() << ")" << std::endl;
 }
 
+
+
+void TuioDump::addTuioObject25D(TuioObject25D *tobj) {
+	std::cout << "add 25Dobj " << tobj->getSymbolID() << " (" << tobj->getSessionID() << "/" << tobj->getTuioSourceID() << ") " << tobj->getX() << " " << tobj->getY() << " " << tobj->getZ() << " " << tobj->getAngle() << std::endl;
+}
+
+void TuioDump::updateTuioObject25D(TuioObject25D *tobj) {
+	std::cout << "set 25Dobj " << tobj->getSymbolID() << " (" << tobj->getSessionID() << "/" << tobj->getTuioSourceID() << ") " << tobj->getX() << " " << tobj->getY() << " " << tobj->getZ() << " " << tobj->getAngle()
+		<< " " << tobj->getXSpeed() << " " << tobj->getYSpeed() << " " << tobj->getZSpeed() << " " << tobj->getRotationSpeed() << " " << tobj->getMotionAccel() << " " << tobj->getRotationAccel() << std::endl;
+}
+
+void TuioDump::removeTuioObject25D(TuioObject25D *tobj) {
+	std::cout << "del 25Dobj " << tobj->getSymbolID() << " (" << tobj->getSessionID() << "/" << tobj->getTuioSourceID() << ")" << std::endl;
+}
+
+void TuioDump::addTuioCursor25D(TuioCursor25D *tcur) {
+	std::cout << "add 25Dcur " << tcur->getCursorID() << " (" << tcur->getSessionID() << "/" << tcur->getTuioSourceID() << ") " << tcur->getX() << " " << tcur->getY() << " " << tcur->getZ() << std::endl;
+}
+
+void TuioDump::updateTuioCursor25D(TuioCursor25D *tcur) {
+	std::cout << "set 25Dcur " << tcur->getCursorID() << " (" << tcur->getSessionID() << "/" << tcur->getTuioSourceID() << ") " << tcur->getX() << " " << tcur->getY() << " " << tcur->getZ()
+		<< " " << tcur->getXSpeed() << " " << tcur->getYSpeed() << " " << tcur->getZSpeed() << " " << tcur->getMotionAccel() << " " << std::endl;
+}
+
+void TuioDump::removeTuioCursor25D(TuioCursor25D *tcur) {
+	std::cout << "del 25Dcur " << tcur->getCursorID() << " (" << tcur->getSessionID() << "/" << tcur->getTuioSourceID() << ")" << std::endl;
+}
+
+void TuioDump::addTuioBlob25D(TuioBlob25D *tblb) {
+	std::cout << "add 25Dblb " << tblb->getBlobID() << " (" << tblb->getSessionID() << "/" << tblb->getTuioSourceID() << ") " << tblb->getX() << " " << tblb->getY() << " " << tblb->getZ() << " " << tblb->getAngle() << " " << tblb->getWidth() << " " << tblb->getHeight() << " " << tblb->getArea() << std::endl;
+}
+
+void TuioDump::updateTuioBlob25D(TuioBlob25D *tblb) {
+	std::cout << "set 25Dblb " << tblb->getBlobID() << " (" << tblb->getSessionID() << "/" << tblb->getTuioSourceID() << ") " << tblb->getX() << " " << tblb->getY() << " " << tblb->getZ() << " " << tblb->getAngle() << " " << tblb->getWidth() << " " << tblb->getHeight() << " " << tblb->getArea()
+		<< " " << tblb->getXSpeed() << " " << tblb->getYSpeed() << " " << tblb->getZSpeed() << " " << tblb->getRotationSpeed() << " " << tblb->getMotionAccel() << " " << tblb->getRotationAccel() << std::endl;
+}
+
+void TuioDump::removeTuioBlob25D(TuioBlob25D *tblb) {
+	std::cout << "del 25Dblb " << tblb->getBlobID() << " (" << tblb->getSessionID() << "/" << tblb->getTuioSourceID() << ")" << std::endl;
+}
+
+
+
+
+void TuioDump::addTuioObject3D(TuioObject3D *tobj) {
+	std::cout << "add 3Dobj " << tobj->getSymbolID() << " (" << tobj->getSessionID() << "/" << tobj->getTuioSourceID() << ") " << tobj->getX() << " " << tobj->getY() << " " << tobj->getZ() << " " << tobj->getRoll() << " " << tobj->getPitch() << " " << tobj->getYaw() << std::endl;
+}
+
+void TuioDump::updateTuioObject3D(TuioObject3D *tobj) {
+	std::cout << "set 3Dobj " << tobj->getSymbolID() << " (" << tobj->getSessionID() << "/" << tobj->getTuioSourceID() << ") " << tobj->getX() << " " << tobj->getY() << " " << tobj->getZ() << " " << tobj->getRoll() << " " << tobj->getPitch() << " " << tobj->getYaw()
+		<< " " << tobj->getXSpeed() << " " << tobj->getYSpeed() << " " << tobj->getZSpeed() << " " << tobj->getRollSpeed() << " " << tobj->getPitchSpeed() << " " << tobj->getYawSpeed() << " " << tobj->getMotionAccel() << " " << tobj->getRotationAccel() << std::endl;
+}
+
+void TuioDump::removeTuioObject3D(TuioObject3D *tobj) {
+	std::cout << "del 3Dobj " << tobj->getSymbolID() << " (" << tobj->getSessionID() << "/" << tobj->getTuioSourceID() << ")" << std::endl;
+}
+
+void TuioDump::addTuioCursor3D(TuioCursor3D *tcur) {
+	std::cout << "add 3Dcur " << tcur->getCursorID() << " (" << tcur->getSessionID() << "/" << tcur->getTuioSourceID() << ") " << tcur->getX() << " " << tcur->getY() << " " << tcur->getZ() << std::endl;
+}
+
+void TuioDump::updateTuioCursor3D(TuioCursor3D *tcur) {
+	std::cout << "set 3Dcur " << tcur->getCursorID() << " (" << tcur->getSessionID() << "/" << tcur->getTuioSourceID() << ") " << tcur->getX() << " " << tcur->getY() << " " << tcur->getZ()
+		<< " " << tcur->getXSpeed() << " " << tcur->getYSpeed() << " " << tcur->getZSpeed() << " " << tcur->getMotionAccel() << " " << std::endl;
+}
+
+void TuioDump::removeTuioCursor3D(TuioCursor3D *tcur) {
+	std::cout << "del 3Dcur " << tcur->getCursorID() << " (" << tcur->getSessionID() << "/" << tcur->getTuioSourceID() << ")" << std::endl;
+}
+
+void TuioDump::addTuioBlob3D(TuioBlob3D *tblb) {
+	std::cout << "add 3Dblb " << tblb->getBlobID() << " (" << tblb->getSessionID() << "/" << tblb->getTuioSourceID() << ") " << tblb->getX() << " " << tblb->getY() << " " << tblb->getZ() << " " << tblb->getRoll() << " " << tblb->getPitch() << " " << tblb->getYaw() << " " << tblb->getWidth() << " " << tblb->getHeight() << " " << tblb->getDepth() << " " << tblb->getVolume() << std::endl;
+}
+
+void TuioDump::updateTuioBlob3D(TuioBlob3D *tblb) {
+	std::cout << "set 3Dblb " << tblb->getBlobID() << " (" << tblb->getSessionID() << "/" << tblb->getTuioSourceID() << ") " << tblb->getX() << " " << tblb->getY() << " " << tblb->getZ() << " " << tblb->getRoll() << " " << tblb->getPitch() << " " << tblb->getYaw() << " " << tblb->getWidth() << " " << tblb->getHeight() << " " << tblb->getDepth() << " " << tblb->getVolume()
+		<< " " << tblb->getXSpeed() << " " << tblb->getYSpeed() << " " << tblb->getZSpeed() << " " << tblb->getRollSpeed() << " " << tblb->getPitchSpeed() << " " << tblb->getYawSpeed() << " " << tblb->getMotionAccel() << " " << tblb->getRotationAccel() << std::endl;
+}
+
+void TuioDump::removeTuioBlob3D(TuioBlob3D *tblb) {
+	std::cout << "del 3Dblb " << tblb->getBlobID() << " (" << tblb->getSessionID() << "/" << tblb->getTuioSourceID() << ")" << std::endl;
+}
+
+
+
+
+
+
 void  TuioDump::refresh(TuioTime frameTime) {
 	//std::cout << "refresh " << frameTime.getTotalMilliseconds() << std::endl;
 }
@@ -87,6 +172,8 @@ static void show_help() {
 	std::cout << "           use 'incoming' for TUIO/TCP socket" << std::endl;
 	std::cout << "        -h show this help" << std::endl;
 }
+
+
 
 static void init(int argc, char** argv) {
 	char c;
@@ -111,6 +198,39 @@ static void init(int argc, char** argv) {
 				exit(1);
 		}
 	}
+#else
+
+	int index = 1;
+
+	while (index < argc)
+	{
+		c = argv[index][1];
+
+		switch (c) {
+			case 't':
+				_udp = false;
+				index++;
+				break;
+			case 'a':
+				index++;
+				_address = argv[index];
+				index++;
+				break;
+			case 'p':
+				index++;
+				_port = atoi(argv[index]);
+				index++;
+				break;
+			case 'h':
+				show_help();
+				exit(0);
+			default:
+				show_help();
+				exit(1);
+		}
+
+	}
+
 #endif
 }
 

@@ -1,6 +1,7 @@
 /*
  TUIO C++ Server Demo
  Copyright (c) 2005-2016 Martin Kaltenbrunner <martin@tuio.org>
+ Modified by Bremard Nicolas <nicolas@bremard.fr> on 11/2022
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
@@ -52,9 +53,50 @@ public:
 	
 	void run();
 	TuioServer *tuioServer;
+	int mode; // 0: 2Dcur; 1: 2Dobj; 2: 2Dblb; 3: 25Dcur; 4: 25Dobj; 5: 25Dblb; 6: 3Dcur; 7: 3Dobj; 8: 3Dblb
+	int control;// 0: z; 1: roll/angle; 2: pitch; 3: yaw; 4: width; 5: height; 6: depth
+
 	std::list<TuioCursor*> stickyCursorList;
 	std::list<TuioCursor*> jointCursorList;
 	std::list<TuioCursor*> activeCursorList;
+
+	int objectID;
+	std::list<TuioObject*> stickyObjectList;
+	std::list<TuioObject*> jointObjectList;
+	std::list<TuioObject*> activeObjectList;
+
+	std::list<TuioBlob*> stickyBlobList;
+	std::list<TuioBlob*> jointBlobList;
+	std::list<TuioBlob*> activeBlobList;
+
+
+	std::list<TuioCursor25D*> stickyCursor25DList;
+	std::list<TuioCursor25D*> jointCursor25DList;
+	std::list<TuioCursor25D*> activeCursor25DList;
+
+	int object25DID;
+	std::list<TuioObject25D*> stickyObject25DList;
+	std::list<TuioObject25D*> jointObject25DList;
+	std::list<TuioObject25D*> activeObject25DList;
+
+	std::list<TuioBlob25D*> stickyBlob25DList;
+	std::list<TuioBlob25D*> jointBlob25DList;
+	std::list<TuioBlob25D*> activeBlob25DList;
+
+
+
+	std::list<TuioCursor3D*> stickyCursor3DList;
+	std::list<TuioCursor3D*> jointCursor3DList;
+	std::list<TuioCursor3D*> activeCursor3DList;
+
+	int object3DID;
+	std::list<TuioObject3D*> stickyObject3DList;
+	std::list<TuioObject3D*> jointObject3DList;
+	std::list<TuioObject3D*> activeObject3DList;
+
+	std::list<TuioBlob3D*> stickyBlob3DList;
+	std::list<TuioBlob3D*> jointBlob3DList;
+	std::list<TuioBlob3D*> activeBlob3DList;
 	
 private:
 	void drawFrame();
@@ -74,6 +116,7 @@ private:
 	void mousePressed(float x, float y);
 	void mouseReleased(float x, float y);
 	void mouseDragged(float x, float y);
+	void applyExtraDimension(float scroll);
 	//int s_id;
 };
 

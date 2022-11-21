@@ -1,7 +1,7 @@
 /*
  TUIO C++ Library
- Copyright (c) 2005-2017 Martin Kaltenbrunner <martin@tuio.org>
- Modified by Bremard Nicolas <nicolas@bremard.fr> on 11/2022
+ Copyright (c) 2022 Nicolas Bremard <nicolas@bremard.fr>
+ Based on TuioCursor by Martin Kaltenbrunner <martin@tuio.org>
 
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -17,23 +17,23 @@
  License along with this library.
 */
 
-#include "TuioCursor.h"
+#include "TuioCursor25D.h"
 
 using namespace TUIO;
 
-TuioCursor::TuioCursor (TuioTime ttime, long si, int ci, float xp, float yp):TuioContainer(ttime,si,xp,yp,0) {
+TuioCursor25D::TuioCursor25D(TuioTime ttime, long si, int ci, float xp, float yp, float zp) :TuioContainer(ttime, si, xp, yp, zp) {
 	cursor_id = ci;
 }
 
-TuioCursor::TuioCursor (long si, int ci, float xp, float yp):TuioContainer(si,xp,yp,0) {
+TuioCursor25D::TuioCursor25D(long si, int ci, float xp, float yp, float zp) : TuioContainer(si, xp, yp, zp) {
 	cursor_id = ci;
 }
 
-TuioCursor::TuioCursor (TuioCursor *tcur):TuioContainer(tcur) {
+TuioCursor25D::TuioCursor25D(TuioCursor25D *tcur) : TuioContainer(tcur) {
 	cursor_id = tcur->getCursorID();
 }
 
-int TuioCursor::getCursorID() const{
+int TuioCursor25D::getCursorID() const {
 	return cursor_id;
 };
 
