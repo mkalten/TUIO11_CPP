@@ -1,6 +1,7 @@
 /*
  TUIO C++ Library
- Copyright (c) 2022 Nicolas Bremard <nicolas.bremard@laposte.net>
+ Copyright (c) 2005-2017 Martin Kaltenbrunner <martin@tuio.org>
+ Modified by Bremard Nicolas <nicolas@bremard.fr> on 11/2022
 
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -37,11 +38,11 @@
 namespace TUIO {
 	
 	/**
-	 * The abstract TuioContainer class defines common attributes that apply to subclasses {@link TuioBlob}, {@link TuioObject} and {@link TuioCursor}.
+	 * The abstract TuioContainer class defines common attributes that apply to both subclasses {@link TuioObject} and {@link TuioCursor}.
 	 *
-	 * @author Nicolas Bremard
+	 * @author Martin Kaltenbrunner
 	 * @version 1.1.7
-	 */ 
+	 */
 	class LIBDECL TuioContainer: public TuioPoint {
 		
 		

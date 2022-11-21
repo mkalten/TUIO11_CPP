@@ -145,7 +145,7 @@
       <AdditionalIncludeDirectories>..\TUIO;..\oscpack;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;LIB_EXPORT;OSC_HOST_LITTLE_ENDIAN;_CRT_SECURE_NO_WARNINGS;_USE_MATH_DEFINES
 ;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <PrecompiledHeader />
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
@@ -229,7 +229,6 @@
     <ClCompile Include="..\TUIO\TuioCursor3D.cpp" />
     <ClCompile Include="..\TUIO\TuioObject25D.cpp" />
     <ClCompile Include="..\TUIO\TuioObject3D.cpp" />
-    <ClCompile Include="..\TUIO\TuioCustom.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\oscpack\ip\NetworkingUtils.h" />
@@ -268,7 +267,6 @@
     <ClInclude Include="..\TUIO\TuioCursor3D.h" />
     <ClInclude Include="..\TUIO\TuioObject25D.h" />
     <ClInclude Include="..\TUIO\TuioObject3D.h" />
-    <ClInclude Include="..\TUIO\TuioCustom.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

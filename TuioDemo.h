@@ -1,6 +1,7 @@
 /*
  TUIO C++ GUI Demo
  Copyright (c) 2005-2016 Martin Kaltenbrunner <martin@tuio.org>
+ Modified by Bremard Nicolas <nicolas@bremard.fr> on 11/2022
  
  This program is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by

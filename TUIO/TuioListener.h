@@ -1,6 +1,7 @@
 /*
  TUIO C++ Library
- Copyright (c) 2022 Nicolas Bremard <nicolas.bremard@laposte.net>
+ Copyright (c) 2005-2017 Martin Kaltenbrunner <martin@tuio.org>
+ Modified by Bremard Nicolas <nicolas@bremard.fr> on 11/2022
 
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -15,7 +16,6 @@
  You should have received a copy of the GNU Lesser General Public
  License along with this library.
 */
-
 #ifndef INCLUDED_TUIOLISTENER_H
 #define INCLUDED_TUIOLISTENER_H
 
@@ -36,8 +36,8 @@
 namespace TUIO {
 	
 	/**
-	 * <p>The TuioListener interface provides a simple callback infrastructure which is used by the {@link TuioClient} class 
-	 * to dispatch TUIO events to all registered instances of classes that implement the TuioListener interface defined here.</p> 
+	 * <p>The TuioListener interface provides a simple callback infrastructure which is used by the {@link TuioClient} class
+	 * to dispatch TUIO events to all registered instances of classes that implement the TuioListener interface defined here.</p>
 	 * <p>Any class that implements the TuioListener interface is required to implement all of the callback methods defined here.
 	 * The {@link TuioClient} makes use of these interface methods in order to dispatch TUIO events to all registered TuioListener implementations.</p>
 	 * <p><code>
@@ -49,7 +49,7 @@ namespace TUIO {
 	 * client.start();<br/>
 	 * </code></p>
 	 *
-	 * @author Nicolas Bremard
+	 * @author Martin Kaltenbrunner
 	 * @version 1.1.7
 	 */
 	class LIBDECL TuioListener { 

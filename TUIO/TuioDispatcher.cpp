@@ -1,6 +1,8 @@
+
 /*
  TUIO C++ Library
- Copyright (c) 2022 Nicolas Bremard <nicolas.bremard@laposte.net>
+ Copyright (c) 2005-2017 Martin Kaltenbrunner <martin@tuio.org>
+ Modified by Bremard Nicolas <nicolas@bremard.fr> on 11/2022
 
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -15,6 +17,7 @@
  You should have received a copy of the GNU Lesser General Public
  License along with this library.
 */
+
 
 #include "TuioDispatcher.h"
 

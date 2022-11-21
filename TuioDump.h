@@ -2,6 +2,7 @@
 	TUIO C++ Example - part of the reacTIVision project
 	http://reactivision.sourceforge.net/
 	Copyright (c) 2005-2016 Martin Kaltenbrunner <martin@tuio.org>
+	Modified by Bremard Nicolas <nicolas@bremard.fr> on 11/2022
 
 	Permission is hereby granted, free of charge, to any person obtaining
 	a copy of this software and associated documentation files

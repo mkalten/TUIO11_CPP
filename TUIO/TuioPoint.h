@@ -1,6 +1,7 @@
 /*
  TUIO C++ Library
- Copyright (c) 2022 Nicolas Bremard <nicolas.bremard@laposte.net>
+ Copyright (c) 2005-2017 Martin Kaltenbrunner <martin@tuio.org>
+ Modified by Bremard Nicolas <nicolas@bremard.fr> on 11/2022
 
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -27,12 +28,12 @@
 namespace TUIO {
 
 	/**
-	 * The TuioPoint class on the one hand is a simple container and utility class to handle TUIO positions in general, 
-	 * on the other hand the TuioPoint is the base class for the TuioCursor, TuioObject and TuioBlob classes.
+	 * The TuioPoint class on the one hand is a simple container and utility class to handle TUIO positions in general,
+	 * on the other hand the TuioPoint is the base class for the TuioCursor and TuioObject classes.
 	 *
-	 * @author Nicolas Bremard
+	 * @author Martin Kaltenbrunner
 	 * @version 1.1.7
-	 */ 
+	 */
 	class LIBDECL TuioPoint {
 
 	protected:

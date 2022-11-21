@@ -113,9 +113,6 @@
     <ClCompile Include="..\TUIO\TuioObject25D.cpp">
       <Filter>Source Files\TUIO</Filter>
     </ClCompile>
-    <ClCompile Include="..\TUIO\TuioCustom.cpp">
-      <Filter>Source Files\TUIO</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\TUIO\FlashSender.h">
@@ -224,9 +221,6 @@
       <Filter>Header Files\TUIO</Filter>
     </ClInclude>
     <ClInclude Include="..\TUIO\TuioCursor25D.h">
-      <Filter>Header Files\TUIO</Filter>
-    </ClInclude>
-    <ClInclude Include="..\TUIO\TuioCustom.h">
       <Filter>Header Files\TUIO</Filter>
     </ClInclude>
   </ItemGroup>
