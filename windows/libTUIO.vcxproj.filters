@@ -29,9 +29,6 @@
     <ClCompile Include="..\TUIO\OneEuroFilter.cpp">
       <Filter>Source Files\TUIO</Filter>
     </ClCompile>
-    <ClCompile Include="..\TUIO\FlashSender.cpp">
-      <Filter>Source Files\TUIO</Filter>
-    </ClCompile>
     <ClCompile Include="..\oscpack\osc\OscOutboundPacketStream.cpp">
       <Filter>Source Files\oscpack</Filter>
     </ClCompile>
@@ -97,9 +94,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\TUIO\FlashSender.h">
-      <Filter>Header Files\TUIO</Filter>
-    </ClInclude>
     <ClInclude Include="..\TUIO\LibExport.h">
       <Filter>Header Files\TUIO</Filter>
     </ClInclude>

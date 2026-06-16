@@ -408,12 +408,6 @@ int main(int argc, char* argv[])
 	try { web_sender = new WebSockSender(8080); }
 	catch (std::exception e) { web_sender = NULL; }
 	if (web_sender) server->addOscSender(web_sender);
-	
-	// add an additional TUIO/FLC sender
-	OscSender *flash_sender = NULL;
-	try { flash_sender = new FlashSender(); }
-	catch (std::exception e) { flash_sender = NULL; }
-	if (flash_sender) server->addOscSender(flash_sender);
 
 	SimpleSimulator *app = new SimpleSimulator(server);
 	app->run();
