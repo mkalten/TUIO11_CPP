@@ -154,18 +154,33 @@ void SimpleSimulator::processEvents()
 				tuioServer->resetTuioCursors();
 				stickyCursorList.clear();
 				jointCursorList.clear();
-				activeCursorList.clear();
+				activeCursorMap.clear();
 			}
 			break;
 
 		case SDL_MOUSEMOTION:
-			if (event.button.button == SDL_BUTTON_LEFT) mouseDragged((float)event.button.x/width, (float)event.button.y/height);
+			if (event.button.button == SDL_BUTTON_LEFT && event.motion.which != SDL_TOUCH_MOUSEID){
+				mouseDragged((float)event.button.x/width, (float)event.button.y/height, MOUSE_FINGER_ID);
+			}
 			break;
 		case SDL_MOUSEBUTTONDOWN:
-			if (event.button.button == SDL_BUTTON_LEFT) mousePressed((float)event.button.x/width, (float)event.button.y/height);
+			if (event.button.button == SDL_BUTTON_LEFT && event.button.which != SDL_TOUCH_MOUSEID){
+				mousePressed((float)event.button.x/width, (float)event.button.y/height, MOUSE_FINGER_ID);
+			}
 			break;
 		case SDL_MOUSEBUTTONUP:
-			if (event.button.button == SDL_BUTTON_LEFT) mouseReleased((float)event.button.x/width, (float)event.button.y/height);
+			if (event.button.button == SDL_BUTTON_LEFT && event.button.which != SDL_TOUCH_MOUSEID){
+				mouseReleased((float)event.button.x/width, (float)event.button.y/height, MOUSE_FINGER_ID);
+			}
+			break;
+		case SDL_FINGERMOTION:
+			mouseDragged((float)event.tfinger.x, (float)event.tfinger.y, event.tfinger.fingerId);
+			break;
+		case SDL_FINGERDOWN:
+			mousePressed((float)event.tfinger.x, (float)event.tfinger.y, event.tfinger.fingerId);
+			break;
+		case SDL_FINGERUP:
+			mouseReleased((float)event.tfinger.x, (float)event.tfinger.y, event.tfinger.fingerId);
 			break;
 		case SDL_QUIT:
 			running = false;
@@ -176,7 +191,7 @@ void SimpleSimulator::processEvents()
     }
 }
 
-void SimpleSimulator::mousePressed(float x, float y) {
+void SimpleSimulator::mousePressed(float x, float y, long long int activeId) {
 	//printf("pressed %f %f\n",x,y);
 
 	TuioCursor *match = NULL;
@@ -189,100 +204,66 @@ void SimpleSimulator::mousePressed(float x, float y) {
 			match = tcur;
 		}
 	}
-	
+
 	const Uint8 *keystate = SDL_GetKeyboardState(NULL);
-
 	if ((keystate[SDL_SCANCODE_LSHIFT]) || (keystate[SDL_SCANCODE_RSHIFT]))  {
-
 		if (match!=NULL) {
 			std::list<TuioCursor*>::iterator joint = std::find( jointCursorList.begin(), jointCursorList.end(), match );
 			if( joint != jointCursorList.end() ) {
 				jointCursorList.erase( joint );
 			}
 			stickyCursorList.remove(match);
-			activeCursorList.remove(match);
 			tuioServer->removeTuioCursor(match);
 		} else {
 			TuioCursor *cursor = tuioServer->addTuioCursor(x,y);
 			stickyCursorList.push_back(cursor);
-			activeCursorList.push_back(cursor);
+			activeCursorMap[activeId] = cursor;
 		}
 	} else if ((keystate[SDL_SCANCODE_LCTRL]) || (keystate[SDL_SCANCODE_RCTRL])) {
-
 		if (match!=NULL) {
 			std::list<TuioCursor*>::iterator joint = std::find( jointCursorList.begin(), jointCursorList.end(), match );
 			if( joint != jointCursorList.end() ) {
 				jointCursorList.remove( match );
 			} else jointCursorList.push_back(match);
 		}
+	} else if (match==NULL) {
+		TuioCursor *cursor = tuioServer->addTuioCursor(x,y);
+		activeCursorMap[activeId] = cursor;
 	} else {
-		if (match==NULL) {
-			TuioCursor *cursor = tuioServer->addTuioCursor(x,y);
-			activeCursorList.push_back(cursor);
-		} else activeCursorList.push_back(match);
+		activeCursorMap[activeId] = match;
 	}
 }
 
-void SimpleSimulator::mouseDragged(float x, float y) {
+void SimpleSimulator::mouseDragged(float x, float y, long long int activeId) {
 	//printf("dragged %f %f\n",x,y);
 
-	TuioCursor *cursor = NULL;
-	float distance  = width;
-	for (std::list<TuioCursor*>::iterator iter = activeCursorList.begin(); iter!=activeCursorList.end(); iter++) {
-		TuioCursor *tcur = (*iter);
-		float test = tcur->getDistance(x,y);
-		if (test<distance) {
-			distance = test;
-			cursor = tcur;
-		}
+	auto cursorIterator = activeCursorMap.find( activeId );
+	if( cursorIterator != activeCursorMap.end() ){
+		TuioCursor *cursor = cursorIterator->second;
+
+		if (cursor->getTuioTime()==frameTime) return;
+
+		bool joint = ( std::find(jointCursorList.begin(), jointCursorList.end(), cursor) != jointCursorList.end() );
+		if( joint ) {
+			float dx = x-cursor->getX();
+			float dy = y-cursor->getY();
+			for (TuioCursor* jointCursor : jointCursorList) {
+				tuioServer->updateTuioCursor(jointCursor,jointCursor->getX()+dx,jointCursor->getY()+dy);
+			}
+		} else tuioServer->updateTuioCursor(cursor,x,y);
 	}
-
-	if (cursor==NULL) return;
-	if (cursor->getTuioTime()==frameTime) return;
-
-	std::list<TuioCursor*>::iterator joint = std::find( jointCursorList.begin(), jointCursorList.end(), cursor );
-	if( joint != jointCursorList.end() ) {
-		float dx = x-cursor->getX();
-		float dy = y-cursor->getY();
-		for (std::list<TuioCursor*>::iterator iter = jointCursorList.begin(); iter!=jointCursorList.end(); iter++) {
-			TuioCursor *jointCursor = (*iter);
-			 tuioServer->updateTuioCursor(jointCursor,jointCursor->getX()+dx,jointCursor->getY()+dy);
-		}
-	} else tuioServer->updateTuioCursor(cursor,x,y);
 }
 
-void SimpleSimulator::mouseReleased(float x, float y) {
+void SimpleSimulator::mouseReleased(float x, float y, long long int activeId) {
 	//printf("released %f %f\n",x,y);
 
-	TuioCursor *cursor = NULL;
-	float distance  = 0.01f;
-	for (std::list<TuioCursor*>::iterator iter = stickyCursorList.begin(); iter!=stickyCursorList.end(); iter++) {
-		TuioCursor *tcur = (*iter);
-		float test = tcur->getDistance(x,y);
-		if (test<distance) {
-			distance = test;
-			cursor = tcur;
+	auto cursorIterator = activeCursorMap.find( activeId );
+	if( cursorIterator != activeCursorMap.end() ){
+		activeCursorMap.erase(cursorIterator);
+		bool sticky = ( std::find(stickyCursorList.begin(), stickyCursorList.end(), cursorIterator->second) != stickyCursorList.end());
+		if( !sticky ){
+			tuioServer->removeTuioCursor(cursorIterator->second);
 		}
-	}
-
-	if (cursor!=NULL) {
-		activeCursorList.remove(cursor);
-		return;
-	}
-
-	distance = 0.01f;
-	for (std::list<TuioCursor*>::iterator iter = activeCursorList.begin(); iter!=activeCursorList.end(); iter++) {
-		TuioCursor *tcur = (*iter);
-		float test = tcur->getDistance(x,y);
-		if (test<distance) {
-			distance = test;
-			cursor = tcur;
-		}
-	}
-
-	if (cursor!=NULL) {
-		activeCursorList.remove(cursor);
-		tuioServer->removeTuioCursor(cursor);
 	}
 }
 
