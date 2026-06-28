@@ -231,47 +231,20 @@ bool TuioContainer::isMoving() const{
 }
 
 TuioPoint TuioContainer::predictPosition() {
-	/*if (path.size()>1) {
-		std::list<TuioPoint>::iterator iter = path.end();
-		std::advance(iter, -2);
-		
-		TuioTime diffTime = currentTime - (*iter).getTuioTime();
-		float dt = diffTime.getTotalMilliseconds()/1000.0f;
-		
-		float tx = x_speed * dt;
-		float ty = y_speed * dt;
-		
-		float nx = xpos+tx-tx*x_accel*dt;
-		float ny = ypos+ty-ty*y_accel*dt;
-		
-		//if (xposFilter && yposFilter) {
-		//	nx = xposFilter->filter(nx,dt);
-		//	ny = yposFilter->filter(ny,dt);
-		//	//std::cout << dt << " " << xp << " " << xpos << " " << yp << " " << ypos << std::endl;
-		//}
-		
-		//std::cout << nx << " " << ny << std::endl;
-		return TuioPoint(nx,ny);
-	} else return TuioPoint(xpos,ypos);*/
-	
 	TuioTime diffTime = currentTime - lastPoint->getTuioTime();
 	float dt = diffTime.getTotalMilliseconds()/1000.0f;
 	
 	float tx = x_speed * dt;
 	float ty = y_speed * dt;
 	
-	float nx = xpos+tx-tx*x_accel*dt;
-	float ny = ypos+ty-ty*y_accel*dt;
+	float nx = xpos + tx + 0.5f * x_accel * dt * dt;
+	float ny = ypos + ty + 0.5f * y_accel * dt * dt;
 	
-	//if (xposFilter && yposFilter) {
-	//	nx = xposFilter->filter(nx,dt);
-	//	ny = yposFilter->filter(ny,dt);
-	//	//std::cout << dt << " " << xp << " " << xpos << " " << yp << " " << ypos << std::endl;
-	//}
+	if (xposFilter && yposFilter) {
+		nx = xposFilter->filter(nx,dt);
+		ny = yposFilter->filter(ny,dt);
+	}
 	
-	//std::cout << nx << " " << ny << std::endl;
-	return TuioPoint(nx,ny);
-
-	
+	return TuioPoint(nx,ny);	
 }
 
