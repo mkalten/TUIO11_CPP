@@ -77,11 +77,15 @@ void UdpReceiver::disconnect() {
 		locked = false;
 		return;
 	}
-	socket->Break();
+	socket->AsynchronousBreak();
 	
 	if (!locked) {
 #ifdef WIN32
-		if( thread ) CloseHandle( thread );
+		if( thread ) 
+		{
+			WaitForSingleObject(thread, INFINITE);
+			CloseHandle(thread);
+		}
 #endif
 		thread = 0;
 	} else locked = false;
