@@ -50,7 +50,7 @@ namespace TUIO {
 		 * @param	xp	the X coordinate to assign
 		 * @param	yp	the Y coordinate to assign
 		 */
-		TuioCursor (TuioTime ttime, long si, int ci, float xp, float yp);
+		TuioCursor (TuioTime ttime, int si, int ci, float xp, float yp);
 
 		/**
 		 * This constructor takes the provided Session ID, Cursor ID, X and Y coordinate 
@@ -61,7 +61,7 @@ namespace TUIO {
 		 * @param	xp	the X coordinate to assign
 		 * @param	yp	the Y coordinate to assign
 		 */
-		TuioCursor (long si, int ci, float xp, float yp);
+		TuioCursor (int si, int ci, float xp, float yp);
 		
 		/**
 		 * This constructor takes the attributes of the provided TuioCursor 

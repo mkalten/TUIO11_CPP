@@ -241,17 +241,17 @@ namespace TUIO {
 
 		void startObjectBundle();
 		void addObjectMessage(TuioObject *tobj);
-		void sendObjectBundle(long fseq);
+		void sendObjectBundle(int fseq);
 		void sendEmptyObjectBundle();
 
 		void startCursorBundle();
 		void addCursorMessage(TuioCursor *tcur);
-		void sendCursorBundle(long fseq);
+		void sendCursorBundle(int fseq);
 		void sendEmptyCursorBundle();
 
 		void startBlobBundle();
 		void addBlobMessage(TuioBlob *tblb);
-		void sendBlobBundle(long fseq);
+		void sendBlobBundle(int fseq);
 		void sendEmptyBlobBundle();
 
 		int update_interval;

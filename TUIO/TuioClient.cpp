@@ -106,16 +106,16 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 				lockObjectList();
 				std::list<TuioObject*>::iterator tobj;
 				for (tobj=objectList.begin(); tobj!= objectList.end(); tobj++)
-					if((*tobj)->getSessionID()==(long)s_id) break;
+					if(((*tobj)->getSessionID()==s_id) && ((*tobj)->getTuioSourceID()==source_id)) break;
 
 				if (tobj == objectList.end()) {
 					
-					TuioObject *addObject = new TuioObject((long)s_id,(int)c_id,xpos,ypos,angle);
+					TuioObject *addObject = new TuioObject(s_id,c_id,xpos,ypos,angle);
 					frameObjects.push_back(addObject);
 
 				} else if ( ((*tobj)->getX()!=xpos) || ((*tobj)->getY()!=ypos) || ((*tobj)->getAngle()!=angle) || ((*tobj)->getXSpeed()!=xspeed) || ((*tobj)->getYSpeed()!=yspeed) || ((*tobj)->getRotationSpeed()!=rspeed) || ((*tobj)->getMotionAccel()!=maccel) || ((*tobj)->getRotationAccel()!=raccel) ) {
 
-					TuioObject *updateObject = new TuioObject((long)s_id,(*tobj)->getSymbolID(),xpos,ypos,angle);
+					TuioObject *updateObject = new TuioObject(s_id,(*tobj)->getSymbolID(),xpos,ypos,angle);
 					updateObject->update(xpos,ypos,angle,xspeed,yspeed,rspeed,maccel,raccel);
 					frameObjects.push_back(updateObject);
 
@@ -128,7 +128,7 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 				aliveObjectList.clear();
 				while(!args.Eos()) {
 					args >> s_id;
-					aliveObjectList.push_back((long)s_id);
+					aliveObjectList.push_back(s_id);
 				}
 
 			} else if (strcmp(cmd,"fseq")==0) {
@@ -150,7 +150,7 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 					//find the removed objects first
 					for (std::list<TuioObject*>::iterator tobj=objectList.begin(); tobj != objectList.end(); tobj++) {
 						if ((*tobj)->getTuioSourceID()==source_id) {
-							std::list<long>::iterator iter = find(aliveObjectList.begin(), aliveObjectList.end(), (*tobj)->getSessionID());
+							std::list<int>::iterator iter = find(aliveObjectList.begin(), aliveObjectList.end(), (*tobj)->getSessionID());
 							if (iter == aliveObjectList.end()) {
 								(*tobj)->remove(currentTime);
 								frameObjects.push_back(*tobj);							
@@ -276,16 +276,16 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 				lockCursorList();
 				std::list<TuioCursor*>::iterator tcur;
 				for (tcur=cursorList.begin(); tcur!= cursorList.end(); tcur++)
-					if (((*tcur)->getSessionID()==(long)s_id) && ((*tcur)->getTuioSourceID()==source_id)) break;
+					if (((*tcur)->getSessionID()==s_id) && ((*tcur)->getTuioSourceID()==source_id)) break;
 				
 				if (tcur==cursorList.end()) {
 									
-					TuioCursor *addCursor = new TuioCursor((long)s_id,-1,xpos,ypos);
+					TuioCursor *addCursor = new TuioCursor(s_id,-1,xpos,ypos);
 					frameCursors.push_back(addCursor);
 
 				} else if ( ((*tcur)->getX()!=xpos) || ((*tcur)->getY()!=ypos) || ((*tcur)->getXSpeed()!=xspeed) || ((*tcur)->getYSpeed()!=yspeed) || ((*tcur)->getMotionAccel()!=maccel) ) {
 
-					TuioCursor *updateCursor = new TuioCursor((long)s_id,(*tcur)->getCursorID(),xpos,ypos);
+					TuioCursor *updateCursor = new TuioCursor(s_id,(*tcur)->getCursorID(),xpos,ypos);
 					updateCursor->update(xpos,ypos,xspeed,yspeed,maccel);
 					frameCursors.push_back(updateCursor);
 
@@ -298,7 +298,7 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 				aliveCursorList.clear();
 				while(!args.Eos()) {
 					args >> s_id;
-					aliveCursorList.push_back((long)s_id);
+					aliveCursorList.push_back(s_id);
 				}
 				
 			} else if( strcmp( cmd, "fseq" ) == 0 ) {
@@ -319,7 +319,7 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 					// find the removed cursors first
 					for (std::list<TuioCursor*>::iterator tcur=cursorList.begin(); tcur != cursorList.end(); tcur++) {
 						if ((*tcur)->getTuioSourceID()==source_id) {
-							std::list<long>::iterator iter = find(aliveCursorList.begin(), aliveCursorList.end(), (*tcur)->getSessionID());
+							std::list<int>::iterator iter = find(aliveCursorList.begin(), aliveCursorList.end(), (*tcur)->getSessionID());
 							
 							if (iter == aliveCursorList.end()) {
 									(*tcur)->remove(currentTime);
@@ -510,16 +510,16 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 				lockBlobList();
 				std::list<TuioBlob*>::iterator tblb;
 				for (tblb=blobList.begin(); tblb!= blobList.end(); tblb++)
-					if((*tblb)->getSessionID()==(long)s_id) break;
+					if(((*tblb)->getSessionID()==s_id) && ((*tblb)->getTuioSourceID()==source_id)) break;
 				
 				if (tblb==blobList.end()) {
 					
-					TuioBlob *addBlob = new TuioBlob((long)s_id,-1,xpos,ypos,angle,width,height,area);
+					TuioBlob *addBlob = new TuioBlob(s_id,-1,xpos,ypos,angle,width,height,area);
 					frameBlobs.push_back(addBlob);
 					
 				} else if ( ((*tblb)->getX()!=xpos) || ((*tblb)->getY()!=ypos) || ((*tblb)->getAngle()!=angle) || ((*tblb)->getWidth()!=width) || ((*tblb)->getHeight()!=height) || ((*tblb)->getArea()!=area) || ((*tblb)->getXSpeed()!=xspeed) || ((*tblb)->getYSpeed()!=yspeed) || ((*tblb)->getMotionAccel()!=maccel) ) {
 					
-					TuioBlob *updateBlob = new TuioBlob((long)s_id,(*tblb)->getBlobID(),xpos,ypos,angle,width,height,area);
+					TuioBlob *updateBlob = new TuioBlob(s_id,(*tblb)->getBlobID(),xpos,ypos,angle,width,height,area);
 					updateBlob->update(xpos,ypos,angle,width,height,area,xspeed,yspeed,rspeed,maccel,raccel);
 					frameBlobs.push_back(updateBlob);
 				}
@@ -531,7 +531,7 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 				aliveBlobList.clear();
 				while(!args.Eos()) {
 					args >> s_id;
-					aliveBlobList.push_back((long)s_id);
+					aliveBlobList.push_back(s_id);
 				}
 				
 			} else if( strcmp( cmd, "fseq" ) == 0 ) {
@@ -553,7 +553,7 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 					// find the removed blobs first
 					for (std::list<TuioBlob*>::iterator tblb=blobList.begin(); tblb != blobList.end(); tblb++) {
 						if ((*tblb)->getTuioSourceID()==source_id) {
-							std::list<long>::iterator iter = find(aliveBlobList.begin(), aliveBlobList.end(), (*tblb)->getSessionID());
+							std::list<int>::iterator iter = find(aliveBlobList.begin(), aliveBlobList.end(), (*tblb)->getSessionID());
 							
 							if (iter == aliveBlobList.end()) {
 								(*tblb)->remove(currentTime);
@@ -752,7 +752,7 @@ void TuioClient::disconnect() {
 }
 
 
-TuioObject* TuioClient::getTuioObject(int src_id, long s_id) {
+TuioObject* TuioClient::getTuioObject(int src_id, int s_id) {
 	lockObjectList();
 	for (std::list<TuioObject*>::iterator iter=objectList.begin(); iter != objectList.end(); iter++) {
 		if (((*iter)->getTuioSourceID()==src_id) && ((*iter)->getSessionID()==s_id)) {
@@ -764,7 +764,7 @@ TuioObject* TuioClient::getTuioObject(int src_id, long s_id) {
 	return NULL;
 }
 
-TuioCursor* TuioClient::getTuioCursor(int src_id, long s_id) {
+TuioCursor* TuioClient::getTuioCursor(int src_id, int s_id) {
 	lockCursorList();
 	for (std::list<TuioCursor*>::iterator iter=cursorList.begin(); iter != cursorList.end(); iter++) {
 		if (((*iter)->getTuioSourceID()==src_id) && ((*iter)->getSessionID()==s_id)) {
@@ -776,7 +776,7 @@ TuioCursor* TuioClient::getTuioCursor(int src_id, long s_id) {
 	return NULL;
 }
 
-TuioBlob* TuioClient::getTuioBlob(int src_id, long s_id) {
+TuioBlob* TuioClient::getTuioBlob(int src_id, int s_id) {
 	lockBlobList();
 	for (std::list<TuioBlob*>::iterator iter=blobList.begin(); iter != blobList.end(); iter++) {
 		if (((*iter)->getTuioSourceID()==src_id) && ((*iter)->getSessionID()==s_id)) {

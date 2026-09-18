@@ -298,7 +298,7 @@ void TuioServer::startCursorBundle() {
 	if (!source_name.empty()) (*oscPacket) << osc::BeginMessage( "/tuio/2Dcur") << "source" << source_name.c_str() << osc::EndMessage;
 	(*oscPacket) << osc::BeginMessage( "/tuio/2Dcur") << "alive";
 	for (std::list<TuioCursor*>::iterator tuioCursor = cursorList.begin(); tuioCursor!=cursorList.end(); tuioCursor++) {
-		/*if ((*tuioCursor)->getTuioState()!=TUIO_ADDED)*/ (*oscPacket) << (int32)((*tuioCursor)->getSessionID());
+		/*if ((*tuioCursor)->getTuioState()!=TUIO_ADDED)*/ (*oscPacket) << ((*tuioCursor)->getSessionID());
 	}
 	(*oscPacket) << osc::EndMessage;	
 }
@@ -321,13 +321,13 @@ void TuioServer::addCursorMessage(TuioCursor *tcur) {
 	}
 
 	(*oscPacket) << osc::BeginMessage( "/tuio/2Dcur") << "set";
-	(*oscPacket) << (int32)(tcur->getSessionID()) << xpos << ypos;
+	(*oscPacket) << (tcur->getSessionID()) << xpos << ypos;
 	(*oscPacket) << xvel << yvel << tcur->getMotionAccel();	
 	(*oscPacket) << osc::EndMessage;
 }
 
-void TuioServer::sendCursorBundle(long fseq) {
-	(*oscPacket) << osc::BeginMessage( "/tuio/2Dcur") << "fseq" << (int32)fseq << osc::EndMessage;
+void TuioServer::sendCursorBundle(int fseq) {
+	(*oscPacket) << osc::BeginMessage( "/tuio/2Dcur") << "fseq" << fseq << osc::EndMessage;
 	(*oscPacket) << osc::EndBundle;
 	deliverOscPacket( oscPacket );
 }
@@ -348,7 +348,7 @@ void TuioServer::startObjectBundle() {
 	if (!source_name.empty()) (*oscPacket) << osc::BeginMessage( "/tuio/2Dobj") << "source" << source_name.c_str() << osc::EndMessage;
 	(*oscPacket) << osc::BeginMessage( "/tuio/2Dobj") << "alive";
 	for (std::list<TuioObject*>::iterator tuioObject = objectList.begin(); tuioObject!=objectList.end(); tuioObject++) {
-		(*oscPacket) << (int32)((*tuioObject)->getSessionID());	
+		(*oscPacket) << ((*tuioObject)->getSessionID());	
 	}
 	(*oscPacket) << osc::EndMessage;
 }
@@ -375,13 +375,13 @@ void TuioServer::addObjectMessage(TuioObject *tobj) {
 	}
 	
 	(*oscPacket) << osc::BeginMessage( "/tuio/2Dobj") << "set";
-	(*oscPacket) << (int32)(tobj->getSessionID()) << tobj->getSymbolID() << xpos << ypos << angle;
+	(*oscPacket) << (tobj->getSessionID()) << tobj->getSymbolID() << xpos << ypos << angle;
 	(*oscPacket) << xvel << yvel << rvel << tobj->getMotionAccel() << tobj->getRotationAccel();	
 	(*oscPacket) << osc::EndMessage;
 }
 
-void TuioServer::sendObjectBundle(long fseq) {
-	(*oscPacket) << osc::BeginMessage( "/tuio/2Dobj") << "fseq" << (int32)fseq << osc::EndMessage;
+void TuioServer::sendObjectBundle(int fseq) {
+	(*oscPacket) << osc::BeginMessage( "/tuio/2Dobj") << "fseq" << fseq << osc::EndMessage;
 	(*oscPacket) << osc::EndBundle;
 	deliverOscPacket( oscPacket );
 }
@@ -403,7 +403,7 @@ void TuioServer::startBlobBundle() {
 	if (!source_name.empty()) (*oscPacket) << osc::BeginMessage( "/tuio/2Dblb") << "source" << source_name.c_str() << osc::EndMessage;
 	(*oscPacket) << osc::BeginMessage( "/tuio/2Dblb") << "alive";
 	for (std::list<TuioBlob*>::iterator tuioBlob = blobList.begin(); tuioBlob!=blobList.end(); tuioBlob++) {
-		/*if ((*tuioBlob)->getTuioState()!=TUIO_ADDED)*/ (*oscPacket) << (int32)((*tuioBlob)->getSessionID());
+		/*if ((*tuioBlob)->getTuioState()!=TUIO_ADDED)*/ (*oscPacket) << ((*tuioBlob)->getSessionID());
 	}
 	(*oscPacket) << osc::EndMessage;	
 }
@@ -432,13 +432,13 @@ void TuioServer::addBlobMessage(TuioBlob *tblb) {
 	}
 	
 	(*oscPacket) << osc::BeginMessage( "/tuio/2Dblb") << "set";
-	(*oscPacket) << (int32)(tblb->getSessionID()) << xpos << ypos << angle << tblb->getWidth() << tblb->getHeight() << tblb->getArea();
+	(*oscPacket) << (tblb->getSessionID()) << xpos << ypos << angle << tblb->getWidth() << tblb->getHeight() << tblb->getArea();
 	(*oscPacket) << xvel << yvel  << rvel << tblb->getMotionAccel()  << tblb->getRotationAccel();	
 	(*oscPacket) << osc::EndMessage;
 }
 
-void TuioServer::sendBlobBundle(long fseq) {
-	(*oscPacket) << osc::BeginMessage( "/tuio/2Dblb") << "fseq" << (int32)fseq << osc::EndMessage;
+void TuioServer::sendBlobBundle(int fseq) {
+	(*oscPacket) << osc::BeginMessage( "/tuio/2Dblb") << "fseq" << fseq << osc::EndMessage;
 	(*oscPacket) << osc::EndBundle;
 
 	deliverOscPacket( oscPacket );
@@ -453,7 +453,7 @@ void TuioServer::sendFullMessages() {
 	// add the cursor alive message
 	(*fullPacket) << osc::BeginMessage( "/tuio/2Dcur") << "alive";
 	for (std::list<TuioCursor*>::iterator tuioCursor = cursorList.begin(); tuioCursor!=cursorList.end(); tuioCursor++)
-		(*fullPacket) << (int32)((*tuioCursor)->getSessionID());	
+		(*fullPacket) << ((*tuioCursor)->getSessionID());	
 	(*fullPacket) << osc::EndMessage;	
 	
 	// add all current cursor set messages
@@ -474,7 +474,7 @@ void TuioServer::sendFullMessages() {
 			// add the cursor alive message
 			(*fullPacket) << osc::BeginMessage( "/tuio/2Dcur") << "alive";
 			for (std::list<TuioCursor*>::iterator tuioCursor = cursorList.begin(); tuioCursor!=cursorList.end(); tuioCursor++)
-				(*fullPacket) << (int32)((*tuioCursor)->getSessionID());	
+				(*fullPacket) << ((*tuioCursor)->getSessionID());	
 			(*fullPacket) << osc::EndMessage;				
 		}
 		
@@ -493,7 +493,7 @@ void TuioServer::sendFullMessages() {
 		
 		// add the actual cursor set message
 		(*fullPacket) << osc::BeginMessage( "/tuio/2Dcur") << "set";
-		(*fullPacket) << (int32)((*tuioCursor)->getSessionID()) << xpos << ypos;
+		(*fullPacket) << ((*tuioCursor)->getSessionID()) << xpos << ypos;
 		(*fullPacket) << xvel << yvel <<(*tuioCursor)->getMotionAccel();	
 		(*fullPacket) << osc::EndMessage;	
 	}
@@ -510,7 +510,7 @@ void TuioServer::sendFullMessages() {
 	// add the object alive message
 	(*fullPacket) << osc::BeginMessage( "/tuio/2Dobj") << "alive";
 	for (std::list<TuioObject*>::iterator tuioObject = objectList.begin(); tuioObject!=objectList.end(); tuioObject++)
-		(*fullPacket) << (int32)((*tuioObject)->getSessionID());	
+		(*fullPacket) << ((*tuioObject)->getSessionID());	
 	(*fullPacket) << osc::EndMessage;	
 	
 	for (std::list<TuioObject*>::iterator tuioObject = objectList.begin(); tuioObject!=objectList.end(); tuioObject++) {
@@ -529,7 +529,7 @@ void TuioServer::sendFullMessages() {
 			// add the object alive message
 			(*fullPacket) << osc::BeginMessage( "/tuio/2Dobj") << "alive";
 			for (std::list<TuioObject*>::iterator tuioObject = objectList.begin(); tuioObject!=objectList.end(); tuioObject++)
-				(*fullPacket) << (int32)((*tuioObject)->getSessionID());	
+				(*fullPacket) << ((*tuioObject)->getSessionID());	
 			(*fullPacket) << osc::EndMessage;	
 		}
 		
@@ -554,7 +554,7 @@ void TuioServer::sendFullMessages() {
 		
 		// add the actual object set message
 		(*fullPacket) << osc::BeginMessage( "/tuio/2Dobj") << "set";
-		(*fullPacket) << (int32)((*tuioObject)->getSessionID()) << (*tuioObject)->getSymbolID() << xpos << ypos << angle;
+		(*fullPacket) << ((*tuioObject)->getSessionID()) << (*tuioObject)->getSymbolID() << xpos << ypos << angle;
 		(*fullPacket) << xvel << yvel << rvel << (*tuioObject)->getMotionAccel() << (*tuioObject)->getRotationAccel();	
 		(*fullPacket) << osc::EndMessage;
 		
@@ -571,7 +571,7 @@ void TuioServer::sendFullMessages() {
 	// add the object alive message
 	(*fullPacket) << osc::BeginMessage( "/tuio/2Dblb") << "alive";
 	for (std::list<TuioBlob*>::iterator tuioBlob = blobList.begin(); tuioBlob!=blobList.end(); tuioBlob++)
-		(*fullPacket) << (int32)((*tuioBlob)->getSessionID());	
+		(*fullPacket) << ((*tuioBlob)->getSessionID());	
 	(*fullPacket) << osc::EndMessage;	
 	
 	for (std::list<TuioBlob*>::iterator tuioBlob = blobList.begin(); tuioBlob!=blobList.end(); tuioBlob++) {
@@ -590,7 +590,7 @@ void TuioServer::sendFullMessages() {
 			// add the blob alive message
 			(*fullPacket) << osc::BeginMessage( "/tuio/2Dblb") << "alive";
 			for (std::list<TuioBlob*>::iterator tuioBlob = blobList.begin(); tuioBlob!=blobList.end(); tuioBlob++)
-				(*fullPacket) << (int32)((*tuioBlob)->getSessionID());	
+				(*fullPacket) << ((*tuioBlob)->getSessionID());	
 			(*fullPacket) << osc::EndMessage;	
 		}
 		
@@ -615,7 +615,7 @@ void TuioServer::sendFullMessages() {
 		
 		// add the actual blob set message
 		(*fullPacket) << osc::BeginMessage( "/tuio/2Dblb") << "set";
-		(*fullPacket) << (int32)((*tuioBlob)->getSessionID()) << xpos << ypos  << angle << (*tuioBlob)->getWidth() << (*tuioBlob)->getHeight() << (*tuioBlob)->getArea();
+		(*fullPacket) << ((*tuioBlob)->getSessionID()) << xpos << ypos  << angle << (*tuioBlob)->getWidth() << (*tuioBlob)->getHeight() << (*tuioBlob)->getArea();
 		(*fullPacket) << xvel << yvel << rvel << (*tuioBlob)->getMotionAccel() << (*tuioBlob)->getRotationAccel();	
 		(*fullPacket) << osc::EndMessage;
 		

@@ -252,13 +252,13 @@ namespace TUIO {
 		 * Returns the next available Session ID for external use.
 		 * @return	the next available Session ID for external use
 		 */
-		long getSessionID();
+		int getSessionID();
 
 		/**
 		 * Returns the current frame ID for external use.
 		 * @return	the current frame ID for external use
 		 */
-		long getFrameID();
+		int getFrameID();
 		
 		/**
 		 * Returns the current frame time for external use.
@@ -434,10 +434,10 @@ namespace TUIO {
 		std::list<TuioBlob*> freeBlobBuffer;
 
 		TuioTime currentFrameTime;
-		long currentFrame;
+		int currentFrame;
 		int maxCursorID;
 		int maxBlobID;
-		long sessionID;
+		int sessionID;
 
 		bool updateObject;
 		bool updateCursor;

@@ -20,7 +20,7 @@
 
 using namespace TUIO;
 
-TuioBlob::TuioBlob (TuioTime ttime, long si, int bi, float xp, float yp, float a, float w, float h, float f):TuioContainer(ttime, si, xp, yp) {
+TuioBlob::TuioBlob (TuioTime ttime, int si, int bi, float xp, float yp, float a, float w, float h, float f):TuioContainer(ttime, si, xp, yp) {
 	blob_id = bi;
 	angle = a;
 	width = w;
@@ -36,7 +36,7 @@ TuioBlob::TuioBlob (TuioTime ttime, long si, int bi, float xp, float yp, float a
 	sizeThreshold = 0.0f;
 }
 
-TuioBlob::TuioBlob (long si, int bi, float xp, float yp, float a, float  w, float h, float f):TuioContainer(si, xp, yp) {
+TuioBlob::TuioBlob (int si, int bi, float xp, float yp, float a, float  w, float h, float f):TuioContainer(si, xp, yp) {
 	blob_id = bi;
 	angle = a;
 	width = w;

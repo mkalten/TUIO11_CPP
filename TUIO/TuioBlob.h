@@ -99,7 +99,7 @@ namespace TUIO {
 		 * @param	h	the height to assign
 		 * @param	f	the area to assign
 		 */
-		TuioBlob (TuioTime ttime, long si, int bi, float xp, float yp, float a, float w, float h, float f);
+		TuioBlob (TuioTime ttime, int si, int bi, float xp, float yp, float a, float w, float h, float f);
 
 		/**
 		 * This constructor takes the provided Session ID, X and Y coordinate,
@@ -114,7 +114,7 @@ namespace TUIO {
 		 * @param	h	the height to assign
 		 * @param	f	the area to assign
 		 */	
-		TuioBlob (long si, int bi, float xp, float yp, float a, float  w, float h, float f);
+		TuioBlob (int si, int bi, float xp, float yp, float a, float  w, float h, float f);
 		
 		/**
 		 * This constructor takes the attributes of the provided TuioBlob 

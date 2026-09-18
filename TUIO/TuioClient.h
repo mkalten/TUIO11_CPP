@@ -143,7 +143,7 @@ namespace TUIO {
 		 * @param  s_id  the session ID of the corresponding TuioObject
 		 * @return  an active TuioObject corresponding to the provided Session ID or NULL
 		 */
-		TuioObject* getTuioObject(long s_id) {
+		TuioObject* getTuioObject(int s_id) {
 			return getTuioObject(0,s_id);
 		};
 		
@@ -156,7 +156,7 @@ namespace TUIO {
 		 * @param  s_id  the session ID of the corresponding TuioObject
 		 * @return  an active TuioObject corresponding to the provided Session ID or NULL
 		 */
-		TuioObject* getTuioObject(int src_id, long s_id);
+		TuioObject* getTuioObject(int src_id, int s_id);
 
 		/**
 		 * Returns a List of all currently active TuioCursors
@@ -201,7 +201,7 @@ namespace TUIO {
 		 * @param  s_id  the session ID of the corresponding TuioCursor
 		 * @return  an active TuioCursor corresponding to the provided Session ID or NULL
 		 */
-		TuioCursor* getTuioCursor(long s_id) {
+		TuioCursor* getTuioCursor(int s_id) {
 			return getTuioCursor(0,s_id);
 		};
 		
@@ -214,7 +214,7 @@ namespace TUIO {
 		 * @param  s_id  the session ID of the corresponding TuioCursor
 		 * @return  an active TuioCursor corresponding to the provided Session ID or NULL
 		 */
-		TuioCursor* getTuioCursor(int src_id, long s_id);
+		TuioCursor* getTuioCursor(int src_id, int s_id);
 
 		/**
 		 * Returns a List of all currently active TuioBlobs
@@ -259,7 +259,7 @@ namespace TUIO {
 		 * @param  s_id  the session ID of the corresponding TuioBlob
 		 * @return  an active TuioBlob corresponding to the provided Session ID or NULL
 		 */
-		TuioBlob* getTuioBlob(long s_id) {
+		TuioBlob* getTuioBlob(int s_id) {
 			return getTuioBlob(0,s_id);
 		};
 		
@@ -272,7 +272,7 @@ namespace TUIO {
 		 * @param  s_id  the session ID of the corresponding TuioBlob
 		 * @return  an active TuioBlob corresponding to the provided Session ID or NULL
 		 */
-		TuioBlob* getTuioBlob(int src_id, long s_id);
+		TuioBlob* getTuioBlob(int src_id, int s_id);
 		
 		/**
 		 * Processes a single received OSC message. This method is invoked by the associated
@@ -286,13 +286,13 @@ namespace TUIO {
 		void initialize();
 		
 		std::list<TuioObject*> frameObjects;
-		std::list<long> aliveObjectList;
+		std::list<int> aliveObjectList;
 		std::list<TuioCursor*> frameCursors;
-		std::list<long> aliveCursorList;
+		std::list<int> aliveCursorList;
 		std::list<TuioBlob*> frameBlobs;
-		std::list<long> aliveBlobList;
+		std::list<int> aliveBlobList;
 		
-		osc::int32 currentFrame;
+		int currentFrame;
 		TuioTime currentTime;
 			
 		std::list<TuioCursor*> freeCursorList, freeCursorBuffer;

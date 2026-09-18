@@ -405,12 +405,12 @@ void TuioManager::removeExternalTuioBlob(TuioBlob *tblb) {
 		(*listener)->removeTuioBlob(tblb);
 }
 
-long TuioManager::getSessionID() {
+int TuioManager::getSessionID() {
 	sessionID++;
 	return sessionID;
 }
 
-long TuioManager::getFrameID() {
+int TuioManager::getFrameID() {
 	return currentFrame;
 }
 

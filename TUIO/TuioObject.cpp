@@ -21,7 +21,7 @@
 
 using namespace TUIO;
 
-TuioObject::TuioObject (TuioTime ttime, long si, int sym, float xp, float yp, float a):TuioContainer(ttime, si, xp, yp) {
+TuioObject::TuioObject (TuioTime ttime, int si, int sym, float xp, float yp, float a):TuioContainer(ttime, si, xp, yp) {
 	symbol_id = sym;
 	angle = a;
 	rotation_speed = 0.0f;
@@ -31,7 +31,7 @@ TuioObject::TuioObject (TuioTime ttime, long si, int sym, float xp, float yp, fl
 	angleThreshold = 0.0f;
 }
 
-TuioObject::TuioObject (long si, int sym, float xp, float yp, float a):TuioContainer(si, xp, yp) {
+TuioObject::TuioObject (int si, int sym, float xp, float yp, float a):TuioContainer(si, xp, yp) {
 	symbol_id = sym;
 	angle = a;
 	rotation_speed = 0.0f;

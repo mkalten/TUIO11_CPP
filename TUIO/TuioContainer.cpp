@@ -19,7 +19,7 @@
 #include "TuioContainer.h"
 using namespace TUIO;
 
-TuioContainer::TuioContainer (TuioTime ttime, long si, float xp, float yp):TuioPoint(ttime, xp,yp)
+TuioContainer::TuioContainer (TuioTime ttime, int si, float xp, float yp):TuioPoint(ttime, xp,yp)
 ,state(TUIO_ADDED)
 ,source_id(0)
 ,source_name("undefined")
@@ -37,7 +37,7 @@ TuioContainer::TuioContainer (TuioTime ttime, long si, float xp, float yp):TuioP
 	lastPoint = &path.back();
 }
 
-TuioContainer::TuioContainer (long si, float xp, float yp):TuioPoint(xp,yp)
+TuioContainer::TuioContainer (int si, float xp, float yp):TuioPoint(xp,yp)
 ,state(TUIO_ADDED)
 ,source_id(0)
 ,source_name("undefined")
@@ -244,11 +244,11 @@ void TuioContainer::remove(TuioTime ttime) {
 	state = TUIO_REMOVED;
 }
 
-long TuioContainer::getSessionID() const{
+int TuioContainer::getSessionID() const{
 	return session_id;
 }
 
-void TuioContainer::setSessionID(long s_id) {
+void TuioContainer::setSessionID(int s_id) {
 	session_id = s_id;
 }
 

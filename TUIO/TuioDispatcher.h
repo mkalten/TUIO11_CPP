@@ -138,7 +138,7 @@ namespace TUIO {
 		 *
 		 * @return  an active TuioObject corresponding to the provided Session ID or NULL
 		 */
-		TuioObject* getTuioObject(long s_id);
+		TuioObject* getTuioObject(int s_id);
 
 		/**
 		 * Returns the TuioCursor corresponding to the provided Session ID
@@ -146,7 +146,7 @@ namespace TUIO {
 		 *
 		 * @return  an active TuioCursor corresponding to the provided Session ID or NULL
 		 */
-		TuioCursor* getTuioCursor(long s_id);
+		TuioCursor* getTuioCursor(int s_id);
 
 		/**
 		 * Returns the TuioBlob corresponding to the provided Session ID
@@ -154,7 +154,7 @@ namespace TUIO {
 		 *
 		 * @return  an active TuioBlob corresponding to the provided Session ID or NULL
 		 */
-		TuioBlob* getTuioBlob(long s_id);
+		TuioBlob* getTuioBlob(int s_id);
 		
 		/**
 		 * Locks the TuioObject list in order to avoid updates during access

@@ -59,7 +59,7 @@ namespace TUIO {
 		/**
 		 * The unique session ID number that is assigned to each TUIO object or cursor.
 		 */ 
-		long session_id;
+		int session_id;
 		/**
 		 * The X-axis velocity value.
 		 */ 
@@ -117,7 +117,7 @@ namespace TUIO {
 		 * @param	xp	the X coordinate to assign
 		 * @param	yp	the Y coordinate to assign
 		 */
-		TuioContainer (TuioTime ttime, long si, float xp, float yp);
+		TuioContainer (TuioTime ttime, int si, float xp, float yp);
 
 		/**
 		 * This constructor takes the provided Session ID, X and Y coordinate 
@@ -127,7 +127,7 @@ namespace TUIO {
 		 * @param	xp	the X coordinate to assign
 		 * @param	yp	the Y coordinate to assign
 		 */
-		TuioContainer (long si, float xp, float yp);
+		TuioContainer (int si, float xp, float yp);
 		
 		/**
 		 * This constructor takes the attributes of the provided TuioContainer 
@@ -247,13 +247,13 @@ namespace TUIO {
 		 * Returns the Session ID of this TuioContainer.
 		 * @return	the Session ID of this TuioContainer
 		 */
-		virtual long getSessionID() const;
+		virtual int getSessionID() const;
 
 		/**
 		 * Sets the Session ID of this TuioContainer.
 		 * @param s_id	the new Session ID for this TuioContainer
 		 */
-		virtual void setSessionID(long s_id);
+		virtual void setSessionID(int s_id);
 		
 		/**
 		 * Returns the X velocity of this TuioContainer.
