@@ -159,12 +159,14 @@ void TuioContainer::update (TuioTime ttime, float xp, float yp) {
 	float last_x_speed = x_speed;
 	float last_y_speed = y_speed;
 
-	x_speed = dx/dt;
-	y_speed = dy/dt;
-	motion_speed = dist/dt;
-	motion_accel = (motion_speed - last_motion_speed)/dt;
-	x_accel = (x_speed - last_x_speed)/dt;
-	y_accel = (y_speed - last_y_speed)/dt;
+	if (dt>0) {
+		x_speed = dx/dt;
+		y_speed = dy/dt;
+		motion_speed = dist/dt;
+		motion_accel = (motion_speed - last_motion_speed)/dt;
+		x_accel = (x_speed - last_x_speed)/dt;
+		y_accel = (y_speed - last_y_speed)/dt;
+	}
 
 	TuioPoint p(currentTime,xpos,ypos);
 	path.push_back(p);

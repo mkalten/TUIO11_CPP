@@ -118,8 +118,10 @@ void TuioObject::update (TuioTime ttime, float xp, float yp, float a) {
 	else if (da < -M_PI) da+=2*M_PI;
 	da = da/(2*M_PI);
 	
-	rotation_speed = (float)da/dt;
-	rotation_accel =  (rotation_speed - last_rotation_speed)/dt;
+	if (dt>0) {
+		rotation_speed = (float)da/dt;
+		rotation_accel =  (rotation_speed - last_rotation_speed)/dt;
+	}
 	
 	if ((rotation_accel!=0) && (state==TUIO_STOPPED)) state = TUIO_ROTATING;
 }

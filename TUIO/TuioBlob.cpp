@@ -176,8 +176,10 @@ void TuioBlob::update (TuioTime ttime, float xp, float yp, float a, float w, flo
 	
 	area = f;
 	
-	rotation_speed = (float)da/dt;
-	rotation_accel =  (rotation_speed - last_rotation_speed)/dt;
+	if (dt>0) {
+		rotation_speed = (float)da/dt;
+		rotation_accel =  (rotation_speed - last_rotation_speed)/dt;
+	}
 	
 	if ((rotation_accel!=0) && (state==TUIO_STOPPED)) state = TUIO_ROTATING;
 }
