@@ -9,8 +9,8 @@ SIMPLE_SIMULATOR = SimpleSimulator
 TUIO_STATIC  = libTUIO.a
 TUIO_SHARED  = libTUIO.so
 
-SDL_LDFLAGS := $(shell sdl2-config --libs)
-SDL_CFLAGS  := $(shell sdl2-config --cflags)
+SDL_LDFLAGS := $(shell sdl2-config --libs 2>/dev/null)
+SDL_CFLAGS  := $(shell sdl2-config --cflags 2>/dev/null)
 
 INCLUDES = -I./TUIO -I./oscpack
 #CFLAGS  = -g -Wall -O3 -fPIC $(SDL_CFLAGS)
@@ -19,15 +19,14 @@ CXXFLAGS = $(CFLAGS) $(INCLUDES) -D$(ENDIANESS)
 SHARED_OPTIONS = -shared -Wl,-soname,$(TUIO_SHARED)
 
 ifeq ($(PLATFORM), Darwin)
-#	CXX = g++ -stdlib=libstdc++
-#	TARGET = -mmacosx-version-min=10.6 -arch=i386 -arch x86_64
-	TARGET = -mmacosx-version-min=10.9
+	TARGET = -mmacosx-version-min=11.0 -arch arm64 -arch x86_64
 	CFLAGS += $(TARGET)
 	CXXFLAGS += $(TARGET)
 	TUIO_SHARED = libTUIO.dylib
 	LD_FLAGS = -framework OpenGL -framework GLUT -framework SDL2 -framework Cocoa
- 	SHARED_OPTIONS = -dynamiclib -Wl,-dylib_install_name,$(TUIO_SHARED)
-	SDL_LDFLAGS =
+	SHARED_OPTIONS = -dynamiclib -Wl,-install_name,@rpath/$(TUIO_SHARED)
+	SDL_LDFLAGS = -F/Library/Frameworks -Wl,-rpath,/Library/Frameworks
+	SDL_CFLAGS = -F/Library/Frameworks
 endif
 
 %.o: %.cpp
@@ -51,27 +50,30 @@ SERVER_TUIO_OBJECTS = $(SERVER_TUIO_SOURCES:.cpp=.o)
 CLIENT_TUIO_OBJECTS = $(CLIENT_TUIO_SOURCES:.cpp=.o)
 OSC_OBJECTS = $(OSC_SOURCES:.cpp=.o)
 
+.PHONY: all clean
+
 all: $(TUIO_DUMP) $(TUIO_DEMO) $(SIMPLE_SIMULATOR) $(TUIO_STATIC) $(TUIO_SHARED)
 
 $(TUIO_STATIC):	$(COMMON_TUIO_OBJECTS) $(CLIENT_TUIO_OBJECTS) $(SERVER_TUIO_OBJECTS) $(OSC_OBJECTS)
 	@echo [LD] $(TUIO_STATIC)
+	@ rm -f $@
 	@ ar rcs $@ $(COMMON_TUIO_OBJECTS) $(CLIENT_TUIO_OBJECTS) $(SERVER_TUIO_OBJECTS) $(OSC_OBJECTS)
 
 $(TUIO_SHARED): $(COMMON_TUIO_OBJECTS) $(CLIENT_TUIO_OBJECTS) $(SERVER_TUIO_OBJECTS) $(OSC_OBJECTS)
 	@echo [LD] $(TUIO_SHARED)
-	@ $(CXX) -o $@ $+ -lpthread $(SHARED_OPTIONS)
+	@ $(CXX) -o $@ $+ -lpthread $(TARGET) $(SHARED_OPTIONS)
 
 $(TUIO_DUMP): $(COMMON_TUIO_OBJECTS) $(CLIENT_TUIO_OBJECTS) $(OSC_OBJECTS) $(DUMP_OBJECTS)
 	@echo [LD] $(TUIO_DUMP)
-	@ $(CXX) -o $@ $+ -lpthread
+	@ $(CXX) -o $@ $+ -lpthread $(TARGET)
 
 $(TUIO_DEMO): $(COMMON_TUIO_OBJECTS) $(CLIENT_TUIO_OBJECTS) $(OSC_OBJECTS) $(DEMO_OBJECTS)
 	@echo [LD] $(TUIO_DEMO)
-	@ $(CXX) -o $@ $+ -lpthread $(SDL_LDFLAGS) $(LD_FLAGS)
+	@ $(CXX) -o $@ $+ -lpthread $(TARGET) $(SDL_LDFLAGS) $(LD_FLAGS)
 
 $(SIMPLE_SIMULATOR): $(COMMON_TUIO_OBJECTS) $(SERVER_TUIO_OBJECTS) $(OSC_OBJECTS) $(SIMULATOR_OBJECTS)
 	@echo [LD] $(SIMPLE_SIMULATOR)
-	@ $(CXX) -o $@ $+ -lpthread $(SDL_LDFLAGS) $(LD_FLAGS)
+	@ $(CXX) -o $@ $+ -lpthread $(TARGET) $(SDL_LDFLAGS) $(LD_FLAGS)
 
 clean:
 	@echo [CLEAN] $(TUIO_DUMP) $(TUIO_DEMO) $(SIMPLE_SIMULATOR) $(TUIO_STATIC) $(TUIO_SHARED)
