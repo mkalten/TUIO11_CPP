@@ -332,7 +332,7 @@ void SimpleSimulator::initWindow() {
 		height = window_height;
 	}
 	
-	SDL_CreateWindowAndRenderer(width, height, videoFlags, &window, &renderer);
+	window = SDL_CreateWindow("SimpleSimulator", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, videoFlags);
 	
 	if ( window == NULL ) {
 		std::cerr << "Could not open window: " << SDL_GetError() << std::endl;

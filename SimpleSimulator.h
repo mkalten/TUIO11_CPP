@@ -62,7 +62,6 @@ private:
 	void initWindow();
 
 	SDL_Window *window;
-	SDL_Renderer *renderer;
 	bool verbose, fullupdate, periodic, fullscreen, running, help;
 	
 	int width, height;
