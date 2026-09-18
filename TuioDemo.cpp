@@ -121,7 +121,7 @@ void TuioDemo::drawObjects() {
 			
 			glColor3f(1.0, 1.0, 1.0);
 			glRasterPos2f(tuioCursor->getScreenX(width),tuioCursor->getScreenY(height));
-			sprintf(id,"%d",tuioCursor->getCursorID());
+			snprintf(id,sizeof(id),"%d",tuioCursor->getCursorID());
 			drawString(id);
 		}
 	}
@@ -152,7 +152,7 @@ void TuioDemo::drawObjects() {
 		
 		glColor3f(1.0, 1.0, 1.0);
 		glRasterPos2f(xpos,ypos+5);
-		sprintf(id,"%d",tuioObject->getSymbolID());
+		snprintf(id,sizeof(id),"%d",tuioObject->getSymbolID());
 		drawString(id);
 	}
 	tuioClient->unlockObjectList();
@@ -189,7 +189,7 @@ void TuioDemo::drawObjects() {
 		
 		glColor3f(1.0, 1.0, 1.0);
 		glRasterPos2f(xpos,ypos+5);
-		sprintf(id,"%d",tuioBlob->getBlobID());
+		snprintf(id,sizeof(id),"%d",tuioBlob->getBlobID());
 		drawString(id);
 	}
 	tuioClient->unlockBlobList();

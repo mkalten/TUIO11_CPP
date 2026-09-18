@@ -22,7 +22,7 @@ void SimpleSimulator::drawFrame() {
 
 	if(!running) return;
 	glClear(GL_COLOR_BUFFER_BIT);
-	char id[3];
+	char id[16];
 
 	// draw the cursors
 	std::list<TuioCursor*> cursorList = tuioServer->getTuioCursors();
@@ -59,7 +59,7 @@ void SimpleSimulator::drawFrame() {
 
 			glColor3f(0.0, 0.0, 0.0);
 			glRasterPos2f(tcur->getScreenX(width),tcur->getScreenY(height));
-			sprintf(id,"%d",tcur->getCursorID());
+			snprintf(id,sizeof(id),"%d",tcur->getCursorID());
 			drawString(id);
 		}
 	}
