@@ -64,7 +64,7 @@ void TuioServer::initialize(OscSender *oscsend) {
 	oscBuffer = new char[size];
 	oscPacket = new osc::OutboundPacketStream(oscBuffer,size);
 	fullBuffer = new char[size];
-	fullPacket = new osc::OutboundPacketStream(oscBuffer,size);
+	fullPacket = new osc::OutboundPacketStream(fullBuffer,size);
 	
 	objectUpdateTime = TuioTime(currentFrameTime);
 	cursorUpdateTime = TuioTime(currentFrameTime);
@@ -120,7 +120,7 @@ void TuioServer::addOscSender(OscSender *sender) {
 		oscPacket = new osc::OutboundPacketStream(oscBuffer,size);
 		delete temp;
 		temp = fullPacket;
-		fullPacket = new osc::OutboundPacketStream(oscBuffer,size);
+		fullPacket = new osc::OutboundPacketStream(fullBuffer,size);
 		delete temp;
 		
 	}
