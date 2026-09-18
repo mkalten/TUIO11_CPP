@@ -23,7 +23,8 @@ using namespace TUIO;
 using namespace osc;
 
 TuioServer::TuioServer() 
-	:full_update			(false)
+	:update_interval		(1)
+	,full_update			(false)
 	,periodic_update		(false)	
 	,objectProfileEnabled	(true)
 	,cursorProfileEnabled	(true)
@@ -35,7 +36,8 @@ TuioServer::TuioServer()
 }
 
 TuioServer::TuioServer(const char *host, int port) 
-:full_update			(false)
+:update_interval		(1)
+,full_update			(false)
 ,periodic_update		(false)	
 ,objectProfileEnabled	(true)
 ,cursorProfileEnabled	(true)
@@ -47,7 +49,8 @@ TuioServer::TuioServer(const char *host, int port)
 }
 
 TuioServer::TuioServer(OscSender *oscsend)
-	:full_update			(false)
+	:update_interval		(1)
+	,full_update			(false)
 	,periodic_update		(false)	
 	,objectProfileEnabled	(true)
 	,cursorProfileEnabled	(true)
