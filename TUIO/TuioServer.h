@@ -258,7 +258,7 @@ namespace TUIO {
 		bool full_update, periodic_update;
 		TuioTime objectUpdateTime, cursorUpdateTime, blobUpdateTime ;
 		bool objectProfileEnabled, cursorProfileEnabled, blobProfileEnabled;
-		char *source_name;
+		std::string source_name;
 	};
 }
 #endif /* INCLUDED_TuioServer_H */

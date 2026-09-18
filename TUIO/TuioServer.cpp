@@ -29,7 +29,6 @@ TuioServer::TuioServer()
 	,objectProfileEnabled	(true)
 	,cursorProfileEnabled	(true)
 	,blobProfileEnabled		(true)
-	,source_name			(NULL)
 {
 	OscSender *oscsend = new UdpSender();
 	initialize(oscsend);
@@ -42,7 +41,6 @@ TuioServer::TuioServer(const char *host, int port)
 ,objectProfileEnabled	(true)
 ,cursorProfileEnabled	(true)
 ,blobProfileEnabled		(true)
-,source_name			(NULL)
 {
 	OscSender *oscsend = new UdpSender(host,port);
 	initialize(oscsend);
@@ -55,7 +53,6 @@ TuioServer::TuioServer(OscSender *oscsend)
 	,objectProfileEnabled	(true)
 	,cursorProfileEnabled	(true)
 	,blobProfileEnabled		(true)
-	,source_name			(NULL)
 {
 	initialize(oscsend);
 }
@@ -103,7 +100,6 @@ TuioServer::~TuioServer() {
 	delete []fullBuffer;
 	delete fullPacket;
 	
-	if (source_name) delete[] source_name;
 	for (unsigned int i=0;i<senderList.size();i++)
 		delete senderList[i];
 }
@@ -112,8 +108,8 @@ TuioServer::~TuioServer() {
 void TuioServer::addOscSender(OscSender *sender) {
 
 	// add source address if previously local
-	/*if ((source_name) && (primary_sender->isLocal()) && (senderList.size()==1)) {
-		setSourceName(source_name);
+	/*if ((!source_name.empty()) && (primary_sender->isLocal()) && (senderList.size()==1)) {
+		setSourceName(source_name.c_str());
 	}*/ 
 	
 	// resize packets to smallest transport method
@@ -138,17 +134,14 @@ void TuioServer::deliverOscPacket(osc::OutboundPacketStream  *packet) {
 }
 
 void TuioServer::setSourceName(const char *name, const char *ip) {
-	if (!source_name) source_name = new char[256];
-	snprintf(source_name,256,"%s@%s",name,ip);
+	source_name = std::string(name) + "@" + ip;
 }
 
 
 void TuioServer::setSourceName(const char *src) {
 	
-	if (!source_name) source_name = new char[256];
-
 	/*if (senderList[0]->isLocal()) {
-		sprintf(source_name,"%s",src);
+		source_name = src;
 	} else {*/
 		char hostname[64];
 		char *source_addr = NULL;
@@ -176,7 +169,7 @@ void TuioServer::setSourceName(const char *src) {
 			addr = (struct in_addr*)&r;
 			source_addr = inet_ntoa(*addr);
 		}
-		snprintf(source_name,256,"%s@%s",src,source_addr);
+		source_name = std::string(src) + "@" + (source_addr ? source_addr : "");
 	//}
 	
 	std::cout << "tuio/src " << source_name << std::endl;
@@ -292,7 +285,7 @@ void TuioServer::commitFrame() {
 void TuioServer::sendEmptyCursorBundle() {
 	oscPacket->Clear();	
 	(*oscPacket) << osc::BeginBundleImmediate;
-	if (source_name) (*oscPacket) << osc::BeginMessage( "/tuio/2Dcur") << "source" << source_name << osc::EndMessage;
+	if (!source_name.empty()) (*oscPacket) << osc::BeginMessage( "/tuio/2Dcur") << "source" << source_name.c_str() << osc::EndMessage;
 	(*oscPacket) << osc::BeginMessage( "/tuio/2Dcur") << "alive" << osc::EndMessage;	
 	(*oscPacket) << osc::BeginMessage( "/tuio/2Dcur") << "fseq" << -1 << osc::EndMessage;
 	(*oscPacket) << osc::EndBundle;
@@ -302,7 +295,7 @@ void TuioServer::sendEmptyCursorBundle() {
 void TuioServer::startCursorBundle() {	
 	oscPacket->Clear();	
 	(*oscPacket) << osc::BeginBundleImmediate;
-	if (source_name) (*oscPacket) << osc::BeginMessage( "/tuio/2Dcur") << "source" << source_name << osc::EndMessage;
+	if (!source_name.empty()) (*oscPacket) << osc::BeginMessage( "/tuio/2Dcur") << "source" << source_name.c_str() << osc::EndMessage;
 	(*oscPacket) << osc::BeginMessage( "/tuio/2Dcur") << "alive";
 	for (std::list<TuioCursor*>::iterator tuioCursor = cursorList.begin(); tuioCursor!=cursorList.end(); tuioCursor++) {
 		/*if ((*tuioCursor)->getTuioState()!=TUIO_ADDED)*/ (*oscPacket) << (int32)((*tuioCursor)->getSessionID());
@@ -342,7 +335,7 @@ void TuioServer::sendCursorBundle(long fseq) {
 void TuioServer::sendEmptyObjectBundle() {
 	oscPacket->Clear();	
 	(*oscPacket) << osc::BeginBundleImmediate;
-	if (source_name) (*oscPacket) << osc::BeginMessage( "/tuio/2Dobj") << "source" << source_name << osc::EndMessage;
+	if (!source_name.empty()) (*oscPacket) << osc::BeginMessage( "/tuio/2Dobj") << "source" << source_name.c_str() << osc::EndMessage;
 	(*oscPacket) << osc::BeginMessage( "/tuio/2Dobj") << "alive" << osc::EndMessage;	
 	(*oscPacket) << osc::BeginMessage( "/tuio/2Dobj") << "fseq" << -1 << osc::EndMessage;
 	(*oscPacket) << osc::EndBundle;
@@ -352,7 +345,7 @@ void TuioServer::sendEmptyObjectBundle() {
 void TuioServer::startObjectBundle() {
 	oscPacket->Clear();	
 	(*oscPacket) << osc::BeginBundleImmediate;
-	if (source_name) (*oscPacket) << osc::BeginMessage( "/tuio/2Dobj") << "source" << source_name << osc::EndMessage;
+	if (!source_name.empty()) (*oscPacket) << osc::BeginMessage( "/tuio/2Dobj") << "source" << source_name.c_str() << osc::EndMessage;
 	(*oscPacket) << osc::BeginMessage( "/tuio/2Dobj") << "alive";
 	for (std::list<TuioObject*>::iterator tuioObject = objectList.begin(); tuioObject!=objectList.end(); tuioObject++) {
 		(*oscPacket) << (int32)((*tuioObject)->getSessionID());	
@@ -397,7 +390,7 @@ void TuioServer::sendObjectBundle(long fseq) {
 void TuioServer::sendEmptyBlobBundle() {
 	oscPacket->Clear();	
 	(*oscPacket) << osc::BeginBundleImmediate;
-	if (source_name) (*oscPacket) << osc::BeginMessage( "/tuio/2Dblb") << "source" << source_name << osc::EndMessage;
+	if (!source_name.empty()) (*oscPacket) << osc::BeginMessage( "/tuio/2Dblb") << "source" << source_name.c_str() << osc::EndMessage;
 	(*oscPacket) << osc::BeginMessage( "/tuio/2Dblb") << "alive" << osc::EndMessage;	
 	(*oscPacket) << osc::BeginMessage( "/tuio/2Dblb") << "fseq" << -1 << osc::EndMessage;
 	(*oscPacket) << osc::EndBundle;
@@ -407,7 +400,7 @@ void TuioServer::sendEmptyBlobBundle() {
 void TuioServer::startBlobBundle() {	
 	oscPacket->Clear();	
 	(*oscPacket) << osc::BeginBundleImmediate;
-	if (source_name) (*oscPacket) << osc::BeginMessage( "/tuio/2Dblb") << "source" << source_name << osc::EndMessage;
+	if (!source_name.empty()) (*oscPacket) << osc::BeginMessage( "/tuio/2Dblb") << "source" << source_name.c_str() << osc::EndMessage;
 	(*oscPacket) << osc::BeginMessage( "/tuio/2Dblb") << "alive";
 	for (std::list<TuioBlob*>::iterator tuioBlob = blobList.begin(); tuioBlob!=blobList.end(); tuioBlob++) {
 		/*if ((*tuioBlob)->getTuioState()!=TUIO_ADDED)*/ (*oscPacket) << (int32)((*tuioBlob)->getSessionID());
@@ -456,7 +449,7 @@ void TuioServer::sendFullMessages() {
 	// prepare the cursor packet
 	fullPacket->Clear();
 	(*fullPacket) << osc::BeginBundleImmediate;
-	if (source_name) (*fullPacket) << osc::BeginMessage( "/tuio/2Dcur") << "source" << source_name << osc::EndMessage;
+	if (!source_name.empty()) (*fullPacket) << osc::BeginMessage( "/tuio/2Dcur") << "source" << source_name.c_str() << osc::EndMessage;
 	// add the cursor alive message
 	(*fullPacket) << osc::BeginMessage( "/tuio/2Dcur") << "alive";
 	for (std::list<TuioCursor*>::iterator tuioCursor = cursorList.begin(); tuioCursor!=cursorList.end(); tuioCursor++)
@@ -477,7 +470,7 @@ void TuioServer::sendFullMessages() {
 			// prepare the new cursor packet
 			fullPacket->Clear();	
 			(*fullPacket) << osc::BeginBundleImmediate;
-			if (source_name) (*fullPacket) << osc::BeginMessage( "/tuio/2Dcur") << "source" << source_name << osc::EndMessage;
+			if (!source_name.empty()) (*fullPacket) << osc::BeginMessage( "/tuio/2Dcur") << "source" << source_name.c_str() << osc::EndMessage;
 			// add the cursor alive message
 			(*fullPacket) << osc::BeginMessage( "/tuio/2Dcur") << "alive";
 			for (std::list<TuioCursor*>::iterator tuioCursor = cursorList.begin(); tuioCursor!=cursorList.end(); tuioCursor++)
@@ -513,7 +506,7 @@ void TuioServer::sendFullMessages() {
 	// prepare the object packet
 	fullPacket->Clear();
 	(*fullPacket) << osc::BeginBundleImmediate;
-	if (source_name) (*fullPacket) << osc::BeginMessage( "/tuio/2Dobj") << "source" << source_name << osc::EndMessage;
+	if (!source_name.empty()) (*fullPacket) << osc::BeginMessage( "/tuio/2Dobj") << "source" << source_name.c_str() << osc::EndMessage;
 	// add the object alive message
 	(*fullPacket) << osc::BeginMessage( "/tuio/2Dobj") << "alive";
 	for (std::list<TuioObject*>::iterator tuioObject = objectList.begin(); tuioObject!=objectList.end(); tuioObject++)
@@ -532,7 +525,7 @@ void TuioServer::sendFullMessages() {
 			// prepare the new object packet
 			fullPacket->Clear();	
 			(*fullPacket) << osc::BeginBundleImmediate;
-			if (source_name) (*fullPacket) << osc::BeginMessage( "/tuio/2Dobj") << "source" << source_name << osc::EndMessage;
+			if (!source_name.empty()) (*fullPacket) << osc::BeginMessage( "/tuio/2Dobj") << "source" << source_name.c_str() << osc::EndMessage;
 			// add the object alive message
 			(*fullPacket) << osc::BeginMessage( "/tuio/2Dobj") << "alive";
 			for (std::list<TuioObject*>::iterator tuioObject = objectList.begin(); tuioObject!=objectList.end(); tuioObject++)
@@ -574,7 +567,7 @@ void TuioServer::sendFullMessages() {
 	// prepare the blob packet
 	fullPacket->Clear();
 	(*fullPacket) << osc::BeginBundleImmediate;
-	if (source_name) (*fullPacket) << osc::BeginMessage( "/tuio/2Dblb") << "source" << source_name << osc::EndMessage;
+	if (!source_name.empty()) (*fullPacket) << osc::BeginMessage( "/tuio/2Dblb") << "source" << source_name.c_str() << osc::EndMessage;
 	// add the object alive message
 	(*fullPacket) << osc::BeginMessage( "/tuio/2Dblb") << "alive";
 	for (std::list<TuioBlob*>::iterator tuioBlob = blobList.begin(); tuioBlob!=blobList.end(); tuioBlob++)
@@ -593,7 +586,7 @@ void TuioServer::sendFullMessages() {
 			// prepare the new blob packet
 			fullPacket->Clear();	
 			(*fullPacket) << osc::BeginBundleImmediate;
-			if (source_name) (*fullPacket) << osc::BeginMessage( "/tuio/2Dblb") << "source" << source_name << osc::EndMessage;
+			if (!source_name.empty()) (*fullPacket) << osc::BeginMessage( "/tuio/2Dblb") << "source" << source_name.c_str() << osc::EndMessage;
 			// add the blob alive message
 			(*fullPacket) << osc::BeginMessage( "/tuio/2Dblb") << "alive";
 			for (std::list<TuioBlob*>::iterator tuioBlob = blobList.begin(); tuioBlob!=blobList.end(); tuioBlob++)
