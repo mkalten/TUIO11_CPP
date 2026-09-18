@@ -142,6 +142,7 @@ float TuioPoint::getAngle(float xp, float yp) const{
 	float side = xpos-xp;
 	float height = ypos-yp;
 	float distance = getDistance(xp,yp);
+	if (distance==0.0f) return 0.0f;
 
 	float angle = (float)(asin(side/distance)+M_PI/2);
 	if (height<0) angle = 2.0f*(float)M_PI-angle;
