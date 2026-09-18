@@ -52,9 +52,11 @@ namespace TUIO {
 		virtual ~OscReceiver() {};
 		
 		/**
-		 * The OscReceiver connects and starts receiving TUIO messages via OSC
+		 * The OscReceiver connects and starts receiving TUIO messages via OSC.
+		 * With the default parameter the OSC receiver runs in a dedicated background thread,
+		 * when set to true the method blocks in the current thread until disconnect() is invoked.
 		 *
-		 * @param  lock  running in the background if set to false (default)
+		 * @param  lock  blocks in the current thread if set to true, runs in the background if set to false (default)
 		 */
 		virtual void connect(bool lock=false) = 0;
 		

@@ -35,9 +35,12 @@ namespace TUIO {
 	class OscReceiver; // Forward declaration
 	
 	/**
-	 * <p>The TuioClient class is the central TUIO protocol decoder component. It provides a simple callback infrastructure using the {@link TuioListener} interface.
+	 * <p>The TuioClient class is the central TUIO protocol decoder component. It provides a simple callback infrastructure using the TuioListener interface.
 	 * In order to receive and decode TUIO messages an instance of TuioClient needs to be created. The TuioClient instance then generates TUIO events
-	 * which are broadcasted to all registered classes that implement the {@link TuioListener} interface.</p> 
+	 * which are broadcasted to all registered classes that implement the TuioListener interface.</p>
+	 * <p>The TuioObject, TuioCursor and TuioBlob references returned by the list getter methods are only valid
+	 * until the referenced component is removed from the session. Use the copyTuioObjects(), copyTuioCursors()
+	 * and copyTuioBlobs() methods to retrieve an owned snapshot copy of the currently active components.</p> 
 	 * <p><code>
 	 * TuioClient *client = new TuioClient();<br/>
 	 * client->addTuioListener(myTuioListener);<br/>
@@ -64,7 +67,8 @@ namespace TUIO {
 		TuioClient(int port);
 		
 		/**
-		 * This constructor creates a TuioClient that uses the provided OscReceiver for the incoming OSC data
+		 * This constructor creates a TuioClient that uses the provided OscReceiver for the incoming OSC data.
+		 * The OscReceiver instance remains owned by the caller and is not deleted by this TuioClient.
 		 *
 		 * @param  oscreceiver  the OscReceiver implementation for the chosen transport method (UDP, TCP ...)
 		 */
@@ -76,9 +80,11 @@ namespace TUIO {
 		~TuioClient();
 
 		/**
-		 * The TuioClient connects and starts receiving TUIO messages from its associated OscReceiver
+		 * The TuioClient connects and starts receiving TUIO messages from its associated OscReceiver.
+		 * With the default parameter the OSC receiver runs in a dedicated background thread,
+		 * when set to true the method blocks in the current thread until disconnect() is invoked.
 		 *
-		 * @param  lock  running in the background if set to false (default)
+		 * @param  lock  blocks in the current thread if set to true, runs in the background if set to false (default)
 		 */
 		void connect(bool lock=false);
 		
@@ -268,6 +274,12 @@ namespace TUIO {
 		 */
 		TuioBlob* getTuioBlob(int src_id, long s_id);
 		
+		/**
+		 * Processes a single received OSC message. This method is invoked by the associated
+		 * OscReceiver for every incoming TUIO message and is usually not called directly.
+		 *
+		 * @param  message  the OSC message to process
+		 */
 		void processOSC( const osc::ReceivedMessage& message);
 		
 	private:

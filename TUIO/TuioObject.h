@@ -49,7 +49,13 @@ namespace TUIO {
 		 */ 
 		float rotation_accel;
 		
+		/**
+		 * Optional angle threshold suppressing rotation updates below this angle
+		 */ 
 		float angleThreshold;
+		/**
+		 * Optional OneEuroFilter for the rotation angle smoothing
+		 */ 
 		OneEuroFilter *angleFilter;
 		
 	public:
@@ -70,7 +76,7 @@ namespace TUIO {
 
 		/**
 		 * This constructor takes the provided Session ID, Symbol ID, X and Y coordinate 
-		 * and angle, and assigs these values to the newly created TuioObject.
+		 * and angle, and assigns these values to the newly created TuioObject.
 		 *
 		 * @param	si	the Session ID  to assign
 		 * @param	sym	the Symbol ID  to assign
@@ -81,8 +87,8 @@ namespace TUIO {
 		TuioObject (long si, int sym, float xp, float yp, float a);
 		
 		/**
-		 * This constructor takes the atttibutes of the provided TuioObject 
-		 * and assigs these values to the newly created TuioObject.
+		 * This constructor takes the attributes of the provided TuioObject 
+		 * and assigns these values to the newly created TuioObject.
 		 *
 		 * @param	tobj	the TuioObject to assign
 		 */
@@ -103,7 +109,7 @@ namespace TUIO {
 		 * @param	ttime	the TuioTime to assign
 		 * @param	xp	the X coordinate to assign
 		 * @param	yp	the Y coordinate to assign
-		 * @param	a	the angle coordinate to assign
+		 * @param	a	the angle to assign
 		 * @param	xs	the X velocity to assign
 		 * @param	ys	the Y velocity to assign
 		 * @param	rs	the rotation velocity to assign
@@ -119,7 +125,7 @@ namespace TUIO {
 		 *
 		 * @param	xp	the X coordinate to assign
 		 * @param	yp	the Y coordinate to assign
-		 * @param	a	the angle coordinate to assign
+		 * @param	a	the angle to assign
 		 * @param	xs	the X velocity to assign
 		 * @param	ys	the Y velocity to assign
 		 * @param	rs	the rotation velocity to assign
@@ -131,12 +137,13 @@ namespace TUIO {
 		/**
 		 * Takes a TuioTime argument and assigns it along with the provided 
 		 * X and Y coordinate and angle to the private TuioObject attributes.
-		 * The speed and accleration values are calculated accordingly.
+		 * The speed and acceleration values are calculated accordingly.
+		 * The angle value is processed by the optional angle filter and angle threshold.
 		 *
 		 * @param	ttime	the TuioTime to assign
 		 * @param	xp	the X coordinate to assign
 		 * @param	yp	the Y coordinate to assign
-		 * @param	a	the angle coordinate to assign
+		 * @param	a	the angle to assign
 		 */
 		void update (TuioTime ttime, float xp, float yp, float a);
 
@@ -147,11 +154,11 @@ namespace TUIO {
 		void stop (TuioTime ttime);
 		
 		/**
-		 * Takes the atttibutes of the provided TuioObject 
-		 * and assigs these values to this TuioObject.
-		 * The TuioTime time stamp of this TuioContainer remains unchanged.
+		 * Takes the attributes of the provided TuioObject 
+		 * and assigns these values to this TuioObject.
+		 * The TuioTime time stamp of this TuioObject remains unchanged.
 		 *
-		 * @param	tobj	the TuioContainer to assign
+		 * @param	tobj	the TuioObject to assign
 		 */	
 		void update (TuioObject *tobj);
 		
@@ -192,17 +199,36 @@ namespace TUIO {
 		float getRotationAccel() const;
 
 		/**
-		 * Returns true of this TuioObject is moving.
-		 * @return	true of this TuioObject is moving
+		 * Returns true if this TuioObject is moving.
+		 * @return	true if this TuioObject is moving
 		 */
 		bool isMoving() const;
 		
+		/**
+		 * Adds a rotation angle threshold to this TuioObject. Angle updates below
+		 * the provided threshold are filtered out.
+		 *
+		 * @param	thresh	the angle threshold to apply
+		 */
 		void addAngleThreshold(float thresh);
 		
+		/**
+		 * Removes the rotation angle threshold from this TuioObject.
+		 */
 		void removeAngleThreshold();
 		
+		/**
+		 * Adds a OneEuroFilter to the rotation angle of this TuioObject,
+		 * smoothing the rotation updates of the update(TuioTime,float,float,float) method.
+		 *
+		 * @param	mcut	the minimum cutoff frequency, must be > 0
+		 * @param	beta	the cutoff slope, must be > 0
+		 */
 		void addAngleFilter(float mcut, float beta);
 		
+		/**
+		 * Removes the OneEuroFilter from the rotation angle of this TuioObject.
+		 */
 		void removeAngleFilter();
 	};
 }

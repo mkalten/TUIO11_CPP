@@ -56,7 +56,7 @@ namespace TUIO {
 		TcpSender();
 		
 		/**
-		 * This constructor creates a TcpSender that sends to the provided port on the the given host
+		 * This constructor creates a TcpSender that sends to the provided port on the given host
 		 *
 		 * @param  host  the receiving host name
 		 * @param  port  the outgoing TUIO TCP port number
@@ -65,8 +65,9 @@ namespace TUIO {
 
 		/**
 		 * This constructor creates a TcpSender that listens to the provided port
+		 * and delivers OSC data to all connected TCP clients
 		 *
-		 * @param  port	the incoming TUIO TCP port number
+		 * @param  port	the listening TUIO TCP port number
 		 */
 		TcpSender(int port);	
 		

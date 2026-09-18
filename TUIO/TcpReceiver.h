@@ -58,20 +58,22 @@ namespace TUIO {
 		/**
 		 * This constructor creates a TcpReceiver connected to the provided host and TCP port 
 		 *
-		 * @param  host  the host name to connect
-		 * @param  port  the number of the TCP port to listen to, defaults to 3333
+		 * @param  host  the host name to connect to
+		 * @param  port  the number of the TCP port to connect to, defaults to 3333
 		 */
 		TcpReceiver (const char *host, int port);
 		
 		/**
-		 * The destructor is doing nothing in particular. 
+		 * The destructor stops the receiver and closes the socket. 
 		 */
 		virtual ~TcpReceiver();
 		
 		/**
-		 * The TcpReceiver connects and starts receiving TUIO messages via TCP
+		 * The TcpReceiver connects and starts receiving TUIO messages via TCP.
+		 * With the default parameter the OSC receiver runs in a dedicated background thread,
+		 * when set to true the method blocks in the current thread until disconnect() is invoked.
 		 *
-		 * @param  lock  running in the background if set to false (default)
+		 * @param  lock  blocks in the current thread if set to true, runs in the background if set to false (default)
 		 */
 		void connect(bool lock=false);
 		

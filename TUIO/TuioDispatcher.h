@@ -31,7 +31,7 @@ namespace TUIO {
 	
 	/**
 	 * <p>The TuioDispatcher generates TUIO events which are broadcasted to all 
-	 * registered classes that implement the {@link TuioListener} interface.</p> 
+	 * registered classes that implement the TuioListener interface.</p> 
 	 *
 	 * @author Martin Kaltenbrunner
 	 * @version 1.1.6
@@ -79,7 +79,7 @@ namespace TUIO {
 		/**
 		* Returns the number of all currently active TuioObjects
 		*
-		* @return  the of all currently active TuioObjects
+		* @return  the number of all currently active TuioObjects
 		*/
 		int getTuioObjectCount();
 
@@ -100,7 +100,7 @@ namespace TUIO {
 		/**
 		* Returns the number of all currently active TuioCursors
 		*
-		* @return  the of all currently active TuioCursors
+		* @return  the number of all currently active TuioCursors
 		*/
 		int getTuioCursorCount();
 
@@ -121,7 +121,7 @@ namespace TUIO {
 		/**
 		* Returns the number of all currently active TuioBlobs
 		*
-		* @return  the of all currently active TuioBlobs
+		* @return  the number of all currently active TuioBlobs
 		*/
 		int getTuioBlobCount();
 
