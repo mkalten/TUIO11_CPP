@@ -56,6 +56,33 @@ TuioPoint::TuioPoint (TuioPoint *tpoint) {
 	posThreshold = 0.0f;
 }
 
+TuioPoint::TuioPoint (const TuioPoint &tpoint) {
+	xpos = tpoint.xpos;
+	ypos = tpoint.ypos;
+	currentTime = tpoint.currentTime;
+	startTime = tpoint.startTime;
+	posThreshold = tpoint.posThreshold;
+
+	xposFilter = tpoint.xposFilter ? new OneEuroFilter(*(tpoint.xposFilter)) : NULL;
+	yposFilter = tpoint.yposFilter ? new OneEuroFilter(*(tpoint.yposFilter)) : NULL;
+}
+
+TuioPoint& TuioPoint::operator=(const TuioPoint &tpoint) {
+	if (this!=&tpoint) {
+		xpos = tpoint.xpos;
+		ypos = tpoint.ypos;
+		currentTime = tpoint.currentTime;
+		startTime = tpoint.startTime;
+		posThreshold = tpoint.posThreshold;
+
+		if (xposFilter) delete xposFilter;
+		xposFilter = tpoint.xposFilter ? new OneEuroFilter(*(tpoint.xposFilter)) : NULL;
+		if (yposFilter) delete yposFilter;
+		yposFilter = tpoint.yposFilter ? new OneEuroFilter(*(tpoint.yposFilter)) : NULL;
+	}
+	return *this;
+}
+
 void TuioPoint::update (TuioPoint *tpoint) {
 	xpos = tpoint->getX();
 	ypos = tpoint->getY();

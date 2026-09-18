@@ -96,6 +96,23 @@ namespace TUIO {
 		TuioPoint (TuioPoint *tpoint);
 
 		/**
+		 * The copy constructor copies all attributes of the provided TuioPoint,
+		 * including a deep copy of the optional position filters.
+		 *
+		 * @param	tpoint	the TuioPoint to copy
+		 */
+		TuioPoint (const TuioPoint &tpoint);
+
+		/**
+		 * The assignment operator copies all attributes of the provided TuioPoint,
+		 * including a deep copy of the optional position filters.
+		 *
+		 * @param	tpoint	the TuioPoint to copy
+		 * @return	a reference to this TuioPoint
+		 */
+		TuioPoint& operator=(const TuioPoint &tpoint);
+
+		/**
 		 * The destructor is doing nothing in particular.
 		 */
 		virtual ~TuioPoint(){

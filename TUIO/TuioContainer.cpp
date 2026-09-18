@@ -74,6 +74,60 @@ TuioContainer::TuioContainer (TuioContainer *tcon):TuioPoint(tcon)
 	lastPoint = &path.back();
 }
 
+TuioContainer::TuioContainer (const TuioContainer &tcon):TuioPoint(tcon) {
+	session_id = tcon.session_id;
+	x_speed = tcon.x_speed;
+	y_speed = tcon.y_speed;
+	motion_speed = tcon.motion_speed;
+	motion_accel = tcon.motion_accel;
+	x_accel = tcon.x_accel;
+	y_accel = tcon.y_accel;
+	path = tcon.path;
+	state = tcon.state;
+	source_id = tcon.source_id;
+	source_name = tcon.source_name;
+	source_addr = tcon.source_addr;
+	lastPoint = NULL;
+	updateLastPoint(tcon);
+}
+
+TuioContainer& TuioContainer::operator=(const TuioContainer &tcon) {
+	if (this!=&tcon) {
+		TuioPoint::operator=(tcon);
+		session_id = tcon.session_id;
+		x_speed = tcon.x_speed;
+		y_speed = tcon.y_speed;
+		motion_speed = tcon.motion_speed;
+		motion_accel = tcon.motion_accel;
+		x_accel = tcon.x_accel;
+		y_accel = tcon.y_accel;
+		path = tcon.path;
+		state = tcon.state;
+		source_id = tcon.source_id;
+		source_name = tcon.source_name;
+		source_addr = tcon.source_addr;
+		lastPoint = NULL;
+		updateLastPoint(tcon);
+	}
+	return *this;
+}
+
+void TuioContainer::updateLastPoint(const TuioContainer &tcon) {
+	if (tcon.lastPoint!=NULL) {
+		std::list<TuioPoint>::const_iterator src = tcon.path.begin();
+		std::list<TuioPoint>::iterator dst = path.begin();
+		while ((src!=tcon.path.end()) && (dst!=path.end())) {
+			if (&(*src)==tcon.lastPoint) {
+				lastPoint = &(*dst);
+				break;
+			}
+			src++;
+			dst++;
+		}
+	}
+	if ((lastPoint==NULL) && !path.empty()) lastPoint = &path.back();
+}
+
 void TuioContainer::setTuioSource(int src_id, const char *src_name, const char *src_addr) {
 	source_id = src_id;
 	source_name = std::string(src_name);

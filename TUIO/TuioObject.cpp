@@ -51,6 +51,31 @@ TuioObject::TuioObject (TuioObject *tobj):TuioContainer(tobj) {
 	angleThreshold = 0.0f;
 }
 
+TuioObject::TuioObject (const TuioObject &tobj):TuioContainer(tobj) {
+	symbol_id = tobj.symbol_id;
+	angle = tobj.angle;
+	rotation_speed = tobj.rotation_speed;
+	rotation_accel = tobj.rotation_accel;
+
+	angleThreshold = tobj.angleThreshold;
+	angleFilter = tobj.angleFilter ? new OneEuroFilter(*(tobj.angleFilter)) : NULL;
+}
+
+TuioObject& TuioObject::operator=(const TuioObject &tobj) {
+	if (this!=&tobj) {
+		TuioContainer::operator=(tobj);
+		symbol_id = tobj.symbol_id;
+		angle = tobj.angle;
+		rotation_speed = tobj.rotation_speed;
+		rotation_accel = tobj.rotation_accel;
+
+		angleThreshold = tobj.angleThreshold;
+		if (angleFilter) delete angleFilter;
+		angleFilter = tobj.angleFilter ? new OneEuroFilter(*(tobj.angleFilter)) : NULL;
+	}
+	return *this;
+}
+
 void TuioObject::update (TuioTime ttime, float xp, float yp, float a, float xs, float ys, float rs, float ma, float ra) {
 	TuioContainer::update(ttime,xp,yp,xs,ys,ma);
 	angle = a;

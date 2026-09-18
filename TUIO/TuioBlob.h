@@ -123,6 +123,23 @@ namespace TUIO {
 		 * @param	tblb	the TuioBlob to assign
 		 */
 		TuioBlob (TuioBlob *tblb);
+
+		/**
+		 * The copy constructor copies all attributes of the provided TuioBlob,
+		 * including the path and a deep copy of the optional filters.
+		 *
+		 * @param	tblb	the TuioBlob to copy
+		 */
+		TuioBlob (const TuioBlob &tblb);
+
+		/**
+		 * The assignment operator copies all attributes of the provided TuioBlob,
+		 * including the path and a deep copy of the optional filters.
+		 *
+		 * @param	tblb	the TuioBlob to copy
+		 * @return	a reference to this TuioBlob
+		 */
+		TuioBlob& operator=(const TuioBlob &tblb);
 		
 		/**
 		 * The destructor is doing nothing in particular. 

@@ -93,6 +93,23 @@ namespace TUIO {
 		 * @param	tobj	the TuioObject to assign
 		 */
 		TuioObject (TuioObject *tobj);
+
+		/**
+		 * The copy constructor copies all attributes of the provided TuioObject,
+		 * including the path and a deep copy of the optional filters.
+		 *
+		 * @param	tobj	the TuioObject to copy
+		 */
+		TuioObject (const TuioObject &tobj);
+
+		/**
+		 * The assignment operator copies all attributes of the provided TuioObject,
+		 * including the path and a deep copy of the optional filters.
+		 *
+		 * @param	tobj	the TuioObject to copy
+		 * @return	a reference to this TuioObject
+		 */
+		TuioObject& operator=(const TuioObject &tobj);
 		
 		/**
 		 * The destructor is doing nothing in particular. 

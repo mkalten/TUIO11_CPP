@@ -136,6 +136,23 @@ namespace TUIO {
 		 * @param	tcon	the TuioContainer to assign
 		 */
 		TuioContainer (TuioContainer *tcon);
+
+		/**
+		 * The copy constructor copies all attributes of the provided TuioContainer,
+		 * including the path and a deep copy of the optional position filters.
+		 *
+		 * @param	tcon	the TuioContainer to copy
+		 */
+		TuioContainer (const TuioContainer &tcon);
+
+		/**
+		 * The assignment operator copies all attributes of the provided TuioContainer,
+		 * including the path and a deep copy of the optional position filters.
+		 *
+		 * @param	tcon	the TuioContainer to copy
+		 * @return	a reference to this TuioContainer
+		 */
+		TuioContainer& operator=(const TuioContainer &tcon);
 		
 		/**
 		 * The destructor is doing nothing in particular. 
