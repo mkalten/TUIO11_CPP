@@ -26,8 +26,6 @@ using namespace osc;
 TuioClient::TuioClient()
 : currentFrame	(-1)
 , source_id		(0)
-, source_name	(NULL)
-, source_addr	(NULL)
 , local_receiver(true)
 {
 	receiver = new UdpReceiver();
@@ -37,8 +35,6 @@ TuioClient::TuioClient()
 TuioClient::TuioClient(int port)
 : currentFrame	(-1)
 , source_id		(0)
-, source_name	(NULL)
-, source_addr	(NULL)
 , local_receiver(true)
 {
 	receiver = new UdpReceiver(port);
@@ -48,8 +44,6 @@ TuioClient::TuioClient(int port)
 TuioClient::TuioClient(OscReceiver *osc)
 : currentFrame	(-1)
 , source_id		(0)
-, source_name	(NULL)
-, source_addr	(NULL)
 , receiver		(osc)
 , local_receiver(false)
 {
@@ -80,12 +74,6 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 				const char* src;
 				args >> src;
 				
-				source_name = strtok((char*)src, "@");
-				char *addr = strtok(NULL, "@");
-				
-				if (addr!=NULL) source_addr = addr;
-				else source_addr = (char*)"localhost";
-				
 				// check if we know that source
 				std::string source_str(src);
 				std::map<std::string,int>::iterator iter = sourceList.find(source_str);
@@ -97,6 +85,17 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 				} else {
 				// use the found source_id
 					source_id = sourceList[source_str];
+				}
+				
+				// split the source string into name and address
+				size_t atpos = source_str.find('@');
+				if (atpos!=std::string::npos) {
+					source_name = source_str.substr(0,atpos);
+					source_addr = source_str.substr(atpos+1);
+					if (source_addr.empty()) source_addr = "localhost";
+				} else {
+					source_name = source_str;
+					source_addr = "localhost";
 				}
 				
 			} else if (strcmp(cmd,"set")==0) {	
@@ -186,7 +185,7 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 
 								lockObjectList();
 								frameObject = new TuioObject(currentTime,tobj->getSessionID(),tobj->getSymbolID(),tobj->getX(),tobj->getY(),tobj->getAngle());
-								if (source_name) frameObject->setTuioSource(source_id,source_name,source_addr);
+								if (!source_name.empty()) frameObject->setTuioSource(source_id,source_name.c_str(),source_addr.c_str());
 								objectList.push_back(frameObject);
 								unlockObjectList();
 								
@@ -243,12 +242,6 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 				const char* src;
 				args >> src;
 				
-				source_name = strtok((char*)src, "@");
-				char *addr = strtok(NULL, "@");
-				
-				if (addr!=NULL) source_addr = addr;
-				else source_addr = (char*)"localhost";
-				
 				// check if we know that source
 				std::string source_str(src);
 				std::map<std::string,int>::iterator iter = sourceList.find(source_str);
@@ -261,6 +254,17 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 				} else {
 					// use the found source_id
 					source_id = sourceList[source_str];
+				}
+				
+				// split the source string into name and address
+				size_t atpos = source_str.find('@');
+				if (atpos!=std::string::npos) {
+					source_name = source_str.substr(0,atpos);
+					source_addr = source_str.substr(atpos+1);
+					if (source_addr.empty()) source_addr = "localhost";
+				} else {
+					source_name = source_str;
+					source_addr = "localhost";
 				}
 				
 			} else if (strcmp(cmd,"set")==0) {	
@@ -412,7 +416,7 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 								} else maxCursorID[source_id] = c_id;									
 								
 								frameCursor = new TuioCursor(currentTime,tcur->getSessionID(),c_id,tcur->getX(),tcur->getY());
-								if (source_name) frameCursor->setTuioSource(source_id,source_name,source_addr);
+								if (!source_name.empty()) frameCursor->setTuioSource(source_id,source_name.c_str(),source_addr.c_str());
 								cursorList.push_back(frameCursor);
 								
 								delete tcur;
@@ -472,12 +476,6 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 				const char* src;
 				args >> src;
 				
-				source_name = strtok((char*)src, "@");
-				char *addr = strtok(NULL, "@");
-				
-				if (addr!=NULL) source_addr = addr;
-				else source_addr = (char*)"localhost";
-				
 				// check if we know that source
 				std::string source_str(src);
 				std::map<std::string,int>::iterator iter = sourceList.find(source_str);
@@ -490,6 +488,17 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 				} else {
 					// use the found source_id
 					source_id = sourceList[source_str];
+				}
+				
+				// split the source string into name and address
+				size_t atpos = source_str.find('@');
+				if (atpos!=std::string::npos) {
+					source_name = source_str.substr(0,atpos);
+					source_addr = source_str.substr(atpos+1);
+					if (source_addr.empty()) source_addr = "localhost";
+				} else {
+					source_name = source_str;
+					source_addr = "localhost";
 				}
 				
 			} else if (strcmp(cmd,"set")==0) {	
@@ -640,7 +649,7 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 								} else maxBlobID[source_id] = b_id;									
 								
 								frameBlob = new TuioBlob(currentTime,tblb->getSessionID(),b_id,tblb->getX(),tblb->getY(),tblb->getAngle(),tblb->getWidth(),tblb->getHeight(),tblb->getArea());
-								if (source_name) frameBlob->setTuioSource(source_id,source_name,source_addr);
+								if (!source_name.empty()) frameBlob->setTuioSource(source_id,source_name.c_str(),source_addr.c_str());
 								blobList.push_back(frameBlob);
 								
 								delete tblb;

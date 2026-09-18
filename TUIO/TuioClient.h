@@ -303,8 +303,8 @@ namespace TUIO {
 		
 		std::map<std::string,int> sourceList;
 		int source_id;
-		char *source_name;
-		char *source_addr;
+		std::string source_name;
+		std::string source_addr;
 		
 		OscReceiver *receiver;
 		bool local_receiver;
