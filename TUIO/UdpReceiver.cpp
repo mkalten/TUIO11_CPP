@@ -48,6 +48,7 @@ UdpReceiver::UdpReceiver(int port):locked (false) {
 }
 
 UdpReceiver::~UdpReceiver() {
+	disconnect();
 	delete socket;
 }
 
@@ -56,6 +57,8 @@ void UdpReceiver::connect(bool lk) {
 	if (connected) return;
 	if (socket==NULL) return;
 	locked = lk;
+	connected = true;
+	thread = 0;
 	
 	if (!locked) {
 #ifndef WIN32
@@ -64,9 +67,11 @@ void UdpReceiver::connect(bool lk) {
 		DWORD threadId;
 		thread = CreateThread( 0, 0, ClientThreadFunc, this, 0, &threadId );
 #endif
-	} else socket->Run();
-	
-	connected = true;
+	} else {
+		socket->Run();
+		connected = false;
+		locked = false;
+	}
 }
 
 void UdpReceiver::disconnect() {
@@ -77,11 +82,16 @@ void UdpReceiver::disconnect() {
 		locked = false;
 		return;
 	}
-	socket->Break();
+	socket->AsynchronousBreak();
 	
 	if (!locked) {
-#ifdef WIN32
-		if( thread ) CloseHandle( thread );
+#ifndef WIN32
+		if (thread) pthread_join(thread,NULL);
+#else
+		if (thread) {
+			WaitForSingleObject(thread,INFINITE);
+			CloseHandle(thread);
+		}
 #endif
 		thread = 0;
 	} else locked = false;
