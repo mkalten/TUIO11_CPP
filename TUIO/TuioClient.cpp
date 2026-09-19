@@ -174,7 +174,7 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 
 								lockObjectList();
 								for (std::list<TuioObject*>::iterator delobj=objectList.begin(); delobj!=objectList.end(); delobj++) {
-									if((*delobj)->getSessionID()==frameObject->getSessionID()) {
+									if(((*delobj)->getTuioSourceID()==source_id) && ((*delobj)->getSessionID()==frameObject->getSessionID())) {
 										objectList.erase(delobj);
 										break;
 									}
@@ -204,7 +204,7 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 									}
 								}	
 								
-								if (iter==objectList.end()) {
+								if ((iter==objectList.end()) || (frameObject==NULL)) {
 									unlockObjectList();
 									break;
 								}
@@ -437,8 +437,9 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 									}
 								}	
 								
-								if (iter==cursorList.end()) {
+								if ((iter==cursorList.end()) || (frameCursor==NULL)) {
 									unlockCursorList();
+									delete tcur;
 									break;
 								}
 								
@@ -670,8 +671,9 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 									}
 								}	
 								
-								if (iter==blobList.end()) {
+								if ((iter==blobList.end()) || (frameBlob==NULL)) {
 									unlockBlobList();
+									delete tblb;
 									break;
 								}
 								
@@ -714,12 +716,9 @@ void TuioClient::connect(bool lock) {
 			
 	TuioTime::initSession();
 	currentTime.reset();
+	currentFrame = -1;
 	
 	receiver->connect(lock);
-	
-	unlockCursorList();
-	unlockObjectList();
-	unlockBlobList();
 }
 
 void TuioClient::disconnect() {
@@ -729,6 +728,9 @@ void TuioClient::disconnect() {
 	aliveObjectList.clear();
 	aliveCursorList.clear();
 	aliveBlobList.clear();
+	frameObjects.clear();
+	frameCursors.clear();
+	frameBlobs.clear();
 
 	for (std::list<TuioObject*>::iterator iter=objectList.begin(); iter != objectList.end(); iter++)
 		delete (*iter);
@@ -745,10 +747,19 @@ void TuioClient::disconnect() {
 	for (std::list<TuioCursor*>::iterator iter=freeCursorList.begin(); iter != freeCursorList.end(); iter++)
 		delete(*iter);
 	freeCursorList.clear();
+	freeCursorBuffer.clear();
+	maxCursorID.clear();
 
 	for (std::list<TuioBlob*>::iterator iter=freeBlobList.begin(); iter != freeBlobList.end(); iter++)
 		delete(*iter);
 	freeBlobList.clear();
+	freeBlobBuffer.clear();
+	maxBlobID.clear();
+	
+	sourceList.clear();
+	source_id = 0;
+	source_name.clear();
+	source_addr.clear();
 }
 
 
