@@ -36,6 +36,9 @@ typedef int socklen_t;
 #endif
 
 #include <list>
+#ifndef WIN32
+#include <pthread.h>
+#endif
 #define MAX_TCP_SIZE 65536
 
 namespace TUIO {
@@ -104,9 +107,11 @@ namespace TUIO {
 #ifdef WIN32
 		SOCKET tcp_socket;
 		std::list<SOCKET> tcp_client_list;
+		HANDLE tcp_mutex;
 #else
 		int tcp_socket;
 		std::list<int> tcp_client_list;
+		pthread_mutex_t tcp_mutex;
 #endif
 		bool connected;
 		const char* tuio_type() { return "TUIO/TCP"; }
