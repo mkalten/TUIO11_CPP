@@ -85,9 +85,11 @@ namespace TUIO {
 #ifndef WIN32
 		int tcp_socket;
 		std::list<int> tcp_client_list;
+		pthread_mutex_t tcp_mutex;
 #else
 		SOCKET tcp_socket;
 		std::list<SOCKET> tcp_client_list;
+		HANDLE tcp_mutex;
 #endif
 		
 	private:
@@ -100,6 +102,7 @@ namespace TUIO {
 #endif	
 		
 		bool locked;
+		bool local;
 	};
 };
 #endif /* INCLUDED_TcpReceiver_H */
