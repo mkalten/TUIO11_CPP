@@ -20,7 +20,7 @@ SHARED_OPTIONS = -shared -Wl,-soname,$(TUIO_SHARED)
 
 ifeq ($(PLATFORM), Darwin)
 	TARGET = -mmacosx-version-min=11.0 -arch arm64 -arch x86_64
-	CFLAGS += $(TARGET)
+	CFLAGS += $(TARGET) -DGL_SILENCE_DEPRECATION
 	CXXFLAGS += $(TARGET)
 	TUIO_SHARED = libTUIO.dylib
 	LD_FLAGS = -framework OpenGL -framework GLUT -framework SDL2 -framework Cocoa
