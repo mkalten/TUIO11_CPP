@@ -31,38 +31,43 @@ public:
 		lastX = tobj->getX(); lastY = tobj->getY(); lastAngle = tobj->getAngle();
 		lastState = tobj->getTuioState();
 	}
-	void updateTuioObject(TuioObject *tobj) { updObj++; lastSessionID = tobj->getSessionID(); lastX = tobj->getX(); }
+	void updateTuioObject(TuioObject *tobj) { updObj++; lastSessionID = tobj->getSessionID(); lastX = tobj->getX(); lastY = tobj->getY(); lastAngle = tobj->getAngle(); }
 	void removeTuioObject(TuioObject *tobj) { delObj++; lastSessionID = tobj->getSessionID(); lastState = tobj->getTuioState(); }
 
 	void addTuioCursor(TuioCursor *tcur) {
 		addCur++; lastSessionID = tcur->getSessionID(); lastCursorID = tcur->getCursorID();
 		lastX = tcur->getX(); lastY = tcur->getY();
 	}
-	void updateTuioCursor(TuioCursor *tcur) { updCur++; lastSessionID = tcur->getSessionID(); lastX = tcur->getX(); }
+	void updateTuioCursor(TuioCursor *tcur) { updCur++; lastSessionID = tcur->getSessionID(); lastX = tcur->getX(); lastY = tcur->getY(); }
 	void removeTuioCursor(TuioCursor *tcur) { delCur++; lastSessionID = tcur->getSessionID(); lastCursorID = tcur->getCursorID(); lastState = tcur->getTuioState(); }
 
 	void addTuioBlob(TuioBlob *tblb) {
 		addBlb++; lastSessionID = tblb->getSessionID(); lastBlobID = tblb->getBlobID();
 		lastX = tblb->getX(); lastY = tblb->getY();
 	}
-	void updateTuioBlob(TuioBlob *tblb) { updBlb++; lastSessionID = tblb->getSessionID(); lastX = tblb->getX(); }
+	void updateTuioBlob(TuioBlob *tblb) { updBlb++; lastSessionID = tblb->getSessionID(); lastX = tblb->getX(); lastY = tblb->getY(); lastAngle = tblb->getAngle(); }
 	void removeTuioBlob(TuioBlob *tblb) { delBlb++; lastSessionID = tblb->getSessionID(); }
 
 	void refresh(TuioTime) { refreshCount++; }
 };
 
 // captures the serialized OSC data instead of sending it
+// lastPacket holds the most recent packet, captured accumulates all packets
+// since reset() — the server sends one bundle per profile per frame
 class CaptureSender : public OscSender {
 public:
 	std::vector<char> lastPacket;
+	std::string captured;
 	int packets = 0;
 
 	CaptureSender() { buffer_size = 8192; local = true; }
 	bool sendOscPacket(osc::OutboundPacketStream *bundle) {
 		lastPacket.assign(bundle->Data(), bundle->Data()+bundle->Size());
+		captured.append(bundle->Data(), bundle->Size());
 		packets++;
 		return true;
 	}
+	void reset() { lastPacket.clear(); captured.clear(); packets = 0; }
 	bool isConnected() { return true; }
 	const char* tuio_type() { return "TEST"; }
 };

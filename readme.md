@@ -18,6 +18,8 @@ application.
 the screen
 *   **SimpleSimulator**: a simple TUIO simulator that demonstrates the 
 use of the TuioServer class
+*   **TuioAudit**: a TUIO server emitting various test message scenarios
+for testing external TUIO client implementations
 
 You can use these TUIO client and server demo applications for debugging 
 purposes, and using them as a starting point for the development of you 
