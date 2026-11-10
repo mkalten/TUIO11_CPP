@@ -1,6 +1,6 @@
 /*
  TUIO C++ Library
- Copyright (c) 2005-2017 Martin Kaltenbrunner <martin@tuio.org>
+ Copyright (c) 2005-2026 Martin Kaltenbrunner <martin@tuio.org>
  
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -61,7 +61,9 @@ namespace TUIO {
 		virtual void connect(bool lock=false) = 0;
 		
 		/**
-		 * The OscReceiver disconnects and stops receiving TUIO messages via OSC
+		 * The OscReceiver disconnects and stops receiving TUIO messages via OSC.
+		 * This method waits for the receiver threads to terminate and therefore
+		 * must not be called from within a TuioListener callback.
 		 */
 		virtual void disconnect() = 0;
 		
