@@ -38,19 +38,19 @@ static UdpTransmitSocket* openSocket(const char *host, int port) {
 
 UdpSender::UdpSender() {
 	local = true;
-	buffer_size = MAX_UDP_SIZE;
+	buffer_size = MAX_LOCAL_UDP_SIZE;
 	socket = openSocket("127.0.0.1",3333);
 }
 
 UdpSender::UdpSender(const char *host, int port) {
 	local = isLocalHost(host);
-	buffer_size = local ? MAX_UDP_SIZE : IP_MTU_SIZE;
+	buffer_size = local ? MAX_LOCAL_UDP_SIZE : IP_MTU_SIZE;
 	socket = openSocket(host,port);
 }
 
 UdpSender::UdpSender(const char *host, int port, int size) {
 	local = isLocalHost(host);
-	if (size>MAX_UDP_SIZE) size = MAX_UDP_SIZE;
+	if (size>(local?MAX_LOCAL_UDP_SIZE:MAX_UDP_SIZE)) size = local?MAX_LOCAL_UDP_SIZE:MAX_UDP_SIZE;
 	else if (size<MIN_UDP_SIZE) size = MIN_UDP_SIZE;
 	buffer_size = size;
 	socket = openSocket(host,port);

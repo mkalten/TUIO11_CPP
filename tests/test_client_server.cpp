@@ -90,11 +90,90 @@ TEST(sender_packet_bounds) {
 	msg << osc::BeginMessage("/tuio/2Dcur") << "fseq" << (int32_t)1 << osc::EndMessage;
 	CHECK(udp.sendOscPacket(&msg));
 
-	// a packet larger than the sender's buffer size is rejected
-	std::vector<char> bigbuf(5000);
+	// on the loopback device packets up to MAX_LOCAL_UDP_SIZE are accepted
+	std::vector<char> bigbuf(70000);
 	std::vector<char> blob(4100, 'x');
+	osc::OutboundPacketStream large(&bigbuf[0], bigbuf.size());
+	large << osc::BeginMessage("/t") << osc::Blob(&blob[0], 4100) << osc::EndMessage;
+	CHECK((int)large.Size() > 4096);
+	CHECK(udp.sendOscPacket(&large));
+
+	// a packet larger than the sender's buffer size is rejected
+	std::vector<char> hugeblob(65508, 'x');
 	osc::OutboundPacketStream oversized(&bigbuf[0], bigbuf.size());
-	oversized << osc::BeginMessage("/t") << osc::Blob(&blob[0], 4100) << osc::EndMessage;
-	CHECK((int)oversized.Size() > 4096);
+	oversized << osc::BeginMessage("/t") << osc::Blob(&hugeblob[0], 65508) << osc::EndMessage;
+	CHECK((int)oversized.Size() > MAX_LOCAL_UDP_SIZE);
 	CHECK(!udp.sendOscPacket(&oversized));
+}
+
+TEST(udp_large_packet_loopback) {
+	// a single frame of 500 cursors creates a bundle of ~46 KB,
+	// which must be delivered as one large loopback datagram
+	TuioClient client(13413);
+	RecordingListener listener;
+	client.addTuioListener(&listener);
+	client.connect();
+	CHECK(client.isConnected());
+
+	TuioServer server(new UdpSender("127.0.0.1", 13413));
+	server.setSourceName("big","127.0.0.1");
+	server.initFrame(TuioTime::getSessionTime());
+	for (int i=0;i<500;i++) server.addTuioCursor(i/500.0f, 0.5f);
+	server.commitFrame();
+
+	WAIT_FOR(listener.addCur >= 500, 5000);
+	CHECK_EQ(client.getTuioCursorCount(), 500);
+
+	client.disconnect();
+	CHECK(!client.isConnected());
+}
+
+TEST(udp_split_bundle_reassembly) {
+	// the minimal packet size of 576 bytes forces the server to split
+	// a single frame of 40 cursors into a series of bundles that the
+	// client must reassemble into the complete frame state
+	TuioClient client(13419);
+	RecordingListener listener;
+	client.addTuioListener(&listener);
+	client.connect();
+	CHECK(client.isConnected());
+
+	UdpSender *sender = new UdpSender("127.0.0.1", 13419, 576);
+	CHECK_EQ(sender->getBufferSize(), 576);
+	TuioServer server(sender);
+	server.setSourceName("split","127.0.0.1");
+	server.initFrame(TuioTime::getSessionTime());
+	for (int i=0;i<40;i++) server.addTuioCursor(i/40.0f, 0.25f);
+	server.commitFrame();
+
+	// all cursors must arrive despite the frame being split
+	WAIT_FOR(client.getTuioCursorCount() == 40, 5000);
+	CHECK_EQ(listener.addCur, 40);
+
+	// every cursor arrives with its session id and position intact
+	std::list<TuioCursor*> serverCursors = server.getTuioCursors();
+	std::list<TuioCursor*> clientCursors = client.getTuioCursors();
+	CHECK_EQ((int)clientCursors.size(), 40);
+	for (std::list<TuioCursor*>::iterator s = serverCursors.begin(); s != serverCursors.end(); s++) {
+		bool found = false;
+		for (std::list<TuioCursor*>::iterator c = clientCursors.begin(); c != clientCursors.end(); c++) {
+			if ((*c)->getSessionID() == (*s)->getSessionID()) {
+				CHECK_NEAR((*c)->getX(), (*s)->getX(), 1e-4);
+				CHECK_NEAR((*c)->getY(), (*s)->getY(), 1e-4);
+				found = true;
+				break;
+			}
+		}
+		CHECK(found);
+	}
+
+	// a subsequent update frame must still propagate over the split transport
+	TuioCursor *tcur = serverCursors.front();
+	server.initFrame(TuioTime::getSessionTime());
+	server.updateTuioCursor(tcur, 0.9f, 0.9f);
+	server.commitFrame();
+	WAIT_FOR(listener.updCur >= 1, 5000);
+
+	client.disconnect();
+	CHECK(!client.isConnected());
 }
