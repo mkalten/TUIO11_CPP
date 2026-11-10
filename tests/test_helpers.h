@@ -11,6 +11,7 @@
 #include "TuioListener.h"
 #include "OscSender.h"
 #include "OscReceiver.h"
+#include "TuioDispatcher.h"
 
 using namespace TUIO;
 

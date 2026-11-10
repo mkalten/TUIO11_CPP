@@ -22,7 +22,7 @@ using namespace TUIO;
 using namespace osc;
 
 void OscReceiver::ProcessMessage( const ReceivedMessage& msg, const IpEndpointName& remoteEndpoint) {
-	for (std::list<TuioClient*>::iterator client=clientList.begin(); client!= clientList.end(); client++)
+	for (std::list<OscClient*>::iterator client=clientList.begin(); client!= clientList.end(); client++)
 		(*client)->processOSC(msg);
 }
 void OscReceiver::ProcessBundle( const ReceivedBundle& b, const IpEndpointName& remoteEndpoint) {
@@ -42,7 +42,7 @@ void OscReceiver::ProcessBundle( const ReceivedBundle& b, const IpEndpointName& 
 
 void OscReceiver::ProcessPacket( const char *data, int size, const IpEndpointName& remoteEndpoint ) {
 	try {
-		for (std::list<TuioClient*>::iterator client=clientList.begin(); client!= clientList.end(); client++)
+		for (std::list<OscClient*>::iterator client=clientList.begin(); client!= clientList.end(); client++)
 			(*client)->processBundleBegin();
 
 		ReceivedPacket p( data, size );
@@ -57,7 +57,7 @@ bool OscReceiver::isConnected() {
 	return connected;
 }
 
-void OscReceiver::addTuioClient(TuioClient *client) {
+void OscReceiver::addTuioClient(OscClient *client) {
 	clientList.push_back(client);
 }
 

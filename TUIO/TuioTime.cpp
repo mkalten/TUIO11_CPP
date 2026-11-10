@@ -32,6 +32,15 @@ TuioTime::TuioTime (long sec, long usec) {
 	micro_seconds = usec;
 }
 
+TuioTime::TuioTime (osc::TimeTag timetag) {
+	osc::uint32 secs = timetag >> 32;
+	osc::uint32 frac = timetag & 0x00000000FFFFFFFF;
+	
+	seconds = secs - JAN_1970;
+	micro_seconds =  frac / NTP_UNITS;
+	frame_id = 0;
+}
+
 TuioTime TuioTime::operator+(long us) {
 	long sec = seconds + us/USEC_SECOND;
 	long usec = micro_seconds + us%USEC_SECOND;
@@ -73,6 +82,7 @@ TuioTime TuioTime::operator-(TuioTime ttime) {
 void TuioTime::operator=(TuioTime ttime) {
 	seconds = ttime.getSeconds();
 	micro_seconds = ttime.getMicroseconds();
+	frame_id = ttime.getFrameID();
 }
 
 bool TuioTime::operator==(TuioTime ttime) {
@@ -102,6 +112,14 @@ long TuioTime::getTotalMilliseconds() const{
 	return seconds*MSEC_SECOND+micro_seconds/MSEC_SECOND;
 }
 
+unsigned int TuioTime::getFrameID() const{
+	return frame_id;
+}
+
+void TuioTime::setFrameID(unsigned int f_id) {
+	frame_id = f_id;
+}
+
 void TuioTime::initSession() {
 	TuioTime startTime = TuioTime::getSystemTime();
 	start_seconds = startTime.getSeconds();
@@ -126,4 +144,15 @@ TuioTime TuioTime::getSystemTime() {
 	TuioTime systemTime(tv.tv_sec,tv.tv_usec);
 #endif	
 	return systemTime;
+}
+
+osc::TimeTag TuioTime::getSystemTimeTag() {
+
+	TuioTime systemTime = getSystemTime();
+	
+	osc::uint32 secs = (osc::uint32)systemTime.getSeconds() + JAN_1970;
+	osc::uint32 frac = systemTime.getMicroseconds() * NTP_UNITS;
+	
+	osc::uint64 timetag = (osc::uint64) secs << 32 | frac;
+	return osc::TimeTag(timetag);
 }

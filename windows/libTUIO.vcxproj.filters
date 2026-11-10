@@ -121,6 +121,9 @@
     <ClInclude Include="..\TUIO\OneEuroFilter.h">
       <Filter>Header Files\TUIO</Filter>
     </ClInclude>
+    <ClInclude Include="..\TUIO\OscClient.h">
+      <Filter>Header Files\TUIO</Filter>
+    </ClInclude>
     <ClInclude Include="..\TUIO\OscReceiver.h">
       <Filter>Header Files\TUIO</Filter>
     </ClInclude>

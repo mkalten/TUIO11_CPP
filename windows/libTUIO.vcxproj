@@ -237,6 +237,7 @@
     <ClInclude Include="..\oscpack\osc\OscPrintReceivedElements.h" />
     <ClInclude Include="..\TUIO\LibExport.h" />
     <ClInclude Include="..\TUIO\OneEuroFilter.h" />
+    <ClInclude Include="..\TUIO\OscClient.h" />
     <ClInclude Include="..\TUIO\OscReceiver.h" />
     <ClInclude Include="..\TUIO\OscSender.h" />
     <ClInclude Include="..\TUIO\TcpReceiver.h" />

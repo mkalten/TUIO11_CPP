@@ -6,6 +6,7 @@
 
 #include "test_util.h"
 #include "test_helpers.h"
+#include "TuioClient.h"
 #include "../TuioScenarios.h"
 
 #include <string.h>

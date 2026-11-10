@@ -20,16 +20,18 @@
 #define INCLUDED_OSCRECEIVER_H
 
 #include "LibExport.h"
-#include "TuioClient.h"
+#include "OscClient.h"
 
 #include "osc/OscReceivedElements.h"
 #include "osc/OscHostEndianness.h"
 #include "ip/PacketListener.h"
 #include "ip/IpEndpointName.h"
+#include <list>
+#include <iostream>
 
 namespace TUIO {
 
-	class TuioClient; // Forward declaration
+	class OscClient; // Forward declaration
 
 	/**
 	 * The OscReceiver is the base class for the various OSC transport methods such as UDP, TCP ...
@@ -74,11 +76,11 @@ namespace TUIO {
 		bool isConnected();
 	
 		/**
-		 * Attaches the provided TuioClient to this OscReceiver
+		 * Attaches the provided OscClient to this OscReceiver
 		 *
-		 * @param  client	a pointer to the TuioClient to attach
+		 * @param  client	a pointer to the OscClient to attach
 		 */
-		void addTuioClient(TuioClient *client);
+		void addTuioClient(OscClient *client);
 		
 		/**
 		 * The OSC callback method where the incoming OSC data is received
@@ -94,7 +96,7 @@ namespace TUIO {
 		
 		void ProcessMessage( const osc::ReceivedMessage& message, const IpEndpointName& remoteEndpoint);
 		
-		std::list<TuioClient*> clientList;
+		std::list<OscClient*> clientList;
 		bool connected;
 	};
 };

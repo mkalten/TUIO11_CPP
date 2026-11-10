@@ -50,7 +50,7 @@ namespace TUIO {
 	 * @author Martin Kaltenbrunner
 	 * @version 1.1.6
 	 */ 
-	class LIBDECL TuioClient : public TuioDispatcher { 
+	class LIBDECL TuioClient : public TuioDispatcher, public OscClient { 
 		
 	public:
 		/**

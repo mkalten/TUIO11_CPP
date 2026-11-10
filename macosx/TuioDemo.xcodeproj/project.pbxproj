@@ -97,6 +97,7 @@
 		B277CA020F51B34C00D84853 /* TuioPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TuioPoint.h; path = ../TUIO/TuioPoint.h; sourceTree = SOURCE_ROOT; };
 		B277CA030F51B34C00D84853 /* TuioTime.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TuioTime.cpp; path = ../TUIO/TuioTime.cpp; sourceTree = SOURCE_ROOT; };
 		B277CA040F51B34C00D84853 /* TuioTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TuioTime.h; path = ../TUIO/TuioTime.h; sourceTree = SOURCE_ROOT; };
+		B2A1C0DE0000000000000003 /* OscClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OscClient.h; path = ../TUIO/OscClient.h; sourceTree = SOURCE_ROOT; };
 		B2A1C0DE0000000000000002 /* TcpUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TcpUtils.h; path = ../TUIO/TcpUtils.h; sourceTree = SOURCE_ROOT; };
 		B2B2FE141CF9BCE200CD8506 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = /Library/Frameworks/SDL2.framework; sourceTree = "<absolute>"; };
 		B2C2B89C109067D000262014 /* TUIO.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = TUIO.icns; sourceTree = SOURCE_ROOT; };
@@ -273,6 +274,7 @@
 				B24A0BFB10D8478400406E36 /* TcpReceiver.h */,
 				B2A1C0DE0000000000000002 /* TcpUtils.h */,
 				B260FA9F103B173600D1B0AB /* OscReceiver.h */,
+				B2A1C0DE0000000000000003 /* OscClient.h */,
 				B2361FDB103B3DD600FB8627 /* OscReceiver.cpp */,
 			);
 			name = TUIO;
