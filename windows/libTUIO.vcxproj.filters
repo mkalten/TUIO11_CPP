@@ -136,6 +136,9 @@
     <ClInclude Include="..\TUIO\TcpSender.h">
       <Filter>Header Files\TUIO</Filter>
     </ClInclude>
+    <ClInclude Include="..\TUIO\TcpUtils.h">
+      <Filter>Header Files\TUIO</Filter>
+    </ClInclude>
     <ClInclude Include="..\TUIO\TuioBlob.h">
       <Filter>Header Files\TUIO</Filter>
     </ClInclude>

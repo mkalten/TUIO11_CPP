@@ -238,6 +238,7 @@
     <ClInclude Include="..\TUIO\OscSender.h" />
     <ClInclude Include="..\TUIO\TcpReceiver.h" />
     <ClInclude Include="..\TUIO\TcpSender.h" />
+    <ClInclude Include="..\TUIO\TcpUtils.h" />
     <ClInclude Include="..\TUIO\TuioBlob.h" />
     <ClInclude Include="..\TUIO\TuioClient.h" />
     <ClInclude Include="..\TUIO\TuioContainer.h" />
