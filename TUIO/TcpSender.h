@@ -1,6 +1,6 @@
 /*
  TUIO C++ Library
- Copyright (c) 2005-2017 Martin Kaltenbrunner <martin@tuio.org>
+ Copyright (c) 2005-2026 Martin Kaltenbrunner <martin@tuio.org>
  
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -96,7 +96,8 @@ namespace TUIO {
 		bool isConnected ();
 
 		/**
-		 * This method is called whenever a new client connects
+		 * This method is called whenever a new client connects,
+		 * before the client is added to the delivery list
 		 *
 		 * @param tcp_client the socket handle of the new client
 		 */
@@ -114,9 +115,32 @@ namespace TUIO {
 		pthread_mutex_t tcp_mutex;
 #endif
 		bool connected;
+
+		/**
+		 * The accepted client socket during its protocol handshake,
+		 * only public to be accessible from the thread function
+		 */
+#ifdef WIN32
+		SOCKET pending_socket;
+#else
+		int pending_socket;
+#endif
+
 		const char* tuio_type() { return "TUIO/TCP"; }
 
 	protected:
+		/**
+		 * Delivers a packet header followed by its payload to all connected clients.
+		 * Clients that fail to receive the data are shut down and removed by their thread.
+		 *
+		 * @param header  the packet header
+		 * @param header_size  the size of the packet header
+		 * @param data  the packet payload
+		 * @param data_len  the size of the packet payload
+		 * @return true after the data has been delivered to all clients
+		 */
+		bool deliver(const char *header, int header_size, const char *data, int data_len);
+
 		char data_size[4];
 		char data_buffer[MAX_TCP_SIZE+4];
 		
@@ -127,6 +151,9 @@ namespace TUIO {
 #else
 		pthread_t server_thread;
 #endif
+
+	private:
+		bool connectTo(const char *host, int port);
 		
 	};
 }

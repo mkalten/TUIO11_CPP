@@ -1,6 +1,6 @@
 /*
  TUIO C++ Library
- Copyright (c) 2005-2017 Martin Kaltenbrunner <martin@tuio.org>
+ Copyright (c) 2005-2026 Martin Kaltenbrunner <martin@tuio.org>
  
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -18,6 +18,10 @@
 
 #include "UdpReceiver.h"
 
+#ifndef WIN32
+#include <unistd.h>
+#endif
+
 using namespace TUIO;
 using namespace osc;
 
@@ -27,23 +31,19 @@ static void* ClientThreadFunc( void* obj )
 static DWORD WINAPI ClientThreadFunc( LPVOID obj )
 #endif
 {
-	static_cast<UdpReceiver*>(obj)->socket->Run();
+	UdpReceiver *receiver = static_cast<UdpReceiver*>(obj);
+	receiver->socket->Run();
+	receiver->thread_done = true;
 	return 0;
 };
 
-UdpReceiver::UdpReceiver(int port):locked (false) {
+UdpReceiver::UdpReceiver(int port):thread_done (true),locked (false) {
 	try {
 		socket = new UdpListeningReceiveSocket(IpEndpointName( IpEndpointName::ANY_ADDRESS, port ), this );
+		std::cout << "listening to TUIO/UDP messages on port " << port << std::endl;
 	} catch (std::exception &e) {
 		std::cerr << "could not bind to UDP port " << port << std::endl;
 		socket = NULL;
-	}
-
-	if (socket!=NULL) {
-		if (!socket->IsBound()) {
-			delete socket;
-			socket = NULL;
-		} else std::cout << "listening to TUIO/UDP messages on port " << port << std::endl;
 	}
 }
 
@@ -61,11 +61,14 @@ void UdpReceiver::connect(bool lk) {
 	thread = 0;
 	
 	if (!locked) {
+		thread_done = false;
 #ifndef WIN32
-		pthread_create(&thread , NULL, ClientThreadFunc, this);
+		if (pthread_create(&thread , NULL, ClientThreadFunc, this)!=0)
+			thread_done = true;
 #else
 		DWORD threadId;
 		thread = CreateThread( 0, 0, ClientThreadFunc, this, 0, &threadId );
+		if (!thread) thread_done = true;
 #endif
 	} else {
 		socket->Run();
@@ -77,14 +80,17 @@ void UdpReceiver::connect(bool lk) {
 void UdpReceiver::disconnect() {
 	
 	if (!connected) return;
-	if (socket==NULL) {
-		connected = false;
-		locked = false;
-		return;
-	}
-	socket->AsynchronousBreak();
-	
 	if (!locked) {
+		// Run() resets the break flag on entry, so a break sent before
+		// the thread reached Run() is lost - repeat it until the thread exits
+		while (!thread_done) {
+			socket->AsynchronousBreak();
+#ifndef WIN32
+			usleep(1000);
+#else
+			Sleep(1);
+#endif
+		}
 #ifndef WIN32
 		if (thread) pthread_join(thread,NULL);
 #else
@@ -94,7 +100,10 @@ void UdpReceiver::disconnect() {
 		}
 #endif
 		thread = 0;
-	} else locked = false;
+	} else {
+		socket->AsynchronousBreak();
+		locked = false;
+	}
 
 	connected = false;
 }

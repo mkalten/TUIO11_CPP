@@ -1,6 +1,6 @@
 /*
  TUIO C++ Library
- Copyright (c) 2009-2017 Martin Kaltenbrunner <martin@tuio.org>
+ Copyright (c) 2009-2026 Martin Kaltenbrunner <martin@tuio.org>
  WebSockSender (c) 2015 Florian Echtler <floe@butterbrot.org>
  
  This library is free software; you can redistribute it and/or
@@ -18,27 +18,16 @@
 */
 
 #include "WebSockSender.h"
+#include "TcpUtils.h"
 
-#ifndef MSG_NOSIGNAL
-#define MSG_NOSIGNAL 0
-#endif
-
-#ifdef WIN32
-#define SHUT_RDWR SD_BOTH
-#endif
+/* All of these macros assume use on a 32-bit variable.
+ Additionally, SWAP assumes we're little-endian.	*/
+#define SWAP(a) ((((a) >> 24) & 0x000000ff) | (((a) >>	8) & 0x0000ff00) | \
+(((a) <<	8) & 0x00ff0000) | (((a) << 24) & 0xff000000))
+#define ROL(a, b) (((a) << (b)) | ((a) >> (32 - (b))))
+#define ROR(a, b) ROL((a), (32 - (b)))
 
 using namespace TUIO;
-
-template<typename T>
-static bool sendAll( T socket, const char *data, int len ) {
-	int sent_bytes = 0;
-	while (sent_bytes < len) {
-		int bytes = send(socket,data+sent_bytes,len-sent_bytes,MSG_NOSIGNAL);
-		if (bytes<=0) return false;
-		sent_bytes += bytes;
-	}
-	return true;
-}
 
 WebSockSender::WebSockSender()
 	:TcpSender( 8080 )
@@ -80,42 +69,23 @@ bool WebSockSender::sendOscPacket (osc::OutboundPacketStream *bundle) {
 		hs = 10;
 	}
 
-#ifdef WIN32
-	std::list<SOCKET>::iterator client;
-	WaitForSingleObject(tcp_mutex,INFINITE);
-#else
-	std::list<int>::iterator client;
-	pthread_mutex_lock(&tcp_mutex);
-#endif
-	
-	for (client = tcp_client_list.begin(); client!=tcp_client_list.end(); client++) {
-		
-		// send the WebSocket header, followed by the OSC payload
-		if (!sendAll((*client),(const char*)header,hs) ||
-		    !sendAll((*client),bundle->Data(),len))
-			// shut down the socket on failure so that the client thread removes it
-			shutdown((*client),SHUT_RDWR);
-	}
-
-#ifdef WIN32
-	ReleaseMutex(tcp_mutex);
-#else
-	pthread_mutex_unlock(&tcp_mutex);
-#endif
-
-	return true;
+	// send the WebSocket header, followed by the OSC payload
+	return deliver((const char*)header,hs,bundle->Data(),len);
 }
 
 void WebSockSender::newClient( int tcp_client ) {
 
-	// read the client handshake request until the empty line
+	// read the client handshake request until the empty line,
+	// the client sends no further data before it receives the response
 	std::string request;
-	char c = 0;
+	char buf[1024];
 	while (request.find("\r\n\r\n")==std::string::npos) {
-		int r = recv(tcp_client,&c,1,0);
-		if (r<=0) return;
-		request += c;
-		if (request.size()>4096) return;
+		int r = (request.size()>4096) ? 0 : recv(tcp_client,buf,sizeof(buf),0);
+		if (r<=0) {
+			shutdownSocket(tcp_client);
+			return;
+		}
+		request.append(buf,r);
 	}
 	
 	// reject requests without a WebSocket upgrade header
@@ -124,7 +94,7 @@ void WebSockSender::newClient( int tcp_client ) {
 	size_t kend = (kpos==std::string::npos) ? kpos : request.find("\r\n",kpos+sizeof(KEY_HDR)-1);
 	if (request.find("Upgrade: websocket")==std::string::npos ||
 	    kpos==std::string::npos || kend==std::string::npos) {
-		shutdown(tcp_client,SHUT_RDWR);
+		shutdownSocket(tcp_client);
 		return;
 	}
 
@@ -135,7 +105,6 @@ void WebSockSender::newClient( int tcp_client ) {
 	uint8_t digest[SHA1_HASH_SIZE] = {0};
 	sha1(digest,(uint8_t*)key.c_str(),key.size());
 
-	char buf[1024];
 	snprintf(buf, sizeof(buf),
 		"HTTP/1.1 101 Switching Protocols\r\n"
 		"Upgrade: websocket\r\n"
@@ -144,7 +113,7 @@ void WebSockSender::newClient( int tcp_client ) {
 		"Sec-WebSocket-Accept: %s\r\n\r\n",
 		base64( digest, SHA1_HASH_SIZE ).c_str() ); 
 
-	sendAll(tcp_client,buf,strlen(buf));
+	if (!sendAll(tcp_client,buf,(int)strlen(buf))) shutdownSocket(tcp_client);
 }
 
 

@@ -1,6 +1,6 @@
 /*
  TUIO C++ Library
- Copyright (c) 2009-2017 Martin Kaltenbrunner <martin@tuio.org>
+ Copyright (c) 2009-2026 Martin Kaltenbrunner <martin@tuio.org>
  WebSockSender (c) 2015 Florian Echtler <floe@butterbrot.org>
  
  This library is free software; you can redistribute it and/or
@@ -53,12 +53,6 @@ __inline int c99_snprintf(char *outBuf, size_t size, const char *format, ...)
 #endif
 
 
-/* All of these macros assume use on a 32-bit variable.
- Additionally, SWAP assumes we're little-endian.	*/
-#define SWAP(a) ((((a) >> 24) & 0x000000ff) | (((a) >>	8) & 0x0000ff00) | \
-(((a) <<	8) & 0x00ff0000) | (((a) << 24) & 0xff000000))
-#define ROL(a, b) (((a) << (b)) | ((a) >> (32 - (b))))
-#define ROR(a, b) ROL((a), (32 - (b)))
 #define SHA1_HASH_SIZE (160/8)
 
 #include "TcpSender.h"
@@ -80,7 +74,7 @@ namespace TUIO {
 	public:
 
 		/**
-		 * The default constructor creates a WebSockSender that listens to the default HTTP-alt port 8080 on localhost
+		 * The default constructor creates a WebSockSender that listens to the default HTTP-alt port 8080 on all interfaces
 		 */
 		WebSockSender();
 		
@@ -100,7 +94,8 @@ namespace TUIO {
 		bool sendOscPacket (osc::OutboundPacketStream *bundle);
 
 		/**
-		 * This method is called whenever a new client connects
+		 * This method performs the WebSocket handshake whenever a new client connects,
+		 * invalid handshake requests are rejected by shutting down the client socket
 		 *
 		 * @param tcp_client the socket handle of the new client
 		 */

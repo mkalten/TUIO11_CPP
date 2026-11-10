@@ -1,6 +1,6 @@
 /*
  TUIO C++ Library
- Copyright (c) 2005-2017 Martin Kaltenbrunner <martin@tuio.org>
+ Copyright (c) 2005-2026 Martin Kaltenbrunner <martin@tuio.org>
  
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -38,6 +38,11 @@ namespace TUIO {
 		 * The UDP socket is only public to be accessible from the thread function
 		 */ 
 		UdpListeningReceiveSocket *socket;
+
+		/**
+		 * Signals that the receive thread has terminated, only public to be accessible from the thread function
+		 */
+		volatile bool thread_done;
 		
 		/**
 		 * This constructor creates a UdpReceiver instance listening to the provided UDP port 
