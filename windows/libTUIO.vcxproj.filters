@@ -181,7 +181,16 @@
     <ClInclude Include="..\TUIO\WebSockSender.h">
       <Filter>Header Files\TUIO</Filter>
     </ClInclude>
+    <ClInclude Include="..\oscpack\ip\IpEndpointName.h">
+      <Filter>Header Files\oscpack</Filter>
+    </ClInclude>
     <ClInclude Include="..\oscpack\ip\UdpSocket.h">
+      <Filter>Header Files\oscpack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\oscpack\osc\MessageMappingOscPacketListener.h">
+      <Filter>Header Files\oscpack</Filter>
+    </ClInclude>
+    <ClInclude Include="..\oscpack\osc\OscPrintReceivedElements.h">
       <Filter>Header Files\oscpack</Filter>
     </ClInclude>
   </ItemGroup>

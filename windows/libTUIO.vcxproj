@@ -231,7 +231,10 @@
     <ClInclude Include="..\oscpack\osc\OscTypes.h" />
     <ClInclude Include="..\oscpack\ip\PacketListener.h" />
     <ClInclude Include="..\oscpack\ip\TimerListener.h" />
+    <ClInclude Include="..\oscpack\ip\IpEndpointName.h" />
     <ClInclude Include="..\oscpack\ip\UdpSocket.h" />
+    <ClInclude Include="..\oscpack\osc\MessageMappingOscPacketListener.h" />
+    <ClInclude Include="..\oscpack\osc\OscPrintReceivedElements.h" />
     <ClInclude Include="..\TUIO\LibExport.h" />
     <ClInclude Include="..\TUIO\OneEuroFilter.h" />
     <ClInclude Include="..\TUIO\OscReceiver.h" />
