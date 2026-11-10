@@ -31,6 +31,7 @@
 
 #ifdef __APPLE__
 #include <SDL2/SDL.h>
+#define GL_SILENCE_DEPRECATION 1
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
 #include <GLUT/glut.h>
