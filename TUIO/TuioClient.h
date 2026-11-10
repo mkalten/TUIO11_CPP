@@ -281,7 +281,15 @@ namespace TUIO {
 		 * @param  message  the OSC message to process
 		 */
 		void processOSC( const osc::ReceivedMessage& message);
-		
+
+		/**
+		 * Resets the pending frame state before a new OSC packet is processed.
+		 * This method is invoked by the associated OscReceiver once per packet
+		 * and discards pending set data from an incomplete previous bundle.
+		 * It is usually not called directly.
+		 */
+		void processBundleBegin();
+
 	private:
 		void initialize();
 		

@@ -204,7 +204,13 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 									}
 								}	
 								
-								if ((iter==objectList.end()) || (frameObject==NULL)) {
+								if ((iter==objectList.end()) || (frameObject==NULL) || (frameObject->getTuioState()==TUIO_REMOVED)) {
+									unlockObjectList();
+									break;
+								}
+
+								if (frameObject==tobj) {
+									objectList.erase(iter);
 									unlockObjectList();
 									break;
 								}
@@ -437,9 +443,14 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 									}
 								}	
 								
-								if ((iter==cursorList.end()) || (frameCursor==NULL)) {
+								if ((iter==cursorList.end()) || (frameCursor==NULL) || (frameCursor->getTuioState()==TUIO_REMOVED)) {
 									unlockCursorList();
 									delete tcur;
+									break;
+								}
+
+								if (frameCursor==tcur) {
+									unlockCursorList();
 									break;
 								}
 								
@@ -671,9 +682,14 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 									}
 								}	
 								
-								if ((iter==blobList.end()) || (frameBlob==NULL)) {
+								if ((iter==blobList.end()) || (frameBlob==NULL) || (frameBlob->getTuioState()==TUIO_REMOVED)) {
 									unlockBlobList();
 									delete tblb;
+									break;
+								}
+
+								if (frameBlob==tblb) {
+									unlockBlobList();
 									break;
 								}
 								
@@ -721,16 +737,32 @@ void TuioClient::connect(bool lock) {
 	receiver->connect(lock);
 }
 
+void TuioClient::processBundleBegin() {
+
+	// pending entries are owned by these lists and always fresh
+	// allocations — list members are only queued and consumed
+	// within fseq processing of the same bundle
+	for (std::list<TuioObject*>::iterator iter=frameObjects.begin(); iter != frameObjects.end(); iter++)
+		delete (*iter);
+	frameObjects.clear();
+
+	for (std::list<TuioCursor*>::iterator iter=frameCursors.begin(); iter != frameCursors.end(); iter++)
+		delete (*iter);
+	frameCursors.clear();
+
+	for (std::list<TuioBlob*>::iterator iter=frameBlobs.begin(); iter != frameBlobs.end(); iter++)
+		delete (*iter);
+	frameBlobs.clear();
+}
+
 void TuioClient::disconnect() {
-	
+
 	receiver->disconnect();
-	
+
 	aliveObjectList.clear();
 	aliveCursorList.clear();
 	aliveBlobList.clear();
-	frameObjects.clear();
-	frameCursors.clear();
-	frameBlobs.clear();
+	processBundleBegin();
 
 	for (std::list<TuioObject*>::iterator iter=objectList.begin(); iter != objectList.end(); iter++)
 		delete (*iter);

@@ -42,6 +42,9 @@ void OscReceiver::ProcessBundle( const ReceivedBundle& b, const IpEndpointName& 
 
 void OscReceiver::ProcessPacket( const char *data, int size, const IpEndpointName& remoteEndpoint ) {
 	try {
+		for (std::list<TuioClient*>::iterator client=clientList.begin(); client!= clientList.end(); client++)
+			(*client)->processBundleBegin();
+
 		ReceivedPacket p( data, size );
 		if(p.IsBundle()) ProcessBundle( ReceivedBundle(p), remoteEndpoint);
 		else ProcessMessage( ReceivedMessage(p), remoteEndpoint);
