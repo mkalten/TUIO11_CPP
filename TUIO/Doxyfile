@@ -9,6 +9,9 @@ EXTRACT_STATIC = NO
 EXTRACT_LOCAL_CLASSES = YES
 # only the public headers make up the API; skip .cpp implementation files
 FILE_PATTERNS = *.h *.hpp
+# use the project readme as the main page of the API documentation
+INPUT = . ../readme.md
+USE_MDFILE_AS_MAINPAGE = ../readme.md
 # configuration options related to the HTML output
 GENERATE_HTML = YES
 HTML_OUTPUT = ../doc
