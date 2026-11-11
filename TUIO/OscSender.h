@@ -85,7 +85,10 @@ namespace TUIO {
 		virtual const char* tuio_type() = 0;
 		
 	protected:
+		/** The size of the packet buffer */
 		unsigned int buffer_size;
+		
+		/** Whether the packet data is kept in a local buffer */
 		bool local;
 	};
 }

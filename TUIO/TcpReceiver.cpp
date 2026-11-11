@@ -22,10 +22,15 @@
 using namespace TUIO;
 using namespace osc;
 
-typedef struct {
-	TcpReceiver *receiver;
-	tuio_socket_t socket;
-} TcpClientData;
+namespace {
+
+/** Data passed to a per-client receiver thread */
+struct TcpClientData {
+	TcpReceiver *receiver; ///< the receiver owning the client thread
+	tuio_socket_t socket; ///< the accepted client socket
+};
+
+} // anonymous namespace
 
 TUIO_THREAD_FUNC(ClientThreadFunc)
 {

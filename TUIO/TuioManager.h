@@ -427,25 +427,52 @@ namespace TUIO {
 		void resetTuioBlobs();		
 		
 	protected:
+		/** Pool of TuioCursors available for reuse */
 		std::list<TuioCursor*> freeCursorList;
+		
+		/** Buffer of TuioCursors being recycled */
 		std::list<TuioCursor*> freeCursorBuffer;
 
+		/** Pool of TuioBlobs available for reuse */
 		std::list<TuioBlob*> freeBlobList;
+		
+		/** Buffer of TuioBlobs being recycled */
 		std::list<TuioBlob*> freeBlobBuffer;
 
+		/** The timestamp of the current frame */
 		TuioTime currentFrameTime;
+		
+		/** The current frame number */
 		int currentFrame;
+		
+		/** The highest cursor session ID in use */
 		int maxCursorID;
+		
+		/** The highest blob session ID in use */
 		int maxBlobID;
+		
+		/** The current session ID */
 		int sessionID;
 
+		/** Whether objects have been updated in the current frame */
 		bool updateObject;
+		
+		/** Whether cursors have been updated in the current frame */
 		bool updateCursor;
+		
+		/** Whether blobs have been updated in the current frame */
 		bool updateBlob;
+		
+		/** Whether verbose output is enabled */
 		bool verbose;
 
+		/** Whether the x axis is inverted */
 		bool invert_x;
+		
+		/** Whether the y axis is inverted */
 		bool invert_y;
+		
+		/** Whether the angle axis is inverted */
 		bool invert_a;
 	};
 }

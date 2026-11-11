@@ -103,17 +103,25 @@ namespace TUIO {
 		 */
 		virtual void newClient( int tcp_client );
 
+		/** The TCP port the sender is listening on */
 		int port_no;
 		
 #ifdef WIN32
+		/** The listening socket, public to be accessible from the thread function */
 		SOCKET tcp_socket;
+		/** The list of connected client sockets */
 		std::list<SOCKET> tcp_client_list;
+		/** The mutex protecting tcp_client_list */
 		HANDLE tcp_mutex;
 #else
+		/** The listening socket, public to be accessible from the thread function */
 		int tcp_socket;
+		/** The list of connected client sockets */
 		std::list<int> tcp_client_list;
+		/** The mutex protecting tcp_client_list */
 		pthread_mutex_t tcp_mutex;
 #endif
+		/** Whether the sender is currently connected */
 		bool connected;
 
 		/**
@@ -141,14 +149,19 @@ namespace TUIO {
 		 */
 		bool deliver(const char *header, int header_size, const char *data, int data_len);
 
+		/** Buffer holding the big-endian packet size header */
 		char data_size[4];
+		
+		/** Buffer holding the packet payload during delivery */
 		char data_buffer[MAX_TCP_SIZE+4];
 		
 
 #ifdef WIN32
+		/** The thread accepting new client connections */
 		HANDLE server_thread;
 		DWORD ServerThreadId;
 #else
+		/** The thread accepting new client connections */
 		pthread_t server_thread;
 #endif
 

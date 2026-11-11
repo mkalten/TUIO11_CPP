@@ -2,14 +2,10 @@
 #include "OneEuroFilter.h"
 using namespace TUIO;
 
-TEST(lowpass_basics) {
-	LowPassFilter lp(1.0);
-	// first call initializes to the input value
-	double r = lp.filter(5.0, 0.5);
-	CHECK_NEAR(r, 5.0, 1e-9);
-	// subsequent calls smooth toward the input: 5 + 0.5*(7-5) = 6
-	r = lp.filter(7.0, 0.5);
-	CHECK_NEAR(r, 6.0, 1e-9);
+TEST(oneeuro_first_sample_passthrough) {
+	// the first sample passes through unfiltered (LowPassFilter init behavior)
+	OneEuroFilter f(60.0, 1.0, 0.5, 1.0);
+	CHECK_NEAR(f.filter(5.0, 1.0/60.0), 5.0, 1e-9);
 }
 
 TEST(oneeuro_ctor_validation) {

@@ -7,6 +7,8 @@ EXTRACT_ALL = NO
 EXTRACT_PRIVATE = NO
 EXTRACT_STATIC = NO
 EXTRACT_LOCAL_CLASSES = YES
+# only the public headers make up the API; skip .cpp implementation files
+FILE_PATTERNS = *.h *.hpp
 # configuration options related to the HTML output
 GENERATE_HTML = YES
 HTML_OUTPUT = ../doc

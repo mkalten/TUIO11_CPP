@@ -92,11 +92,26 @@ namespace TUIO {
 		void ProcessPacket( const char *data, int size, const IpEndpointName &remoteEndpoint );
 		
 	protected:
+		/**
+		 * Dispatches all messages of a received OSC bundle to the attached clients
+		 *
+		 * @param  b				the received OSC bundle
+		 * @param  remoteEndpoint	the origin of the received OSC data
+		 */
 		void ProcessBundle( const osc::ReceivedBundle& b, const IpEndpointName& remoteEndpoint);
 		
+		/**
+		 * Dispatches a single received OSC message to the attached clients
+		 *
+		 * @param  message			the received OSC message
+		 * @param  remoteEndpoint	the origin of the received OSC data
+		 */
 		void ProcessMessage( const osc::ReceivedMessage& message, const IpEndpointName& remoteEndpoint);
 		
+		/** The OscClients attached to this receiver */
 		std::list<OscClient*> clientList;
+		
+		/** Whether the receiver is currently connected */
 		bool connected;
 	};
 };

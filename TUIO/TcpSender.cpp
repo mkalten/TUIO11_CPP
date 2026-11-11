@@ -21,10 +21,15 @@
 #include <algorithm>
 using namespace TUIO;
 
-typedef struct {
-	TcpSender *sender;
-	tuio_socket_t socket;
-} TcpSenderClientData;
+namespace {
+
+/** Data passed to a per-client sender thread */
+struct TcpSenderClientData {
+	TcpSender *sender; ///< the sender owning the client thread
+	tuio_socket_t socket; ///< the accepted client socket
+};
+
+} // anonymous namespace
 
 TUIO_THREAD_FUNC(ClientThreadFunc)
 {

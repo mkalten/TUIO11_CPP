@@ -83,12 +83,18 @@ namespace TUIO {
 		void disconnect();
 
 #ifndef WIN32
+		/** The listening socket, public to be accessible from the thread function */
 		int tcp_socket;
+		/** The list of connected client sockets */
 		std::list<int> tcp_client_list;
+		/** The mutex protecting tcp_client_list */
 		pthread_mutex_t tcp_mutex;
 #else
+		/** The listening socket, public to be accessible from the thread function */
 		SOCKET tcp_socket;
+		/** The list of connected client sockets */
 		std::list<SOCKET> tcp_client_list;
+		/** The mutex protecting tcp_client_list */
 		HANDLE tcp_mutex;
 #endif
 		

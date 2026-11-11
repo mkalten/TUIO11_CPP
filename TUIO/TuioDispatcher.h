@@ -187,19 +187,31 @@ namespace TUIO {
 		void unlockBlobList();
 		
 	protected:
+		/** The list of registered TuioListeners */
 		std::list<TuioListener*> listenerList;
 		
+		/** The list of currently active TuioObjects */
 		std::list<TuioObject*> objectList;
+		
+		/** The list of currently active TuioCursors */
 		std::list<TuioCursor*> cursorList;
+		
+		/** The list of currently active TuioBlobs */
 		std::list<TuioBlob*> blobList;
 		
 #ifdef WIN32
+		/** The mutex protecting objectList */
 		HANDLE objectMutex;
+		/** The mutex protecting cursorList */
 		HANDLE cursorMutex;
+		/** The mutex protecting blobList */
 		HANDLE blobMutex;
 #else
+		/** The mutex protecting objectList */
 		pthread_mutex_t objectMutex;
+		/** The mutex protecting cursorList */
 		pthread_mutex_t cursorMutex;
+		/** The mutex protecting blobList */
 		pthread_mutex_t blobMutex;
 #endif
 				

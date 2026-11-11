@@ -112,7 +112,7 @@ namespace TUIO {
 		 * Returns a List of all currently active TuioObjects
 		 * which are associated to the given Source ID
 		 *
-		 * @param  src_id  the source ID of the corresponding TUIO source
+		 * @param  source_id  the source ID of the corresponding TUIO source
 		 * @return  a List of TuioObjects
 		 */
 		std::list<TuioObject*> getTuioObjects(int source_id);
@@ -121,7 +121,7 @@ namespace TUIO {
 		 * Returns a List with a copy of all currently active TuioObjects
 		 * which are associated to the given Source ID
 		 *
-		 * @param  src_id  the source ID of the corresponding TUIO source
+		 * @param  source_id  the source ID of the corresponding TUIO source
 		 * @return  a List with a copy of TuioObjects
 		 */
 		std::list<TuioObject> copyTuioObjects(int source_id);
@@ -171,7 +171,7 @@ namespace TUIO {
 		 * Returns a List of all currently active TuioCursors
 		 * which are associated to the given Source ID
 		 *
-		 * @param  src_id  the source ID of the corresponding TUIO source
+		 * @param  source_id  the source ID of the corresponding TUIO source
 		 * @return  a List of TuioCursors
 		 */
 		std::list<TuioCursor*> getTuioCursors(int source_id);
@@ -189,7 +189,7 @@ namespace TUIO {
 		 * Returns a List with a copy of all currently active TuioCursors
 		 * which are associated to the given Source ID
 		 *
-		 * @param  src_id  the source ID of the corresponding TUIO source
+		 * @param  source_id  the source ID of the corresponding TUIO source
 		 * @return  a List with a copy of TuioCursors
 		 */
 		std::list<TuioCursor> copyTuioCursors(int source_id);
@@ -229,7 +229,7 @@ namespace TUIO {
 		 * Returns a List of all currently active TuioBlobs
 		 * which are associated to the given Source ID
 		 *
-		 * @param  src_id  the source ID of the corresponding TUIO source
+		 * @param  source_id  the source ID of the corresponding TUIO source
 		 * @return  a List of TuioBlobs
 		 */
 		std::list<TuioBlob*> getTuioBlobs(int source_id);
@@ -247,7 +247,7 @@ namespace TUIO {
 		 * Returns a List with a copy of all currently active TuioBlobs
 		 * which are associated to the given Source ID
 		 *
-		 * @param  src_id  the source ID of the corresponding TUIO source
+		 * @param  source_id  the source ID of the corresponding TUIO source
 		 * @return  a List with a copy of TuioBlobs
 		 */
 		std::list<TuioBlob> copyTuioBlobs(int source_id);

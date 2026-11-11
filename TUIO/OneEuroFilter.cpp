@@ -22,7 +22,7 @@
 
 using namespace TUIO;
 
-double LowPassFilter::filter(double value, double alpha) {
+double OneEuroFilter::LowPassFilter::filter(double value, double alpha) {
 	
 	if (alpha<=0.0 || alpha>1.0) {
 		std::cout << alpha << " alpha should be in (0.0., 1.0]" << std::endl;
