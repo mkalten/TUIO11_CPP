@@ -529,7 +529,7 @@ void TuioClient::processOSC( const ReceivedMessage& msg ) {
 					TuioBlob *addBlob = new TuioBlob(s_id,-1,xpos,ypos,angle,width,height,area);
 					frameBlobs.push_back(addBlob);
 					
-				} else if ( ((*tblb)->getX()!=xpos) || ((*tblb)->getY()!=ypos) || ((*tblb)->getAngle()!=angle) || ((*tblb)->getWidth()!=width) || ((*tblb)->getHeight()!=height) || ((*tblb)->getArea()!=area) || ((*tblb)->getXSpeed()!=xspeed) || ((*tblb)->getYSpeed()!=yspeed) || ((*tblb)->getMotionAccel()!=maccel) ) {
+				} else if ( ((*tblb)->getX()!=xpos) || ((*tblb)->getY()!=ypos) || ((*tblb)->getAngle()!=angle) || ((*tblb)->getWidth()!=width) || ((*tblb)->getHeight()!=height) || ((*tblb)->getArea()!=area) || ((*tblb)->getXSpeed()!=xspeed) || ((*tblb)->getYSpeed()!=yspeed) || ((*tblb)->getRotationSpeed()!=rspeed) || ((*tblb)->getMotionAccel()!=maccel) || ((*tblb)->getRotationAccel()!=raccel) ) {
 					
 					TuioBlob *updateBlob = new TuioBlob(s_id,(*tblb)->getBlobID(),xpos,ypos,angle,width,height,area);
 					updateBlob->update(xpos,ypos,angle,width,height,area,xspeed,yspeed,rspeed,maccel,raccel);

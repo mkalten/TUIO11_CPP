@@ -102,20 +102,20 @@ void TuioObject::update (TuioTime ttime, float xp, float yp, float a) {
 	float last_rotation_speed = rotation_speed;
 	
 	float da = a-angle;
-	if (da > M_PI) da -= 2*M_PI;
-	else if (da < -M_PI) da+=2*M_PI;
+	if (da > (float)M_PI) da -= 2.0f*(float)M_PI;
+	else if (da < (float)-M_PI) da+=2.0f*(float)M_PI;
 	
 	float prev_angle = angle;
 	if (angleFilter) angle = angleFilter->filter(angle+da,dt);
 	else angle = angle+da;
 	if (fabs(angle-prev_angle)<angleThreshold) angle = prev_angle;
 	
-	if (angle > 2*M_PI) angle-=2*M_PI;
-	else if (angle < 0) angle+=2*M_PI;
+	if (angle > 2.0f*(float)M_PI) angle-=2.0f*(float)M_PI;
+	else if (angle < 0) angle+=2.0f*(float)M_PI;
 		
 	da = angle-prev_angle;
-	if (da > M_PI) da -= 2*M_PI;
-	else if (da < -M_PI) da+=2*M_PI;
+	if (da > (float)M_PI) da -= 2.0f*(float)M_PI;
+	else if (da < (float)-M_PI) da+=2.0f*(float)M_PI;
 	da = da/(2*M_PI);
 	
 	if (dt>0) {
