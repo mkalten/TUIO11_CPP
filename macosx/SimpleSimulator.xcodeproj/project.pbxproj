@@ -372,9 +372,7 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				HEADER_SEARCH_PATHS = (
@@ -390,7 +388,7 @@
 					"$(inherited)",
 					/Library/Frameworks,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.tuio.simulator;
 				PRODUCT_NAME = SimpleSimulator;
@@ -410,9 +408,7 @@
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = "";
 				HEADER_SEARCH_PATHS = (
@@ -428,7 +424,7 @@
 					"$(inherited)",
 					/Library/Frameworks,
 				);
-				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = org.tuio.simulator;
 				PRODUCT_NAME = SimpleSimulator;
@@ -489,7 +485,7 @@
 					"$(HEADER_SEARCH_PATHS)",
 				);
 				INFOPLIST_FILE = SimpleSimulator.plist;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = SimpleSimulator;
 				SDKROOT = macosx;
@@ -548,7 +544,7 @@
 					"$(HEADER_SEARCH_PATHS)",
 				);
 				INFOPLIST_FILE = SimpleSimulator.plist;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 11.5;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_NAME = SimpleSimulator;
 				SDKROOT = macosx;
