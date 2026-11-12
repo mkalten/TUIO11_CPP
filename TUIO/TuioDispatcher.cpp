@@ -176,21 +176,21 @@ std::list<TuioBlob*> TuioDispatcher::getTuioBlobs() {
 
 int TuioDispatcher::getTuioObjectCount() {
 	lockObjectList();
-	int count = objectList.size();
+	int count = (int)objectList.size();
 	unlockObjectList();
 	return count;
 }
 
 int TuioDispatcher::getTuioCursorCount() {
 	lockCursorList();
-	int count = cursorList.size();
+	int count = (int)cursorList.size();
 	unlockCursorList();
 	return count;
 }
 
 int TuioDispatcher::getTuioBlobCount() {
 	lockBlobList();
-	int count = blobList.size();
+	int count = (int)blobList.size();
 	unlockBlobList();
 	return count;
 }

@@ -44,7 +44,7 @@ TUIO_THREAD_FUNC(ClientThreadFunc)
 
 	int32_t bytes = 1;
 	while (bytes>0) {
-		bytes = recv(client, data_buffer+data_len, (int)sizeof(data_buffer)-data_len,0);
+		bytes = (int32_t)recv(client, data_buffer+data_len, (int)sizeof(data_buffer)-data_len,0);
 		if (bytes<=0) break;
 		data_len += bytes;
 		

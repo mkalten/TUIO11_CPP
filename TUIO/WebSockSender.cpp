@@ -80,7 +80,7 @@ void WebSockSender::newClient( int tcp_client ) {
 	std::string request;
 	char buf[1024];
 	while (request.find("\r\n\r\n")==std::string::npos) {
-		int r = (request.size()>4096) ? 0 : recv(tcp_client,buf,sizeof(buf),0);
+		int r = (request.size()>4096) ? 0 : (int)recv(tcp_client,buf,sizeof(buf),0);
 		if (r<=0) {
 			shutdownSocket(tcp_client);
 			return;

@@ -189,7 +189,7 @@ namespace TUIO {
 	static inline bool sendAll(tuio_socket_t s, const char *data, int len) {
 		int sent_bytes = 0;
 		while (sent_bytes<len) {
-			int bytes = send(s,data+sent_bytes,len-sent_bytes,MSG_NOSIGNAL);
+			int bytes = (int)send(s,data+sent_bytes,len-sent_bytes,MSG_NOSIGNAL);
 			if (bytes<=0) return false;
 			sent_bytes += bytes;
 		}
@@ -201,9 +201,8 @@ namespace TUIO {
 		memset(&addr,0,sizeof(addr));
 		addr.sin_family = AF_INET;
 		addr.sin_port = htons(port);
-		unsigned long ip = inet_addr(host);
-		if (ip!=INADDR_NONE) {
-			addr.sin_addr.s_addr = ip;
+		addr.sin_addr.s_addr = inet_addr(host);
+		if (addr.sin_addr.s_addr!=INADDR_NONE) {
 			return true;
 		}
 		struct hostent *host_info = gethostbyname(host);
